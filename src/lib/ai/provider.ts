@@ -16,6 +16,7 @@ import type {
   ResumeParsed,
 } from '@/types';
 import { ClaudeAIProvider } from './claude-provider';
+import { GeminiAIProvider } from './gemini-provider';
 
 // Strict Zod Schemas
 export const RewriteResponseSchema = z.object({
@@ -216,17 +217,26 @@ export const defaultAIProvider: AIProvider = new HeuristicAIProvider();
 /**
  * Factory function to retrieve the active AI Provider.
  * Returns ClaudeAIProvider when ANTHROPIC_API_KEY is configured,
+ * returns GeminiAIProvider when GEMINI_API_KEY or GOOGLE_API_KEY is configured,
  * otherwise returns HeuristicAIProvider.
  */
 export function getAIProvider(): AIProvider {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (apiKey && apiKey.trim().length > 0) {
-    return new ClaudeAIProvider(apiKey);
+  const anthropicKey = process.env.ANTHROPIC_API_KEY;
+  if (anthropicKey && anthropicKey.trim().length > 0) {
+    return new ClaudeAIProvider(anthropicKey);
+  }
+  const geminiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (geminiKey && geminiKey.trim().length > 0) {
+    return new GeminiAIProvider(geminiKey);
   }
   return defaultAIProvider;
 }
 
-/** Check if Claude AI is currently active based on environment */
+/** Check if an external LLM AI provider is currently active based on environment */
 export function isAIConfigured(): boolean {
-  return Boolean(process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY.trim().length > 0);
+  return Boolean(
+    (process.env.ANTHROPIC_API_KEY && process.env.ANTHROPIC_API_KEY.trim().length > 0) ||
+    (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim().length > 0) ||
+    (process.env.GOOGLE_API_KEY && process.env.GOOGLE_API_KEY.trim().length > 0)
+  );
 }

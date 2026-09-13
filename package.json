@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.125.0",
+    "@google/genai": "^2.22.0",
     "canvas-confetti": "^1.9.4",
     "jspdf": "^4.2.1",
     "lucide-react": "^1.45.0",

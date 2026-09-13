@@ -28,13 +28,18 @@
 - **📈 Score History** — Track improvements over time, compare versions side-by-side, export JSON backups
 - **🔒 Local-First Privacy** — All scoring and parsing runs on your deployment's server. No data is sent to third-party services in this mode
 
-### AI-Enhanced Analysis (optional, requires `ANTHROPIC_API_KEY`)
+### AI-Enhanced Analysis (optional, supports Claude and Gemini)
 
-- **✍️ LLM Bullet Rewrites** — Claude-powered rewrite suggestions with qualitative feedback beyond template substitution
+- **✍️ LLM Bullet Rewrites** — AI-powered rewrite suggestions with qualitative feedback (Google X-Y-Z formula, metrics-driven, leadership) beyond template substitution
 - **📝 AI Cover Letter Generation** — Contextual, fact-grounded cover letters tailored to your resume and target role
-- **🔍 Resume Critique** — Per-section qualitative feedback on clarity, tone, specificity, and narrative coherence
+- **🔍 Resume Critique** — Per-section qualitative feedback on clarity, tone, specificity, and ATS risks
 
-> **Privacy note:** When `ANTHROPIC_API_KEY` is configured, resume text is sent to Anthropic's API for LLM-powered features. When the key is absent, all features fall back to the deterministic heuristic engine and no data leaves your infrastructure. See [Anthropic's data policy](https://www.anthropic.com/privacy) for details.
+ResumeScore supports multi-provider LLM integration with automatic selection:
+1. **Anthropic Claude** (via `ANTHROPIC_API_KEY`)
+2. **Google Gemini** (via `GEMINI_API_KEY` or `GOOGLE_API_KEY`, using `@google/genai`)
+3. **Deterministic Heuristic** (if no API keys configured — 100% offline fallback)
+
+> **Privacy note:** When an external AI key (`ANTHROPIC_API_KEY` or `GEMINI_API_KEY`) is configured, untrusted resume/job text is isolated in strict XML tags and sent to the configured provider API solely for the requested generation. When keys are absent, all features operate offline via deterministic heuristic algorithms and zero data leaves your machine.
 
 ---
 
@@ -49,6 +54,7 @@
 | **Zod** | Runtime schema validation for API requests/responses |
 | **Vitest** | Fast unit & integration testing |
 | **Anthropic SDK** | Optional LLM integration (Claude) |
+| **Google GenAI SDK** | Optional LLM integration (Gemini via `@google/genai`) |
 
 ---
 
@@ -89,10 +95,14 @@ npm install
 cp .env.example .env.local
 ```
 
-**No environment variables are required** for the core deterministic analysis. To enable AI-enhanced features, add your Anthropic API key:
+**No environment variables are required** for the core deterministic analysis. To enable AI-enhanced features, add your Anthropic or Gemini API key:
 
-```
+```bash
+# Option A: Anthropic Claude
 ANTHROPIC_API_KEY=sk-ant-...
+
+# Option B: Google Gemini
+GEMINI_API_KEY=AIzaSy...
 ```
 
 ### Development
@@ -106,7 +116,7 @@ Open [http://localhost:3000](http://localhost:3000).
 ### Testing
 
 ```bash
-npm test           # Run all tests
+npm test           # Run all tests (unit & provider suites)
 npm run lint       # ESLint
 npm run build      # Production build
 ```
@@ -149,7 +159,8 @@ src/
 ├── lib/                          # Core logic
 │   ├── ai/
 │   │   ├── provider.ts           # AIProvider interface & factory
-│   │   └── claude-provider.ts    # Anthropic Claude integration
+│   │   ├── claude-provider.ts    # Anthropic Claude integration
+│   │   └── gemini-provider.ts    # Google Gemini integration (@google/genai)
 │   ├── ats/ats-checker.ts        # ATS compliance checks
 │   ├── impact/impact-evaluator.ts
 │   ├── jobs/job-parser.ts        # Job description parser
@@ -161,7 +172,7 @@ src/
 │   ├── storage/history-store.ts  # localStorage with migration
 │   └── keywords.ts              # Skill taxonomies (300+ terms)
 ├── types/index.ts                # TypeScript interfaces
-└── __tests__/                    # Vitest test suites (9 files, 35+ tests)
+└── __tests__/                    # Vitest test suites (10 files, 40+ tests)
 ```
 
 ---
