@@ -34,14 +34,28 @@ export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promis
   const warnings: string[] = [];
 
   try {
-    const pdfjs = await import('pdfjs-dist');
-
-    if (typeof window !== 'undefined' && !pdfjs.GlobalWorkerOptions.workerSrc) {
-      pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version || '4.10.38'}/build/pdf.worker.min.mjs`;
+    let pdfjs: typeof import('pdfjs-dist');
+    if (typeof window === 'undefined') {
+      try {
+        // Use Node-compatible legacy build when running in server/test environments
+        pdfjs = (await import('pdfjs-dist/legacy/build/pdf.mjs')) as unknown as typeof import('pdfjs-dist');
+      } catch {
+        pdfjs = await import('pdfjs-dist');
+      }
+    } else {
+      pdfjs = await import('pdfjs-dist');
+      if (!pdfjs.GlobalWorkerOptions.workerSrc) {
+        pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version || '4.10.38'}/build/pdf.worker.min.mjs`;
+      }
     }
 
+    // Ensure data is formatted as pure Uint8Array (handles ArrayBuffer, Node Buffer, or Uint8Array)
+    const uint8Data = data instanceof Uint8Array
+      ? new Uint8Array(data.buffer, data.byteOffset, data.byteLength)
+      : new Uint8Array(data);
+
     const loadingTask = pdfjs.getDocument({
-      data,
+      data: uint8Data,
       useSystemFonts: true,
     });
 

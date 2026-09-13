@@ -104,8 +104,9 @@ Respond ONLY with a valid JSON object matching this exact structure:
       const parsed = JSON.parse(jsonMatch[0]);
       return RewriteResponseSchema.parse(parsed);
     } catch (err: unknown) {
-      console.warn('Claude rewrite failed, falling back to heuristic provider:', err instanceof Error ? err.message : String(err));
-      return this.fallback.rewriteBullet(original, technologies, roleContext);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.error(`Claude rewrite error (${this.model}):`, errMsg);
+      throw new Error(`Claude AI API failure (${this.model}): ${errMsg}`);
     }
   }
 
@@ -171,8 +172,9 @@ Respond ONLY with a valid JSON object matching this structure:
       parsed.generatedAt = new Date().toISOString();
       return CoverLetterResponseSchema.parse(parsed);
     } catch (err: unknown) {
-      console.warn('Claude cover letter failed, falling back to heuristic provider:', err instanceof Error ? err.message : String(err));
-      return this.fallback.generateCoverLetter(request);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.error(`Claude cover letter error (${this.model}):`, errMsg);
+      throw new Error(`Claude AI API failure (${this.model}): ${errMsg}`);
     }
   }
 
@@ -232,8 +234,9 @@ Respond ONLY with a valid JSON object matching this structure:
         modelUsed: this.model,
       };
     } catch (err: unknown) {
-      console.warn('Claude critique failed, falling back to heuristic provider:', err instanceof Error ? err.message : String(err));
-      return this.fallback.generateCritique(resume, job);
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.error(`Claude critique error (${this.model}):`, errMsg);
+      throw new Error(`Claude AI API failure (${this.model}): ${errMsg}`);
     }
   }
 }

@@ -74,16 +74,20 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
       <CareerSignalRadar score={score} onNavigateToTab={onNavigateToTab} />
 
       {/* 2. CREATIVE SECONDARY SIGNATURE: YOUR BIGGEST OPPORTUNITY */}
-      {score.topActions[0] && (
+      {(score.topActions[0] || score.topPriority) && (
         <BiggestOpportunityCard
           topAction={score.topActions[0]}
+          topPriority={score.topPriority}
           onTakeAction={() => {
-            if (score.topActions[0].dimension.toLowerCase().includes('bullet') || score.topActions[0].dimension.toLowerCase().includes('impact')) {
+            const targetDim = (score.topActions[0]?.dimension || score.topPriority || '').toLowerCase();
+            if (targetDim.includes('bullet') || targetDim.includes('impact') || targetDim.includes('metric')) {
               onNavigateToTab?.('rewrites');
-            } else if (score.topActions[0].dimension.toLowerCase().includes('skill')) {
+            } else if (targetDim.includes('skill')) {
               onNavigateToTab?.('skills');
-            } else if (score.topActions[0].dimension.toLowerCase().includes('ats')) {
+            } else if (targetDim.includes('ats') || targetDim.includes('heading')) {
               onNavigateToTab?.('ats');
+            } else {
+              onNavigateToTab?.('critique');
             }
           }}
         />

@@ -68,19 +68,18 @@ describe('AI Provider Architecture & Claude Integration', () => {
     expect(parsed.atsRisks[0].severity).toBe('warning');
   });
 
-  it('gracefully falls back to heuristic provider when Claude API fails', async () => {
-    // Instantiate with dummy key so network call fails
+  it('captures and re-throws the real error when Claude API fails', async () => {
+    // Instantiate with dummy key so network/auth call fails
     const claudeProvider = new ClaudeAIProvider('invalid-key');
     const resume = parseResume('John Doe\njohn@example.com\n\nEXPERIENCE\nDeveloper at Tech Co\n• Built backend APIs in Node.js', 'resume.txt');
 
-    // Should not throw, should return fallback heuristic output
-    const fallbackRewrite = await claudeProvider.rewriteBullet('Built backend APIs in Node.js', ['Node.js']);
-    expect(fallbackRewrite).toBeDefined();
-    expect(fallbackRewrite.xyzFormula).toContain('Node.js');
-    expect(fallbackRewrite.placeholders.length).toBeGreaterThan(0);
+    // Should reject with descriptive error rather than silently masking failure
+    await expect(claudeProvider.rewriteBullet('Built backend APIs in Node.js', ['Node.js'])).rejects.toThrow(
+      /Claude AI API failure/
+    );
 
-    const fallbackCritique = await claudeProvider.generateCritique(resume);
-    expect(fallbackCritique).toBeDefined();
-    expect(fallbackCritique.isLLMGenerated).toBe(false);
+    await expect(claudeProvider.generateCritique(resume)).rejects.toThrow(
+      /Claude AI API failure/
+    );
   });
 });

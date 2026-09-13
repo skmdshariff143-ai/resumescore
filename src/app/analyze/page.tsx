@@ -81,6 +81,7 @@ function AnalyzeContent() {
           fileName,
           overallScore: data.data.overall,
           grade: data.data.grade,
+          topPriority: data.data.topPriority,
           atsScore: data.data.atsScore,
           jobMatchScore: data.data.skillMatchScore,
           mode: targetMode,

@@ -6,16 +6,19 @@ import type { TopActionItem } from '@/types';
 
 interface BiggestOpportunityCardProps {
   topAction?: TopActionItem;
+  topPriority?: string;
   onTakeAction?: () => void;
   className?: string;
 }
 
 export function BiggestOpportunityCard({
   topAction,
+  topPriority,
   onTakeAction,
   className = '',
 }: BiggestOpportunityCardProps) {
-  if (!topAction) return null;
+  const displayTitle = topAction?.title || topPriority;
+  if (!displayTitle) return null;
 
   return (
     <div
@@ -29,21 +32,21 @@ export function BiggestOpportunityCard({
               Your Biggest Opportunity
             </span>
             <span className="text-[11px] font-bold text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/40 font-mono">
-              Potential: {topAction.expectedScoreBoostLabel}
+              Potential: {topAction?.expectedScoreBoostLabel || 'High Leverage'}
             </span>
           </div>
 
           <h3 className="text-base sm:text-lg font-bold text-slate-100 leading-snug">
-            {topAction.title}
+            {displayTitle}
           </h3>
 
           <p className="text-xs text-slate-300 leading-relaxed">
-            {topAction.howToFix}
+            {topAction?.howToFix || 'Focusing on this key recommendation provides the highest mathematical score boost for your profile.'}
           </p>
 
           <div className="text-[11px] text-slate-400 pt-1 flex items-center">
             <span className="font-semibold text-slate-300 mr-1.5">Why this matters:</span>
-            {topAction.reason}
+            {topAction?.reason || 'Targeted adjustments to your lowest contribution pillar directly increase hiring team match rates.'}
           </div>
         </div>
 

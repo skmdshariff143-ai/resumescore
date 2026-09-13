@@ -323,6 +323,7 @@ export interface ResumeScore {
   mode: AnalysisMode;
   overall: number;
   grade: string;
+  topPriority: string;
   atsScore: number;
   skillMatchScore: number;
   experienceScore: number;
@@ -352,6 +353,7 @@ export interface ScanHistory {
   fileName: string;
   overallScore: number;
   grade: string;
+  topPriority?: string;
   atsScore: number;
   jobMatchScore?: number;
   mode: AnalysisMode;

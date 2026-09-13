@@ -1,0 +1,423 @@
+%PDF-1.3
+%ºß¬à
+3 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 4 0 R
+>>
+endobj
+4 0 obj
+<<
+/Length 1665
+>>
+stream
+0.200025 w
+0 G
+BT
+/F2 18 Tf
+20.6999999999999993 TL
+0 g
+50. 742. Td
+(Marcus Vance) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 722. Td
+(marcus.vance@cloudarch.io | \(555\) 890-1234 | Austin, TX | github.com/marcusvance) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0 g
+50. 692. Td
+(PROFESSIONAL SUMMARY) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 672. Td
+(Principal Cloud Infrastructure Architect with 10+ years engineering mission-critical AWS/GCP Kubernetes platforms,) Tj
+T* (distributed microservices, and automated multi-region disaster recovery systems.) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0 g
+50. 632. Td
+(WORK EXPERIENCE) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0 g
+50. 607. Td
+(Principal Infrastructure Engineer | CloudNative Systems | 2021 - Present) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+60. 587. Td
+(• Designed fault-tolerant multi-cluster EKS infrastructure running 400+ microservices with 99.999% SLA.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+60. 567. Td
+(• Implemented automated FinOps governance reducing cloud compute spend by $520,000 annually across 3) Tj
+T* (AWS regions.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+60. 547. Td
+(• Established GitOps pipeline using ArgoCD and Helm, reducing rollback time from 30 mins to 45 secs.) Tj
+ET
+BT
+/F2 11 Tf
+12.6499999999999986 TL
+0 g
+50. 512. Td
+(Senior Platform Engineer | NexaData Corporation | 2017 - 2021) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+60. 492. Td
+(• Scaled Kafka event streaming cluster handling 1.2 billion daily messages with sub-20ms p99 consumer lag.) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+60. 472. Td
+(• Engineered automated database failover using PostgreSQL replication across availability zones, ensuring zero) Tj
+T* (data loss.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<</Type /Page
+/Parent 1 0 R
+/Resources 2 0 R
+/MediaBox [0 0 612. 792.]
+/Contents 6 0 R
+>>
+endobj
+6 0 obj
+<<
+/Length 1374
+>>
+stream
+0.200025 w
+0 G
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0 g
+50. 742. Td
+(EDUCATION) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 722. Td
+(Master of Science in Computer Engineering | University of Texas at Austin | 2017) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 702. Td
+(Bachelor of Science in Electrical Engineering | Texas A&M University | 2015) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0 g
+50. 672. Td
+(TECHNICAL SKILLS) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 652. Td
+(Languages: Go, Python, TypeScript, Bash, SQL, Rust) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 632. Td
+(Cloud & Containers: AWS \(EKS, RDS, S3, IAM\), GCP, Kubernetes, Docker, Terraform, Helm) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 612. Td
+(Streaming & Storage: Apache Kafka, PostgreSQL, Redis, Elasticsearch, DynamoDB) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 592. Td
+(DevOps & Observability: ArgoCD, CI/CD, Prometheus, Grafana, OpenTelemetry, Datadog) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 572. Td
+(Security & Architecture: OAuth2, SPIFFE, Vault, Zero Trust, Distributed Systems) Tj
+ET
+BT
+/F2 12 Tf
+13.7999999999999989 TL
+0 g
+50. 542. Td
+(FEATURED PROJECTS) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 522. Td
+(OpenKube Mesh: Open-source Kubernetes sidecar controller with 1,200 GitHub stars \(Go, K8s API\).) Tj
+ET
+BT
+/F1 10 Tf
+11.5 TL
+0 g
+50. 502. Td
+(CloudCost Optimizer: Automated serverless resource reclamation daemon saving 25% idle compute.) Tj
+ET
+endstream
+endobj
+1 0 obj
+<</Type /Pages
+/Kids [3 0 R 5 0 R ]
+/Count 2
+>>
+endobj
+7 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+8 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+9 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+10 0 obj
+<<
+/Type /Font
+/BaseFont /Helvetica-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+11 0 obj
+<<
+/Type /Font
+/BaseFont /Courier
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+12 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+13 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-Oblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+14 0 obj
+<<
+/Type /Font
+/BaseFont /Courier-BoldOblique
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+15 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Roman
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+16 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Bold
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+17 0 obj
+<<
+/Type /Font
+/BaseFont /Times-Italic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+18 0 obj
+<<
+/Type /Font
+/BaseFont /Times-BoldItalic
+/Subtype /Type1
+/Encoding /WinAnsiEncoding
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+19 0 obj
+<<
+/Type /Font
+/BaseFont /ZapfDingbats
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+20 0 obj
+<<
+/Type /Font
+/BaseFont /Symbol
+/Subtype /Type1
+/FirstChar 32
+/LastChar 255
+>>
+endobj
+2 0 obj
+<<
+/ProcSet [/PDF /Text /ImageB /ImageC /ImageI]
+/Font <<
+/F1 7 0 R
+/F2 8 0 R
+/F3 9 0 R
+/F4 10 0 R
+/F5 11 0 R
+/F6 12 0 R
+/F7 13 0 R
+/F8 14 0 R
+/F9 15 0 R
+/F10 16 0 R
+/F11 17 0 R
+/F12 18 0 R
+/F13 19 0 R
+/F14 20 0 R
+>>
+/XObject <<
+>>
+>>
+endobj
+21 0 obj
+<<
+/Producer (jsPDF 4.2.1)
+/CreationDate (D:20260913180409+05'30')
+>>
+endobj
+22 0 obj
+<<
+/Type /Catalog
+/Pages 1 0 R
+/OpenAction [3 0 R /FitH null]
+/PageLayout /OneColumn
+>>
+endobj
+xref
+0 23
+0000000000 65535 f 
+0000003368 00000 n 
+0000005193 00000 n 
+0000000015 00000 n 
+0000000120 00000 n 
+0000001837 00000 n 
+0000001942 00000 n 
+0000003431 00000 n 
+0000003556 00000 n 
+0000003686 00000 n 
+0000003819 00000 n 
+0000003957 00000 n 
+0000004081 00000 n 
+0000004210 00000 n 
+0000004342 00000 n 
+0000004478 00000 n 
+0000004606 00000 n 
+0000004733 00000 n 
+0000004862 00000 n 
+0000004995 00000 n 
+0000005097 00000 n 
+0000005443 00000 n 
+0000005529 00000 n 
+trailer
+<<
+/Size 23
+/Root 22 0 R
+/Info 21 0 R
+/ID [ <B7B76C653EB40E1AEF22786FFAAAE535> <B7B76C653EB40E1AEF22786FFAAAE535> ]
+>>
+startxref
+5633
+%%EOF

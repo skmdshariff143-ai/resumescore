@@ -403,11 +403,26 @@ export function calculateResumeScore(
     },
   ];
 
+  // Derive topPriority: single string naming the highest-leverage fix,
+  // derived from the lowest-weighted-contribution pillar (largest deficit: (100 - score) * weight)
+  const lowestPillar = [...dimensions].sort((a, b) => {
+    const deficitA = (100 - a.score) * a.weight;
+    const deficitB = (100 - b.score) * b.weight;
+    return deficitB - deficitA;
+  })[0];
+
+  const topPriority =
+    topActions[0]?.title ||
+    lowestPillar?.evidence.recommendedAction ||
+    lowestPillar?.tips[0] ||
+    `Optimize ${lowestPillar?.name || 'resume content'} to gain maximum score improvement.`;
+
   return {
     id: 'score-' + Date.now(),
     mode,
     overall,
     grade,
+    topPriority,
     atsScore: atsScoreVal,
     skillMatchScore: skillScoreVal,
     experienceScore: expScoreVal,

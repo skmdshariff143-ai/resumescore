@@ -33,6 +33,10 @@ Cloud Storage API | github.com/janedoe/cloud-api
     // Verify sum of contributions equals overall
     const sumContributions = Math.round(score.dimensions.reduce((sum, d) => sum + d.contribution, 0));
     expect(score.overall).toBe(sumContributions);
+
+    // Verify topPriority is populated
+    expect(typeof score.topPriority).toBe('string');
+    expect(score.topPriority.length).toBeGreaterThan(10);
   });
 
   it('proves score stability: adding a single irrelevant keyword does not cause sudden huge score spikes', () => {

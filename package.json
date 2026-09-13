@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "verify:e2e": "node tools/verify-e2e.js",
+    "test:pdf": "node tools/test-pdf-upload.js"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
