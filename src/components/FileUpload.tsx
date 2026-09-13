@@ -1,266 +1,187 @@
 'use client';
 
-import { useState, useRef, useCallback, type DragEvent, type ChangeEvent } from 'react';
+import React, { useState, useRef } from 'react';
+import { extractTextFromPDF, type PDFExtractionResult } from '@/lib/parsing/pdf-extractor';
+import { UploadCloud, AlertTriangle, Shield } from 'lucide-react';
+import { Button } from './ui/Button';
 
 interface FileUploadProps {
   onTextExtracted: (text: string, fileName: string) => void;
-  isAnalyzing: boolean;
+  isLoading?: boolean;
 }
 
-const SAMPLE_RESUME = `ALEX JOHNSON
-Senior Software Engineer
-San Francisco, CA | alex.johnson@email.com | (555) 123-4567 | linkedin.com/in/alexjohnson | github.com/alexjohnson
-
-PROFESSIONAL SUMMARY
-Results-driven Senior Software Engineer with 6+ years of experience building scalable web applications and distributed systems. Proficient in TypeScript, React, Node.js, and cloud-native architectures. Led cross-functional teams to deliver products serving 2M+ users. Passionate about clean code, developer experience, and mentoring junior engineers.
-
-TECHNICAL SKILLS
-Languages: TypeScript, JavaScript, Python, Go, SQL
-Frontend: React, Next.js, Vue.js, Tailwind CSS, HTML5/CSS3
-Backend: Node.js, Express, FastAPI, GraphQL, REST APIs
-Databases: PostgreSQL, MongoDB, Redis, DynamoDB
-Cloud & DevOps: AWS (EC2, S3, Lambda, ECS), Docker, Kubernetes, Terraform, CI/CD (GitHub Actions)
-Tools: Git, Jira, Figma, Datadog, Sentry
-
-PROFESSIONAL EXPERIENCE
-
-Senior Software Engineer — Acme Tech Inc., San Francisco, CA
-Mar 2022 – Present
-• Architected and led development of a real-time analytics dashboard using React, Next.js, and WebSockets, reducing client reporting time by 40%.
-• Designed microservices architecture handling 50K+ requests/min with Node.js, Kafka, and PostgreSQL.
-• Implemented automated CI/CD pipelines with GitHub Actions and Docker, cutting deployment time from 45 min to 8 min.
-• Mentored 4 junior engineers through code reviews, pair programming, and weekly knowledge-sharing sessions.
-• Reduced application error rate by 65% by integrating Sentry monitoring and establishing on-call procedures.
-
-Software Engineer — DataFlow Solutions, Austin, TX
-Jun 2019 – Feb 2022
-• Built customer-facing SaaS platform from scratch using React, TypeScript, and AWS, onboarding 500+ enterprise clients in the first year.
-• Developed RESTful APIs with Express and PostgreSQL, achieving 99.9% uptime through load balancing and health checks.
-• Optimized database queries reducing average response time from 800ms to 120ms, improving user satisfaction scores by 30%.
-• Collaborated with product and design teams in agile sprints to ship features bi-weekly.
-
-Junior Software Developer — WebCraft Studios, Austin, TX
-Jul 2017 – May 2019
-• Developed responsive web applications using React, Redux, and SCSS for 15+ client projects.
-• Wrote unit and integration tests with Jest and React Testing Library, achieving 90%+ code coverage.
-• Participated in daily standups, sprint planning, and retrospectives in a Scrum environment.
-
-EDUCATION
-Bachelor of Science in Computer Science — University of Texas at Austin, May 2017
-GPA: 3.7/4.0 | Dean's List (6 semesters)
-
-CERTIFICATIONS
-• AWS Certified Solutions Architect – Associate (2023)
-• Google Professional Cloud Developer (2022)
-
-PROJECTS
-Open Source Contribution — React Performance Toolkit
-• Created a React hooks library for performance monitoring with 1,200+ GitHub stars.
-• Published on npm with 15K+ weekly downloads.
-`;
-
-export default function FileUpload({ onTextExtracted, isAnalyzing }: FileUploadProps) {
-  const [isDragging, setIsDragging] = useState(false);
-  const [fileName, setFileName] = useState<string | null>(null);
-  const [pasteMode, setPasteMode] = useState(false);
-  const [pasteText, setPasteText] = useState('');
+export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
+  const [tab, setTab] = useState<'upload' | 'paste'>('upload');
+  const [dragOver, setDragOver] = useState(false);
+  const [extracting, setExtracting] = useState(false);
+  const [diagnostics, setDiagnostics] = useState<PDFExtractionResult | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [pastedText, setPastedText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // ── Drag handlers ──
-  const handleDragOver = useCallback((e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-  }, []);
+  const processFile = async (file: File) => {
+    setErrorMsg(null);
+    setDiagnostics(null);
+    setExtracting(true);
 
-  const handleDragLeave = useCallback((e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(false);
-  }, []);
-
-  const processFile = useCallback(
-    (file: File) => {
-      setFileName(file.name);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target?.result;
-        if (typeof text === 'string') {
-          // NOTE: For PDF files this reads raw text which won't work well for
-          // binary PDFs. Integrate pdf.js (pdfjs-dist) for proper PDF text
-          // extraction in production.
-          onTextExtracted(text, file.name);
+    try {
+      if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
+        const buffer = await file.arrayBuffer();
+        const diag = await extractTextFromPDF(buffer);
+        setDiagnostics(diag);
+        if (diag.text.trim().length > 30) {
+          onTextExtracted(diag.text, file.name);
+        } else {
+          setErrorMsg('The PDF could not be read as selectable text. It may contain scanned images. Try pasting your resume text below.');
         }
-      };
-      reader.readAsText(file);
-    },
-    [onTextExtracted],
-  );
-
-  const handleDrop = useCallback(
-    (e: DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsDragging(false);
-
-      const file = e.dataTransfer.files?.[0];
-      if (file) processFile(file);
-    },
-    [processFile],
-  );
-
-  const handleFileChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) processFile(file);
-    },
-    [processFile],
-  );
-
-  const handlePasteSubmit = useCallback(() => {
-    if (pasteText.trim().length > 0) {
-      onTextExtracted(pasteText, 'pasted-resume.txt');
-      setFileName('pasted-resume.txt');
+      } else {
+        const text = await file.text();
+        if (text.trim().length > 30) {
+          onTextExtracted(text, file.name);
+        } else {
+          setErrorMsg('The text file appears empty.');
+        }
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to parse resume document.';
+      setErrorMsg(msg);
+    } finally {
+      setExtracting(false);
     }
-  }, [pasteText, onTextExtracted]);
+  };
 
-  const handleSampleResume = useCallback(() => {
-    onTextExtracted(SAMPLE_RESUME, 'sample-resume.txt');
-    setFileName('sample-resume.txt');
-  }, [onTextExtracted]);
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragOver(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      processFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handlePasteSubmit = () => {
+    if (pastedText.trim().length < 30) {
+      setErrorMsg('Please paste at least 30 characters of resume content.');
+      return;
+    }
+    setErrorMsg(null);
+    onTextExtracted(pastedText.trim(), 'pasted-resume.txt');
+  };
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-6">
-      {/* ── Drag & drop zone ── */}
-      {!pasteMode && (
+    <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4 font-sans">
+      {/* Tab Switcher */}
+      <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => setTab('upload')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              tab === 'upload'
+                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            Upload Resume (PDF / TXT)
+          </button>
+          <button
+            onClick={() => setTab('paste')}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              tab === 'paste'
+                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
+                : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            Paste Text Directly
+          </button>
+        </div>
+
+        <div className="hidden sm:flex items-center text-[11px] text-emerald-400">
+          <Shield className="w-3.5 h-3.5 mr-1" />
+          Private Local Parsing
+        </div>
+      </div>
+
+      {tab === 'upload' ? (
         <div
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
           role="button"
           tabIndex={0}
-          aria-label="Upload resume file"
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') fileInputRef.current?.click();
+          aria-label="Upload resume file dropzone. Press enter or space to browse files."
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
           }}
-          className={`group relative flex cursor-pointer flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed p-10 text-center transition-all duration-300 ${
-            isDragging
-              ? 'border-violet-500 bg-violet-500/10 scale-[1.02]'
-              : 'border-white/20 bg-white/5 hover:border-violet-500/50 hover:bg-white/[0.07]'
-          } backdrop-blur-xl`}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+          onClick={() => fileInputRef.current?.click()}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              fileInputRef.current?.click();
+            }
+          }}
+          className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-indigo-500 ${
+            dragOver
+              ? 'border-indigo-500 bg-indigo-950/20 shadow-lg shadow-indigo-500/10'
+              : 'border-slate-700/80 hover:border-slate-600 bg-slate-950/40 hover:bg-slate-950/60'
+          }`}
         >
-          {/* Upload icon */}
-          <div
-            className={`flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500/20 to-purple-500/20 text-3xl transition-transform duration-500 ${
-              isDragging ? 'scale-110 rotate-6' : 'group-hover:scale-105'
-            }`}
-            aria-hidden="true"
-          >
-            {isAnalyzing ? (
-              <svg
-                className="h-8 w-8 animate-spin text-violet-400"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                />
-              </svg>
-            ) : (
-              <span>📄</span>
-            )}
-          </div>
-
-          {isAnalyzing ? (
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-white">Analyzing your resume…</p>
-              <p className="text-xs text-slate-400">This may take a moment</p>
-            </div>
-          ) : fileName ? (
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-emerald-400">✓ {fileName}</p>
-              <p className="text-xs text-slate-400">Click or drop to replace</p>
-            </div>
-          ) : (
-            <div className="space-y-1">
-              <p className="text-sm font-semibold text-white">
-                Drop your resume here, or{' '}
-                <span className="text-violet-400 underline underline-offset-2">
-                  browse files
-                </span>
-              </p>
-              <p className="text-xs text-slate-400">Supports PDF and TXT files</p>
-            </div>
-          )}
-
           <input
             ref={fileInputRef}
             type="file"
             accept=".pdf,.txt"
+            aria-label="Upload Resume Document"
             className="hidden"
-            onChange={handleFileChange}
-            aria-hidden="true"
-            tabIndex={-1}
+            onChange={(e) => {
+              if (e.target.files?.[0]) processFile(e.target.files[0]);
+            }}
           />
-        </div>
-      )}
 
-      {/* ── Paste mode ── */}
-      {pasteMode && (
+          <div className="flex flex-col items-center space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+              <UploadCloud className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-slate-200">
+                {extracting ? 'Extracting text...' : 'Drag & drop your resume or browse'}
+              </p>
+              <p className="text-xs text-slate-400 mt-0.5">Supports PDF and TXT (Max 10MB)</p>
+            </div>
+          </div>
+        </div>
+      ) : (
         <div className="space-y-3">
           <textarea
-            value={pasteText}
-            onChange={(e) => setPasteText(e.target.value)}
-            placeholder="Paste your resume text here…"
-            rows={10}
-            className="w-full resize-none rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder-slate-500 backdrop-blur-xl transition-colors focus:border-violet-500/50 focus:outline-none focus:ring-1 focus:ring-violet-500/30"
-            aria-label="Resume text"
-            disabled={isAnalyzing}
+            value={pastedText}
+            onChange={(e) => setPastedText(e.target.value)}
+            rows={7}
+            aria-label="Paste resume text"
+            placeholder="Paste your resume content here (e.g. Work Experience, Education, Skills)..."
+            className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl p-3 text-xs text-slate-200 placeholder-slate-500 focus:border-indigo-500 focus:outline-none font-mono"
           />
-          <button
-            onClick={handlePasteSubmit}
-            disabled={pasteText.trim().length === 0 || isAnalyzing}
-            className="w-full rounded-xl bg-gradient-to-r from-violet-600 to-purple-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/30 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {isAnalyzing ? 'Analyzing…' : 'Analyze This Text'}
-          </button>
+          <Button variant="primary" size="md" onClick={handlePasteSubmit} isLoading={isLoading}>
+            Analyze Pasted Resume
+          </Button>
         </div>
       )}
 
-      {/* ── Toggle & sample ── */}
-      <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
-        <button
-          onClick={() => setPasteMode((v) => !v)}
-          disabled={isAnalyzing}
-          className="text-sm font-medium text-slate-400 transition-colors hover:text-white disabled:opacity-50"
-        >
-          {pasteMode ? '← Upload a file instead' : 'Or paste your resume text'}
-        </button>
+      {/* Diagnostics Alerts */}
+      {diagnostics && diagnostics.extractionQuality !== 'excellent' && (
+        <div className="bg-amber-950/40 border border-amber-800/40 rounded-xl p-3 text-xs text-amber-300 space-y-1">
+          <div className="flex items-center font-bold">
+            <AlertTriangle className="w-4 h-4 mr-1.5 shrink-0" />
+            Extraction Health: {diagnostics.extractionQuality.toUpperCase()} ({diagnostics.wordsPerPage} Words / Page)
+          </div>
+          {diagnostics.warnings.map((w, i) => (
+            <p key={i} className="text-[11px] text-amber-400/90 pl-5">• {w}</p>
+          ))}
+        </div>
+      )}
 
-        <span className="hidden text-slate-600 sm:inline" aria-hidden="true">
-          ·
-        </span>
-
-        <button
-          onClick={handleSampleResume}
-          disabled={isAnalyzing}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-violet-400 transition-colors hover:text-violet-300 disabled:opacity-50"
-        >
-          <span aria-hidden="true">✨</span>
-          Try Sample Resume
-        </button>
-      </div>
+      {errorMsg && (
+        <div className="bg-rose-950/40 border border-rose-800/40 rounded-xl p-3 text-xs text-rose-300 flex items-center">
+          <AlertTriangle className="w-4 h-4 mr-2 shrink-0" />
+          <span>{errorMsg}</span>
+        </div>
+      )}
     </div>
   );
 }

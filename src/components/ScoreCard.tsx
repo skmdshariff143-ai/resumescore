@@ -1,133 +1,270 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
+import {
+  Shield,
+  Zap,
+  Briefcase,
+  Target,
+  FolderGit2,
+  FileCheck2,
+  UserCheck,
+  ChevronDown,
+  ChevronUp,
+  Download,
+  TrendingUp,
+  Sparkles,
+} from 'lucide-react';
 import type { ResumeScore } from '@/types';
-import { saveScan } from '@/lib/storage';
-import ScoreRing from './ScoreRing';
-import DimensionBar from './DimensionBar';
-import FeedbackPanel from './FeedbackPanel';
+import { generateExecutivePDF } from '@/lib/export/pdf-report';
+import { CareerSignalRadar } from './ui/CareerSignalRadar';
+import { BiggestOpportunityCard } from './ui/BiggestOpportunityCard';
+import { Button } from './ui/Button';
 
 interface ScoreCardProps {
   score: ResumeScore;
-  onReset?: () => void;
+  onOpenCoverLetter?: () => void;
+  onNavigateToTab?: (tab: string) => void;
 }
 
-/* ── Confetti piece component ── */
-function ConfettiPiece({ index }: { index: number }) {
-  const colors = ['#8b5cf6', '#a78bfa', '#22d3ee', '#34d399', '#fbbf24', '#fb7185', '#c084fc'];
-  const color = colors[index % colors.length];
-  const left = Math.random() * 100;
-  const delay = Math.random() * 1.5;
-  const duration = 2 + Math.random() * 2;
-  const size = 6 + Math.random() * 6;
-  const rotation = Math.random() * 360;
+export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCardProps) {
+  const [expandedDim, setExpandedDim] = useState<string | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
 
-  return (
-    <div
-      className="confetti-piece"
-      style={{
-        left: `${left}%`,
-        width: `${size}px`,
-        height: `${size * 0.6}px`,
-        backgroundColor: color,
-        borderRadius: '2px',
-        transform: `rotate(${rotation}deg)`,
-        animationDelay: `${delay}s`,
-        animationDuration: `${duration}s`,
-      }}
-      aria-hidden="true"
-    />
-  );
-}
-
-export default function ScoreCard({ score, onReset }: ScoreCardProps) {
-  const [showConfetti, setShowConfetti] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  // Trigger confetti for high scores
-  useEffect(() => {
-    if (score.overall > 90) {
-      setShowConfetti(true);
-      const timer = setTimeout(() => setShowConfetti(false), 5000);
-      return () => clearTimeout(timer);
+  const getDimensionIcon = (key: string) => {
+    switch (key) {
+      case 'ats':
+        return <Shield className="w-4 h-4 text-indigo-400" />;
+      case 'skill_match':
+        return <Zap className="w-4 h-4 text-cyan-400" />;
+      case 'experience':
+        return <Briefcase className="w-4 h-4 text-purple-400" />;
+      case 'impact':
+        return <Target className="w-4 h-4 text-emerald-400" />;
+      case 'projects':
+        return <FolderGit2 className="w-4 h-4 text-amber-400" />;
+      case 'readability':
+        return <FileCheck2 className="w-4 h-4 text-sky-400" />;
+      default:
+        return <UserCheck className="w-4 h-4 text-rose-400" />;
     }
-  }, [score.overall]);
+  };
 
-  const handleSave = useCallback(() => {
-    saveScan(score, 'Resume');
-    setSaved(true);
-  }, [score]);
+  const getScoreColor = (val: number) => {
+    if (val >= 85) return 'text-emerald-400';
+    if (val >= 70) return 'text-cyan-400';
+    if (val >= 55) return 'text-amber-400';
+    return 'text-rose-400';
+  };
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      await generateExecutivePDF(score);
+    } catch (err) {
+      console.error('Failed to export PDF', err);
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   return (
-    <div className="relative mx-auto w-full max-w-3xl">
-      {/* ── Confetti overlay ── */}
-      {showConfetti && (
-        <div
-          className="pointer-events-none fixed inset-0 z-50 overflow-hidden"
-          aria-hidden="true"
-        >
-          {Array.from({ length: 50 }).map((_, i) => (
-            <ConfettiPiece key={i} index={i} />
-          ))}
-        </div>
+    <div className="space-y-6 font-sans">
+      {/* 1. DOMINANT SIGNATURE: CAREER SIGNAL RADAR */}
+      <CareerSignalRadar score={score} onNavigateToTab={onNavigateToTab} />
+
+      {/* 2. CREATIVE SECONDARY SIGNATURE: YOUR BIGGEST OPPORTUNITY */}
+      {score.topActions[0] && (
+        <BiggestOpportunityCard
+          topAction={score.topActions[0]}
+          onTakeAction={() => {
+            if (score.topActions[0].dimension.toLowerCase().includes('bullet') || score.topActions[0].dimension.toLowerCase().includes('impact')) {
+              onNavigateToTab?.('rewrites');
+            } else if (score.topActions[0].dimension.toLowerCase().includes('skill')) {
+              onNavigateToTab?.('skills');
+            } else if (score.topActions[0].dimension.toLowerCase().includes('ats')) {
+              onNavigateToTab?.('ats');
+            }
+          }}
+        />
       )}
 
-      {/* ── Glass card ── */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl sm:p-8">
-        {/* Subtle gradient glow at top */}
-        <div
-          className="pointer-events-none absolute -top-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-full bg-violet-600/15 blur-3xl"
-          aria-hidden="true"
-        />
-
-        {/* ── Score ring ── */}
-        <div className="relative flex flex-col items-center gap-2 pb-6">
-          <ScoreRing score={score.overall} grade={score.grade} animate />
-          <p className="mt-2 text-sm font-medium text-slate-400">Overall Score</p>
+      {/* 3. QUICK ACTION BAR */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 border border-white/[0.08] rounded-xl p-4">
+        <div className="text-xs text-slate-300">
+          <strong className="text-slate-100">Export & Next Actions: </strong>
+          Download executive summary report or generate a fact-grounded cover letter.
         </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleExportPDF}
+            isLoading={isExporting}
+            icon={<Download className="w-3.5 h-3.5" />}
+          >
+            Export Executive PDF Report
+          </Button>
+          {onNavigateToTab && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => onNavigateToTab('critique')}
+              icon={<Sparkles className="w-3.5 h-3.5 text-indigo-400" />}
+            >
+              View Qualitative Critique
+            </Button>
+          )}
+          {onOpenCoverLetter && (
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={onOpenCoverLetter}
+              icon={<Zap className="w-3.5 h-3.5" />}
+            >
+              Generate Cover Letter
+            </Button>
+          )}
+        </div>
+      </div>
 
-        {/* ── Dimension bars ── */}
-        <div className="space-y-5 border-t border-white/10 pt-6">
-          <h3 className="text-lg font-semibold text-white">Score Breakdown</h3>
-          <div className="grid gap-5 sm:grid-cols-2">
-            {score.dimensions.map((dim) => (
-              <DimensionBar
-                key={dim.name}
-                name={dim.name}
-                score={dim.score}
-                icon={dim.icon}
-                color={dim.color}
-                feedback={dim.feedback}
-              />
+      {/* 4. TOP 3 PRIORITIZED ACTION ITEMS */}
+      {score.topActions.length > 1 && (
+        <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center">
+              <TrendingUp className="w-4 h-4 mr-1.5 text-indigo-400" />
+              Prioritized Impact Actions
+            </h3>
+            <span className="text-[11px] font-mono text-slate-400">Estimated Score Gains</span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {score.topActions.map((action, i) => (
+              <div
+                key={action.id || i}
+                className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between space-y-3"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-bold text-indigo-400 bg-indigo-950/70 px-2 py-0.5 rounded border border-indigo-800/40">
+                      {action.dimension}
+                    </span>
+                    <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/30">
+                      {action.expectedScoreBoostLabel}
+                    </span>
+                  </div>
+                  <h4 className="text-xs font-bold text-slate-100 leading-snug">{action.title}</h4>
+                  <p className="text-[11px] text-slate-400 leading-relaxed">{action.howToFix}</p>
+                </div>
+
+                <div className="text-[10px] text-slate-500 border-t border-slate-800/60 pt-2">
+                  <strong className="text-slate-400">Why: </strong>
+                  {action.reason}
+                </div>
+              </div>
             ))}
           </div>
         </div>
+      )}
 
-        {/* ── Feedback panel ── */}
-        <div className="mt-8 border-t border-white/10 pt-6">
-          <FeedbackPanel items={score.feedback} />
+      {/* 5. 7-PILLAR DETERMINISTIC BREAKDOWN */}
+      <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+          <div>
+            <h3 className="text-sm font-bold text-slate-100">7-Dimension Resume Breakdown</h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Transparent, evidence-based weighting: Overall Score ({score.overall}/100)
+            </p>
+          </div>
+          <div className="flex items-center space-x-2">
+            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
+              Deterministic Analysis
+            </span>
+            <span className="text-[10px] font-mono text-indigo-400 bg-indigo-950/60 border border-indigo-800/40 px-2 py-0.5 rounded">
+              Contribution: Σ (Score × Weight)
+            </span>
+          </div>
         </div>
 
-        {/* ── Action buttons ── */}
-        <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row">
-          <button
-            onClick={handleSave}
-            disabled={saved}
-            className={`flex-1 rounded-xl px-6 py-3 text-sm font-semibold transition-all duration-300 ${
-              saved
-                ? 'border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 cursor-default'
-                : 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/25 hover:shadow-xl hover:shadow-violet-500/30 active:scale-[0.98]'
-            }`}
-          >
-            {saved ? '✓ Saved to History' : 'Save to History'}
-          </button>
+        <div className="space-y-3 pt-2">
+          {score.dimensions.map((dim) => {
+            const isExpanded = expandedDim === dim.key;
+            return (
+              <div
+                key={dim.key}
+                className="border border-slate-800 rounded-xl bg-slate-950/50 transition-all overflow-hidden"
+              >
+                <button
+                  onClick={() => setExpandedDim(isExpanded ? null : dim.key)}
+                  className="w-full p-4 flex items-center justify-between text-left hover:bg-slate-900/40 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 rounded-lg bg-slate-900 border border-slate-800">
+                      {getDimensionIcon(dim.key)}
+                    </div>
+                    <div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-bold text-slate-200">{dim.name}</span>
+                        <span className="text-[10px] text-slate-400 font-mono">
+                          ({Math.round(dim.weight * 100)}% Weight)
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 line-clamp-1">{dim.feedback}</p>
+                    </div>
+                  </div>
 
-          <button
-            onClick={onReset}
-            className="flex-1 rounded-xl border border-white/10 bg-white/5 px-6 py-3 text-center text-sm font-semibold text-slate-300 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:text-white"
-          >
-            Analyze Another
-          </button>
+                  <div className="flex items-center space-x-4">
+                    <div className="text-right">
+                      <span className={`text-xs font-bold ${getScoreColor(dim.score)}`}>
+                        {dim.score}/100
+                      </span>
+                      <span className="text-[10px] text-slate-400 block font-mono">
+                        +{dim.contribution} pts
+                      </span>
+                    </div>
+                    {isExpanded ? (
+                      <ChevronUp className="w-4 h-4 text-slate-400" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4 text-slate-400" />
+                    )}
+                  </div>
+                </button>
+
+                {/* Expanded Evidence Drawer */}
+                {isExpanded && (
+                  <div className="p-4 border-t border-slate-800/80 bg-slate-900/70 text-xs space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+                        <span className="font-semibold text-slate-300 block mb-1">Detected Evidence:</span>
+                        <div className="flex flex-wrap gap-1">
+                          {dim.evidence.detected.length > 0 ? (
+                            dim.evidence.detected.map((item, idx) => (
+                              <span key={idx} className="bg-slate-900 text-slate-300 px-2 py-0.5 rounded text-[10px] font-mono border border-slate-800">
+                                {item}
+                              </span>
+                            ))
+                          ) : (
+                            <span className="text-slate-500 italic text-[11px]">No direct matches detected</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
+                        <span className="font-semibold text-slate-300 block mb-1">Recommended Action:</span>
+                        <p className="text-slate-300 text-[11px]">{dim.evidence.recommendedAction}</p>
+                      </div>
+                    </div>
+
+                    <div className="text-slate-400 text-[11px] border-t border-slate-800/60 pt-2">
+                      <strong className="text-slate-300">Scoring Rationale: </strong>
+                      {dim.reason}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

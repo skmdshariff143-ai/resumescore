@@ -4,31 +4,31 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ResumeScore — AI-Powered Resume Analyzer",
+  title: "ResumeScore — AI Resume & Job Match Intelligence",
   description:
-    "Score your resume with AI precision. Get instant, detailed feedback across 6 key dimensions and improve your chances of landing interviews.",
+    "Match your resume to the job before you apply. Transparent 7-pillar deterministic scoring, layered semantic matching, and anti-hallucination bullet rewrites.",
   keywords: [
-    "resume",
+    "resume intelligence",
+    "resume match",
+    "job match analyzer",
+    "ATS resume checker",
     "resume score",
-    "resume analyzer",
-    "AI resume review",
-    "resume feedback",
-    "career",
-    "job application",
+    "semantic skill matrix",
+    "career copilot",
   ],
   authors: [{ name: "ResumeScore" }],
   openGraph: {
-    title: "ResumeScore — AI-Powered Resume Analyzer",
+    title: "ResumeScore — AI Resume & Job Match Intelligence",
     description:
-      "Score your resume with AI precision. Get instant, detailed feedback.",
+      "See exactly what your resume is missing before you apply. Evidence-based scoring and match analysis.",
     type: "website",
     url: "https://resumescore.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ResumeScore — AI-Powered Resume Analyzer",
+    title: "ResumeScore — AI Resume & Job Match Intelligence",
     description:
-      "Score your resume with AI precision. Get instant, detailed feedback.",
+      "See exactly what your resume is missing before you apply. Evidence-based scoring and match analysis.",
   },
 };
 

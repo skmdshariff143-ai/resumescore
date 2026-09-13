@@ -1,53 +1,60 @@
 'use client';
 
-export default function Footer() {
-  const year = new Date().getFullYear();
+import React from 'react';
+import Link from 'next/link';
+import { Activity, Lock } from 'lucide-react';
 
+export function Footer() {
   return (
-    <footer
-      className="mt-auto w-full border-t border-white/10 bg-white/5 backdrop-blur-xl"
-      role="contentinfo"
-    >
-      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-6 text-sm text-slate-400 sm:flex-row sm:px-6 lg:px-8">
-        <p>
-          Built with{' '}
-          <span className="inline-block animate-pulse text-rose-400" aria-label="love">
-            ❤️
-          </span>{' '}
-          by{' '}
-          <span className="bg-gradient-to-r from-violet-500 to-purple-500 bg-clip-text font-semibold text-transparent">
-            ResumeScore
-          </span>
-        </p>
+    <footer className="bg-[#05070B] border-t border-white/[0.08] py-12 mt-20 text-xs text-slate-500 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1.5 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start space-x-2 text-slate-200 font-black text-sm">
+              <Activity className="w-4 h-4 text-indigo-400" />
+              <span>ResumeScore</span>
+              <span className="text-[10px] font-mono text-indigo-400 font-semibold px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-800/40">
+                Career Intelligence SaaS
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 max-w-md">
+              Deterministic 7-pillar career signal architecture, 6-layer semantic skill matching, and anti-hallucination bullet optimization.
+            </p>
+          </div>
 
-        <div className="flex items-center gap-4">
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1.5 transition-colors hover:text-white"
-            aria-label="GitHub repository"
-          >
-            {/* GitHub icon (inline SVG) */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="h-4 w-4"
-              aria-hidden="true"
-            >
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.694.825.576C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
-            GitHub
-          </a>
+          <div className="flex items-center space-x-6 text-xs text-slate-400">
+            <Link href="/" className="hover:text-slate-200 transition-colors">
+              Platform
+            </Link>
+            <Link href="/analyze" className="hover:text-slate-200 transition-colors">
+              Analyze
+            </Link>
+            <Link href="/history" className="hover:text-slate-200 transition-colors">
+              History
+            </Link>
+          </div>
+        </div>
 
-          <span className="text-slate-600" aria-hidden="true">
-            ·
-          </span>
+        {/* Trust & Architecture Statement */}
+        <div className="bg-[#080B14] border border-white/[0.06] rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
+          <div className="flex items-center space-x-2">
+            <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>
+              <strong className="text-slate-200">Zero-Data Selling: </strong>
+              All document extraction runs in your browser environment. Your resume is never used to train public LLMs. Optional AI analysis features use zero-retention APIs.
+            </span>
+          </div>
+          <div className="font-mono text-[10px] text-slate-500 shrink-0">
+            Next.js 16 • Turbopack • React 19
+          </div>
+        </div>
 
-          <span>© {year}</span>
+        <div className="text-center text-[10px] text-slate-600">
+          © {new Date().getFullYear()} ResumeScore Inc. Evidence-backed career intelligence.
         </div>
       </div>
     </footer>
   );
 }
+
+export default Footer;
