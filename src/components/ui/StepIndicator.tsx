@@ -43,7 +43,7 @@ export function StepIndicator({
                     isDone
                       ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
                       : isCurrent
-                      ? 'bg-indigo-600 text-white ring-4 ring-indigo-500/20 shadow-md shadow-indigo-600/40'
+                      ? 'bg-blue-600 text-white ring-4 ring-blue-500/20 shadow-md shadow-blue-600/30'
                       : 'bg-slate-900 border border-slate-700 text-slate-400'
                   }`}
                 >
@@ -51,7 +51,7 @@ export function StepIndicator({
                 </div>
                 <span
                   className={`text-[11px] font-semibold text-center whitespace-nowrap ${
-                    isCurrent ? 'text-indigo-300' : isDone ? 'text-slate-300' : 'text-slate-500'
+                    isCurrent ? 'text-blue-300' : isDone ? 'text-slate-300' : 'text-slate-500'
                   }`}
                 >
                   {step.label}

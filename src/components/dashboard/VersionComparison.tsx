@@ -11,9 +11,9 @@ interface VersionComparisonProps {
 export function VersionComparison({ history }: VersionComparisonProps) {
   if (history.length < 2) {
     return (
-      <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 text-center space-y-2 font-sans">
-        <GitCompare className="w-6 h-6 text-indigo-400 mx-auto opacity-60" />
-        <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Version-Over-Version Comparison</h3>
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 text-center space-y-2 font-sans">
+        <GitCompare className="w-6 h-6 text-blue-400 mx-auto opacity-60" />
+        <h3 className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">Version-Over-Version Comparison</h3>
         <p className="text-xs text-slate-400 max-w-sm mx-auto">
           Analyze two or more resume iterations to inspect dimension deltas and resolved skill gaps.
         </p>
@@ -39,11 +39,11 @@ export function VersionComparison({ history }: VersionComparisonProps) {
   });
 
   return (
-    <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-6 font-sans">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
+    <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6 font-sans">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
         <div>
           <h3 className="text-sm font-bold text-slate-100 flex items-center">
-            <GitCompare className="w-4 h-4 mr-2 text-indigo-400" />
+            <GitCompare className="w-4 h-4 mr-2 text-blue-400" />
             Resume Version Progression & Dimension Deltas
           </h3>
           <p className="text-xs text-slate-400 mt-0.5">
@@ -79,9 +79,9 @@ export function VersionComparison({ history }: VersionComparisonProps) {
         </div>
 
         {/* Latest Version */}
-        <div className="bg-slate-950/70 border border-indigo-900/50 rounded-xl p-4 space-y-2">
+        <div className="bg-slate-950/70 border border-blue-900/50 rounded-xl p-4 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase font-bold text-indigo-400 font-mono">Latest Iteration</span>
+            <span className="text-[10px] uppercase font-bold text-blue-400 font-mono">Latest Iteration</span>
             <span className="text-xs font-mono font-bold text-emerald-400">{latest.overallScore}/100</span>
           </div>
           <div className="text-xs text-slate-100 font-bold">{latest.fileName}</div>

@@ -68,10 +68,10 @@ export default function HistoryPage() {
   return (
     <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 font-sans">
       {/* Header & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
         <div>
           <h1 className="text-xl font-bold text-slate-100 flex items-center">
-            <Activity className="w-5 h-5 mr-2 text-indigo-400" />
+            <Activity className="w-5 h-5 mr-2 text-blue-400" />
             Career Command Center & Timeline History
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
@@ -101,10 +101,10 @@ export default function HistoryPage() {
 
       {/* Trajectory Banner */}
       {history.length >= 2 && (
-        <div className="bg-gradient-to-r from-indigo-950/60 via-slate-900 to-slate-950 border border-indigo-700/40 rounded-2xl p-5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-gradient-to-r from-blue-950/30 via-slate-900/90 to-slate-950 border border-blue-800/40 rounded-2xl p-5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-800/60">
                 Career Trajectory
               </span>
               <span className="text-xs font-mono font-bold text-emerald-400">
@@ -120,8 +120,8 @@ export default function HistoryPage() {
             <span className="bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
               Initial: {history[history.length - 1].overallScore}
             </span>
-            <ArrowRight className="w-4 h-4 text-indigo-400" />
-            <span className="bg-indigo-950 px-3 py-1.5 rounded-lg border border-indigo-800 font-bold text-emerald-400">
+            <ArrowRight className="w-4 h-4 text-blue-400" />
+            <span className="bg-blue-950/60 px-3 py-1.5 rounded-lg border border-blue-800/60 font-bold text-emerald-400">
               Latest: {history[0].overallScore}
             </span>
           </div>
@@ -135,7 +135,7 @@ export default function HistoryPage() {
       <JobMatchesTracker jobs={savedJobs} onDeleteJob={handleDeleteJob} />
 
       {/* History Log */}
-      <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4">
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <h3 className="text-sm font-bold text-slate-100">All Past Resume Scans ({history.length})</h3>
         {history.length === 0 ? (
           <EmptyState

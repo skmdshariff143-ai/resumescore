@@ -39,8 +39,8 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
       label: 'Resume Quality',
       score: resumeQuality,
       icon: ShieldCheck,
-      color: 'text-indigo-400',
-      barBg: 'bg-indigo-500',
+      color: 'text-blue-400',
+      barBg: 'bg-blue-500',
       why: 'Measures structural formatting, section discoverability, and machine-readability across ATS standards.',
       evidence: `ATS score of ${atsDim?.score || 80}/100 with ${score.parsedResume.sections.length} recognized sections.`,
       action: 'Standardize any irregular section headings and ensure contact info is easily parsed.',
@@ -75,8 +75,8 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
       label: 'Career Impact',
       score: careerImpact,
       icon: TrendingUp,
-      color: 'text-purple-400',
-      barBg: 'bg-purple-500',
+      color: 'text-amber-400',
+      barBg: 'bg-amber-500',
       why: 'Measures action verb strength, leadership ownership, and quantifiable outcome density.',
       evidence: `${score.parsedResume.achievements.length} quantifiable metrics detected across experience bullets.`,
       action: 'Use the Bullet Copilot to transform passive lines into Google X-Y-Z formula statements.',
@@ -87,40 +87,42 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
   const selectedVecData = vectors.find((v) => v.id === activeVector);
 
   return (
-    <div className={`bg-gradient-to-b from-slate-900/95 to-slate-950 border border-indigo-950/80 rounded-2xl p-6 shadow-2xl relative overflow-hidden font-sans space-y-5 ${className}`}>
-      {/* Background ambient glow */}
-      <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-60 h-60 bg-cyan-600/10 rounded-full blur-3xl pointer-events-none" />
+    <div className={`bg-slate-900/95 border border-slate-800 rounded-2xl p-6 sm:p-7 shadow-2xl relative overflow-hidden font-sans space-y-6 backdrop-blur-xl ring-1 ring-white/[0.05] ${className}`}>
+      {/* Background subtle ambient glow */}
+      <div className="absolute top-0 right-0 w-80 h-80 bg-blue-500/[0.03] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-60 h-60 bg-emerald-500/[0.02] rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         {/* Left: Overall Signal Grade & Numerical Badge */}
         <div className="flex items-center space-x-5">
-          <div className="relative flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-950 border border-indigo-500/30 shadow-inner group">
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-indigo-600/20 to-cyan-500/20 animate-pulse" />
+          <div className="relative flex items-center justify-center w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-950 border border-slate-700/80 shadow-inner group shrink-0">
             <div className="text-center relative z-10">
-              <span className="text-3xl sm:text-4xl font-black text-slate-100 tracking-tight font-mono">
+              <span className="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight font-mono leading-none block">
                 {score.overall}
               </span>
-              <span className="text-[10px] sm:text-xs text-indigo-400 block font-bold uppercase tracking-wider">
+              <span className="text-[10px] sm:text-[11px] text-slate-400 block font-mono font-semibold uppercase tracking-wider mt-1">
                 Signal Index
               </span>
             </div>
+            <div className="absolute -bottom-1.5 -right-1.5 px-2 py-0.5 rounded-md bg-emerald-950 border border-emerald-700/60 text-[10px] font-mono font-bold text-emerald-400">
+              {score.grade}
+            </div>
           </div>
 
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <div className="flex items-center space-x-2">
-              <span className="inline-flex items-center text-[10px] font-bold text-indigo-300 bg-indigo-950/70 border border-indigo-700/50 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                <Activity className="w-3 h-3 mr-1 text-indigo-400" />
+              <span className="inline-flex items-center text-[10px] font-mono font-bold text-slate-300 bg-slate-950 border border-slate-800 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                <Activity className="w-3 h-3 mr-1 text-blue-400" />
                 Career Signal
               </span>
-              <span className="text-xs font-semibold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40">
+              <span className="text-xs font-mono font-semibold text-emerald-400 bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-800/40">
                 Grade {score.grade}
               </span>
             </div>
             <h2 className="text-lg sm:text-xl font-bold text-slate-100 tracking-tight">
               {score.parsedResume.personalInfo.name || 'Candidate Career Portfolio'}
             </h2>
-            <p className="text-xs text-slate-400 max-w-md line-clamp-2">
+            <p className="text-xs text-slate-400 max-w-md line-clamp-2 leading-relaxed">
               {score.feedback[0]?.message || 'Evidence-backed evaluation across structural and technical dimensions.'}
             </p>
           </div>
@@ -134,10 +136,10 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
               <button
                 key={vec.id}
                 onClick={() => setActiveVector(isSelected ? null : vec.id)}
-                className={`text-left border rounded-xl p-3 min-w-[140px] space-y-1.5 transition-all cursor-pointer ${
+                className={`text-left border rounded-xl p-3 min-w-[145px] space-y-1.5 transition-all cursor-pointer ${
                   isSelected
-                    ? 'bg-slate-900 border-indigo-500 shadow-lg shadow-indigo-600/20'
-                    : 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700'
+                    ? 'bg-slate-900 border-blue-500 shadow-md shadow-blue-600/15'
+                    : 'bg-slate-950/80 border-slate-800/80 hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -154,7 +156,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
                   />
                 </div>
                 <div className="text-[9px] font-mono text-slate-500 text-right">
-                  {isSelected ? '▲ Click to close' : '▼ Click for details'}
+                  {isSelected ? '▲ Close details' : '▼ View details'}
                 </div>
               </button>
             );
@@ -164,7 +166,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
 
       {/* Interactive Vector Explanation Drawer */}
       {selectedVecData && (
-        <div className="relative z-10 bg-slate-950/90 border border-indigo-900/60 rounded-xl p-4 text-xs space-y-3 animate-fade-in">
+        <div className="relative z-10 bg-slate-950/90 border border-slate-800 rounded-xl p-4 text-xs space-y-3">
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
             <div className="flex items-center space-x-2">
               <selectedVecData.icon className={`w-4 h-4 ${selectedVecData.color}`} />
@@ -173,7 +175,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
             {onNavigateToTab && (
               <button
                 onClick={() => onNavigateToTab(selectedVecData.tab)}
-                className="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 cursor-pointer"
+                className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1 cursor-pointer"
               >
                 <span>Go to {selectedVecData.label} Tab</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -194,7 +196,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
 
             <div className="bg-slate-900/70 p-3 rounded-lg border border-slate-800/80">
               <span className="font-semibold text-slate-300 block mb-1">Recommended Action:</span>
-              <p className="text-indigo-300 leading-relaxed">{selectedVecData.action}</p>
+              <p className="text-blue-300 leading-relaxed">{selectedVecData.action}</p>
             </div>
           </div>
         </div>

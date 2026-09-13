@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ===== CSS Design Variables ===== */
+/* ===== CSS Design Variables (Obsidian Slate + Precision Cobalt System) ===== */
 :root {
-  --bg-primary: #07090E;
-  --bg-secondary: #0C0F19;
-  --bg-elevated: #111625;
-  --accent-indigo: #6366F1;
-  --accent-cyan: #06B6D4;
+  --bg-primary: #080C14;
+  --bg-secondary: #0A0F1A;
+  --bg-surface: #0F1626;
+  --bg-elevated: #141E34;
+  --accent-cobalt: #3B82F6;
   --accent-emerald: #10B981;
   --accent-amber: #F59E0B;
   --accent-rose: #F43F5E;
@@ -34,7 +34,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== Subtle Background Ambience ===== */
+/* ===== Subtle Background Ambience (Cool Slate & Precision Cobalt) ===== */
 body::before {
   content: '';
   position: fixed;
@@ -43,9 +43,9 @@ body::before {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle 800px at 50% -100px, rgba(99, 102, 241, 0.08), transparent 80%),
-    radial-gradient(circle 600px at 90% 400px, rgba(6, 182, 212, 0.04), transparent 70%),
-    radial-gradient(circle 600px at 10% 800px, rgba(16, 185, 129, 0.03), transparent 70%);
+    radial-gradient(circle 900px at 50% -120px, rgba(37, 99, 235, 0.05), transparent 75%),
+    radial-gradient(circle 700px at 85% 350px, rgba(16, 185, 129, 0.025), transparent 70%),
+    radial-gradient(circle 600px at 15% 750px, rgba(37, 99, 235, 0.02), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }

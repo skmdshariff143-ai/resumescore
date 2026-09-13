@@ -122,7 +122,7 @@ function AnalyzeContent() {
       <StepIndicator steps={steps} currentStepIndex={currentStepIndex} />
 
       {/* Mode Switcher */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/80 border border-white/[0.08] rounded-2xl p-4 shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl">
         <div className="flex items-center space-x-2">
           <button
             onClick={() => {
@@ -131,8 +131,8 @@ function AnalyzeContent() {
             }}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
               mode === 'general'
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25 border border-blue-500/40'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/60'
             }`}
           >
             General Resume Review
@@ -141,8 +141,8 @@ function AnalyzeContent() {
             onClick={() => setMode('job_match')}
             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center cursor-pointer ${
               mode === 'job_match'
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/25'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25 border border-blue-500/40'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-950/60'
             }`}
           >
             <Target className="w-3.5 h-3.5 mr-1.5" />
@@ -150,8 +150,8 @@ function AnalyzeContent() {
           </button>
         </div>
 
-        <div className="text-xs text-slate-400 flex items-center">
-          <Shield className="w-3.5 h-3.5 text-emerald-400 mr-1.5" />
+        <div className="text-xs font-mono text-slate-400 flex items-center">
+          <Shield className="w-3.5 h-3.5 text-blue-400 mr-1.5" />
           Deterministic 7-Pillar Evidence Engine
         </div>
       </div>
@@ -180,7 +180,7 @@ function AnalyzeContent() {
       {score && !loading && (
         <div className="space-y-6">
           {/* Navigation Tabs */}
-          <div className="flex border-b border-white/[0.08] pb-2 space-x-2 overflow-x-auto">
+          <div className="flex border-b border-slate-800 pb-2 space-x-2 overflow-x-auto">
             {[
               { key: 'overview', label: 'Career Signal & Overview' },
               { key: 'skills', label: 'Semantic Skill Matrix' },
@@ -194,8 +194,8 @@ function AnalyzeContent() {
                 onClick={() => setActiveTab(tab.key as AnalyzeTab)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                   activeTab === tab.key
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25 border border-blue-500/40'
+                    : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900 border border-transparent'
                 }`}
               >
                 {tab.label}

@@ -34,25 +34,25 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
   const getDimensionIcon = (key: string) => {
     switch (key) {
       case 'ats':
-        return <Shield className="w-4 h-4 text-indigo-400" />;
+        return <Shield className="w-4 h-4 text-blue-400" />;
       case 'skill_match':
         return <Zap className="w-4 h-4 text-cyan-400" />;
       case 'experience':
-        return <Briefcase className="w-4 h-4 text-purple-400" />;
+        return <Briefcase className="w-4 h-4 text-slate-300" />;
       case 'impact':
         return <Target className="w-4 h-4 text-emerald-400" />;
       case 'projects':
         return <FolderGit2 className="w-4 h-4 text-amber-400" />;
       case 'readability':
-        return <FileCheck2 className="w-4 h-4 text-sky-400" />;
+        return <FileCheck2 className="w-4 h-4 text-slate-400" />;
       default:
-        return <UserCheck className="w-4 h-4 text-rose-400" />;
+        return <UserCheck className="w-4 h-4 text-slate-400" />;
     }
   };
 
   const getScoreColor = (val: number) => {
     if (val >= 85) return 'text-emerald-400';
-    if (val >= 70) return 'text-cyan-400';
+    if (val >= 70) return 'text-blue-400';
     if (val >= 55) return 'text-amber-400';
     return 'text-rose-400';
   };
@@ -94,9 +94,9 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
       )}
 
       {/* 3. QUICK ACTION BAR */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 border border-white/[0.08] rounded-xl p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 border border-slate-800 rounded-xl p-4">
         <div className="text-xs text-slate-300">
-          <strong className="text-slate-100">Export & Next Actions: </strong>
+          <strong className="text-slate-100 font-semibold">Export & Next Actions: </strong>
           Download executive summary report or generate a fact-grounded cover letter.
         </div>
         <div className="flex items-center space-x-2">
@@ -114,7 +114,7 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
               variant="secondary"
               size="sm"
               onClick={() => onNavigateToTab('critique')}
-              icon={<Sparkles className="w-3.5 h-3.5 text-indigo-400" />}
+              icon={<Sparkles className="w-3.5 h-3.5 text-blue-400" />}
             >
               View Qualitative Critique
             </Button>
@@ -134,10 +134,10 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
 
       {/* 4. TOP 3 PRIORITIZED ACTION ITEMS */}
       {score.topActions.length > 1 && (
-        <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-200 flex items-center">
-              <TrendingUp className="w-4 h-4 mr-1.5 text-indigo-400" />
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200 flex items-center">
+              <TrendingUp className="w-4 h-4 mr-1.5 text-blue-400" />
               Prioritized Impact Actions
             </h3>
             <span className="text-[11px] font-mono text-slate-400">Estimated Score Gains</span>
@@ -151,7 +151,7 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-bold text-indigo-400 bg-indigo-950/70 px-2 py-0.5 rounded border border-indigo-800/40">
+                    <span className="text-[10px] uppercase font-mono font-bold text-blue-400 bg-blue-950/70 px-2 py-0.5 rounded border border-blue-800/40">
                       {action.dimension}
                     </span>
                     <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/30">
@@ -173,7 +173,7 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
       )}
 
       {/* 5. 7-PILLAR DETERMINISTIC BREAKDOWN */}
-      <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4">
+      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
           <div>
             <h3 className="text-sm font-bold text-slate-100">7-Dimension Resume Breakdown</h3>
@@ -185,7 +185,7 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
             <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
               Deterministic Analysis
             </span>
-            <span className="text-[10px] font-mono text-indigo-400 bg-indigo-950/60 border border-indigo-800/40 px-2 py-0.5 rounded">
+            <span className="text-[10px] font-mono text-blue-400 bg-blue-950/60 border border-blue-800/40 px-2 py-0.5 rounded">
               Contribution: Σ (Score × Weight)
             </span>
           </div>
