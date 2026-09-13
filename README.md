@@ -181,10 +181,22 @@ src/
 
 | Mode | Data flow | Third-party calls |
 |------|-----------|-------------------|
-| **Default (no API key)** | Browser → your server → browser | None |
-| **AI-enhanced (with API key)** | Browser → your server → Anthropic API → your server → browser | Anthropic only, for rewrites/critique/cover letters |
+| **Default (no API key)** | Browser → your server → browser | None (100% offline heuristic) |
+| **AI-enhanced (Anthropic)** | Browser → your server → Anthropic API → your server → browser | Anthropic only, for rewrites/critique/cover letters |
+| **AI-enhanced (Gemini)** | Browser → your server → Google Gemini API → your server → browser | Google GenAI only, for rewrites/critique/cover letters |
 
-PDF text extraction always runs client-side via PDF.js. The deterministic scoring engine always runs on your server. Only the optional LLM features (bullet rewrites, cover letters, resume critique) send data to Anthropic when an API key is configured.
+PDF text extraction always runs client-side via Mozilla PDF.js. The 7-pillar deterministic scoring engine always runs on your server. Only the optional LLM features (bullet rewrites, cover letters, resume critique) query an external AI provider when an API key is configured.
+
+---
+
+## 📜 Recent Changes & Milestone History
+
+The project has completed four core architectural phases. Full details are recorded in [CHANGELOG.md](CHANGELOG.md):
+
+1. **Phase 1 (v0.1.0) — Infrastructure, Tests & CI**: 7-pillar deterministic scoring engine, 6-layer semantic matching, comprehensive Vitest suite, and GitHub Actions CI.
+2. **Phase 2 (v0.2.0) — Anthropic Claude Provider**: Claude AI provider (`@anthropic-ai/sdk`), qualitative critique endpoint (`/api/ai/critique`), and `CritiquePanel.tsx`.
+3. **Phase 3 (v0.3.0) — Top Priority & Real PDF Extraction**: Mozilla PDF.js client-side parser, `topPriority` actionable recommendation derivation, and E2E verification tooling (`tools/verify-e2e.js`).
+4. **Phase 4 (v0.4.0) — Google Gemini AI Provider**: Google GenAI (`@google/genai`) integration, multi-provider hierarchy (Anthropic > Gemini > Heuristic), XML prompt isolation, and live LLM validation.
 
 ---
 
