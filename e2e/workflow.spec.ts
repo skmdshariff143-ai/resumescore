@@ -30,6 +30,7 @@ test('review, browser-only analysis, edit, compare, download and privacy', async
   expect(await page.evaluate(() => localStorage.getItem('resumescore_scans_v2'))).toBeNull();
   await page.getByRole('button', { name: 'Compare original' }).click();
   await expect(page.getByRole('heading', { name: 'Original text' })).toBeVisible();
+  if (await page.getByRole('button', { name: 'Editor', exact: true }).isVisible()) await page.getByRole('button', { name: 'Editor', exact: true }).click();
   const content = page.getByLabel('Section 1 content', { exact: true });
   await content.fill('Jane Doe\njane@example.com\nPortfolio: example.com');
   const download = page.waitForEvent('download');
@@ -90,6 +91,7 @@ test('DOCX export can be re-uploaded without losing resume text', async ({ page 
   const file = await downloaded;
   expect(file.suggestedFilename()).toBe('resume.docx');
   const bytes = await readFile((await file.path())!);
+  await page.getByRole('button', { name: 'Review inputs', exact: true }).click();
   await page.locator('input[type=file]').setInputFiles({ name: 'resume.docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', buffer: bytes });
   await expect(page.getByLabel('Extracted resume text')).toHaveValue(/Jane Doe/);
   await expect(page.getByLabel('Extracted resume text')).toHaveValue(/Python and SQL/);

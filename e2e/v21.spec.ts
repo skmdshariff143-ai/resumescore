@@ -68,6 +68,7 @@ test('new AI claims are highlighted and never silently enter the resume', async 
   await review.getByRole('button', { name: 'Suggest rewrite' }).click();
   await expect(review.getByText(/New terms needing verification/)).toContainText('google');
   await expect(review.getByRole('button', { name: 'Approve and apply rewrite' })).toBeDisabled();
+  if (await page.getByRole('button', { name: 'Preview', exact: true }).isVisible()) await page.getByRole('button', { name: 'Preview', exact: true }).click();
   await expect(page.getByRole('article', { name: 'Live resume preview' })).not.toContainText('Google');
 });
 
@@ -102,7 +103,7 @@ test('journey accessibility, keyboard approval and production-like paid-disabled
   await audit('cover-letter-result');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Generate Cover Letter', exact: true })).toBeFocused();
-  for (const tab of ['Semantic Skill Matrix', 'ATS Readability Estimate', 'Bullet Copilot', 'Qualitative Critique', 'Edit & Export Resume']) {
+  for (const tab of ['Skills', 'ATS Readability Estimate', 'Improvements', 'Qualitative Critique', 'Edit & Export Resume']) {
     await page.getByRole('button', { name: tab, exact: true }).click();
     await audit(tab);
   }

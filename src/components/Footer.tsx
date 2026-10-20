@@ -1,61 +1,15 @@
-'use client';
-
-import React from 'react';
 import Link from 'next/link';
-import { Activity, Lock } from 'lucide-react';
-
+import { FileText, LockKeyhole } from 'lucide-react';
 export function Footer() {
-  return (
-    <footer className="bg-[#05070B] border-t border-white/[0.08] py-12 mt-20 text-xs text-slate-400 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-1.5 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start space-x-2 text-slate-200 font-black text-sm">
-              <Activity className="w-4 h-4 text-indigo-400" />
-              <span>ResumeScore</span>
-              <span className="text-[10px] font-mono text-indigo-400 font-semibold px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-800/40">
-                Career Intelligence SaaS
-              </span>
-            </div>
-            <p className="text-[11px] text-slate-400 max-w-md">
-              Deterministic 7-pillar career signal architecture, 6-layer semantic skill matching, and anti-hallucination bullet optimization.
-            </p>
-          </div>
-
-          <div className="flex items-center space-x-6 text-xs text-slate-400">
-            <Link href="/" className="hover:text-slate-200 transition-colors">
-              Platform
-            </Link>
-            <Link href="/analyze" className="hover:text-slate-200 transition-colors">
-              Analyze
-            </Link>
-            <Link href="/history" className="hover:text-slate-200 transition-colors">
-              History
-            </Link>
-            <Link href="/privacy" className="hover:text-slate-200 transition-colors">Privacy</Link>
-          </div>
-        </div>
-
-        {/* Trust & Architecture Statement */}
-        <div className="bg-[#080B14] border border-white/[0.06] rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
-          <div className="flex items-center space-x-2">
-            <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>
-              <strong className="text-slate-200">Privacy choices: </strong>
-              Browser-only analysis is the default. Server and external AI processing are optional. Provider retention depends on provider and account settings. History is saved only when enabled.
-            </span>
-          </div>
-          <div className="font-mono text-[10px] text-slate-400 shrink-0">
-            Next.js 16 • Turbopack • React 19
-          </div>
-        </div>
-
-        <div className="text-center text-[10px] text-slate-400">
-          © {new Date().getFullYear()} ResumeScore. Resume feedback with transparent limitations.
-        </div>
+  return <footer className="mt-16 border-t border-line bg-surface">
+    <div className="page-shell space-y-8">
+      <div className="flex flex-col justify-between gap-6 sm:flex-row">
+        <div className="max-w-sm space-y-3"><Link href="/" className="flex items-center gap-2 font-bold text-ink"><FileText size={20} className="text-brand"/>ResumeScore</Link><p className="text-sm text-muted">Clear resume feedback. Thoughtful improvements. Your next application, better prepared.</p></div>
+        <nav aria-label="Footer navigation" className="flex flex-wrap items-start gap-x-6 gap-y-3 text-sm font-medium text-body"><Link className="py-2" href="/analyze">Analyze</Link><Link className="py-2" href="/analyze?mode=job_match">Job Match</Link><Link className="py-2" href="/history">History</Link><Link className="py-2" href="/privacy">Privacy</Link></nav>
       </div>
-    </footer>
-  );
+      <div className="flex items-start gap-3 rounded-xl bg-subtle p-4 text-sm text-muted"><LockKeyhole size={18} className="mt-0.5 shrink-0 text-brand"/><p>Browser-only analysis by default. History is optional. Paid AI is disabled. Scores are guidance, not hiring predictions or ATS certification.</p></div>
+      <p className="border-t border-line pt-6 text-xs text-muted">© {new Date().getFullYear()} ResumeScore. Built for your next step.</p>
+    </div>
+  </footer>;
 }
-
 export default Footer;

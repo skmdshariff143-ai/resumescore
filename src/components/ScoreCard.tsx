@@ -1,277 +1,39 @@
 'use client';
-
-import React, { useState } from 'react';
-import {
-  Shield,
-  Zap,
-  Briefcase,
-  Target,
-  FolderGit2,
-  FileCheck2,
-  UserCheck,
-  ChevronDown,
-  ChevronUp,
-  Download,
-  TrendingUp,
-  Sparkles,
-} from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, CheckCircle2, Download, FileText } from 'lucide-react';
 import type { ResumeScore } from '@/types';
 import { generateExecutivePDF } from '@/lib/export/pdf-report';
-import { CareerSignalRadar } from './ui/CareerSignalRadar';
-import { BiggestOpportunityCard } from './ui/BiggestOpportunityCard';
 import { Button } from './ui/Button';
 
-interface ScoreCardProps {
-  score: ResumeScore;
-  onOpenCoverLetter?: () => void;
-  onNavigateToTab?: (tab: string) => void;
-}
-
-export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCardProps) {
-  const [expandedDim, setExpandedDim] = useState<string | null>(null);
-  const [isExporting, setIsExporting] = useState(false);
-
-  const getDimensionIcon = (key: string) => {
-    switch (key) {
-      case 'ats':
-        return <Shield className="w-4 h-4 text-blue-400" />;
-      case 'skill_match':
-        return <Zap className="w-4 h-4 text-cyan-400" />;
-      case 'experience':
-        return <Briefcase className="w-4 h-4 text-slate-300" />;
-      case 'impact':
-        return <Target className="w-4 h-4 text-emerald-400" />;
-      case 'projects':
-        return <FolderGit2 className="w-4 h-4 text-amber-400" />;
-      case 'readability':
-        return <FileCheck2 className="w-4 h-4 text-slate-400" />;
-      default:
-        return <UserCheck className="w-4 h-4 text-slate-400" />;
-    }
-  };
-
-  const getScoreColor = (val: number) => {
-    if (val >= 85) return 'text-emerald-400';
-    if (val >= 70) return 'text-blue-400';
-    if (val >= 55) return 'text-amber-400';
-    return 'text-rose-400';
-  };
-
-  const handleExportPDF = async () => {
-    setIsExporting(true);
-    try {
-      await generateExecutivePDF(score);
-    } catch {
-      console.error('Failed to export PDF report.');
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
-  return (
-    <div className="space-y-6 font-sans">
-      {/* 1. DOMINANT SIGNATURE: CAREER SIGNAL RADAR */}
-      <CareerSignalRadar score={score} onNavigateToTab={onNavigateToTab} />
-
-      {/* 2. CREATIVE SECONDARY SIGNATURE: YOUR BIGGEST OPPORTUNITY */}
-      {(score.topActions[0] || score.topPriority) && (
-        <BiggestOpportunityCard
-          topAction={score.topActions[0]}
-          topPriority={score.topPriority}
-          onTakeAction={() => {
-            const targetDim = (score.topActions[0]?.dimension || score.topPriority || '').toLowerCase();
-            if (targetDim.includes('bullet') || targetDim.includes('impact') || targetDim.includes('metric')) {
-              onNavigateToTab?.('rewrites');
-            } else if (targetDim.includes('skill')) {
-              onNavigateToTab?.('skills');
-            } else if (targetDim.includes('ats') || targetDim.includes('heading')) {
-              onNavigateToTab?.('ats');
-            } else {
-              onNavigateToTab?.('critique');
-            }
-          }}
-        />
-      )}
-
-      {/* 3. QUICK ACTION BAR */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900/60 border border-slate-800 rounded-xl p-4">
-        <div className="text-xs text-slate-300">
-          <strong className="text-slate-100 font-semibold">Export & Next Actions: </strong>
-          Download executive summary report or generate a fact-grounded cover letter.
-        </div>
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={handleExportPDF}
-            isLoading={isExporting}
-            icon={<Download className="w-3.5 h-3.5" />}
-          >
-            Export Executive PDF Report
-          </Button>
-          {onNavigateToTab && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => onNavigateToTab('critique')}
-              icon={<Sparkles className="w-3.5 h-3.5 text-blue-400" />}
-            >
-              View Qualitative Critique
-            </Button>
-          )}
-          {onOpenCoverLetter && (
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={onOpenCoverLetter}
-              icon={<Zap className="w-3.5 h-3.5" />}
-            >
-              Generate Cover Letter
-            </Button>
-          )}
-        </div>
-      </div>
-
-      {/* 4. TOP 3 PRIORITIZED ACTION ITEMS */}
-      {score.topActions.length > 1 && (
-        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200 flex items-center">
-              <TrendingUp className="w-4 h-4 mr-1.5 text-blue-400" />
-              Prioritized Impact Actions
-            </h3>
-            <span className="text-[11px] font-mono text-slate-400">Estimated Score Gains</span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {score.topActions.map((action, i) => (
-              <div
-                key={action.id || i}
-                className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between space-y-3"
-              >
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-mono font-bold text-blue-400 bg-blue-950/70 px-2 py-0.5 rounded border border-blue-800/40">
-                      {action.dimension}
-                    </span>
-                    <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/30">
-                      {action.expectedScoreBoostLabel}
-                    </span>
-                  </div>
-                  <h4 className="text-xs font-bold text-slate-100 leading-snug">{action.title}</h4>
-                  <p className="text-[11px] text-slate-400 leading-relaxed">{action.howToFix}</p>
-                </div>
-
-                <div className="text-[10px] text-slate-400 border-t border-slate-800/60 pt-2">
-                  <strong className="text-slate-400">Why: </strong>
-                  {action.reason}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* 5. 7-PILLAR DETERMINISTIC BREAKDOWN */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-          <div>
-            <h3 className="text-sm font-bold text-slate-100">7-Dimension Resume Breakdown</h3>
-            <p className="text-xs text-slate-400 mt-0.5">
-              Transparent, evidence-based weighting: Overall Score ({score.overall}/100)
-            </p>
-          </div>
-          <div className="flex items-center space-x-2">
-            <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-2 py-0.5 rounded">
-              Deterministic Analysis
-            </span>
-            <span className="text-[10px] font-mono text-blue-400 bg-blue-950/60 border border-blue-800/40 px-2 py-0.5 rounded">
-              Contribution: Σ (Score × Weight)
-            </span>
-          </div>
-        </div>
-
-        <div className="space-y-3 pt-2">
-          {score.dimensions.map((dim) => {
-            const isExpanded = expandedDim === dim.key;
-            return (
-              <div
-                key={dim.key}
-                className="border border-slate-800 rounded-xl bg-slate-950/50 transition-all overflow-hidden"
-              >
-                <button
-                  onClick={() => setExpandedDim(isExpanded ? null : dim.key)}
-                  className="w-full p-4 flex items-center justify-between text-left hover:bg-slate-900/40 transition-colors cursor-pointer"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="p-2 rounded-lg bg-slate-900 border border-slate-800">
-                      {getDimensionIcon(dim.key)}
-                    </div>
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs font-bold text-slate-200">{dim.name}</span>
-                        <span className="text-[10px] text-slate-400 font-mono">
-                          ({Math.round(dim.weight * 100)}% Weight)
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-400 line-clamp-1">{dim.feedback}</p>
-                      <p className="text-[11px] text-slate-400">Evidence confidence: {dim.confidence ?? 'medium'} (heuristic)</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center space-x-4">
-                    <div className="text-right">
-                      <span className={`text-xs font-bold ${getScoreColor(dim.score)}`}>
-                        {dim.score}/100
-                      </span>
-                      <span className="text-[10px] text-slate-400 block font-mono">
-                        +{dim.contribution} pts
-                      </span>
-                    </div>
-                    {isExpanded ? (
-                      <ChevronUp className="w-4 h-4 text-slate-400" />
-                    ) : (
-                      <ChevronDown className="w-4 h-4 text-slate-400" />
-                    )}
-                  </div>
-                </button>
-
-                {/* Expanded Evidence Drawer */}
-                {isExpanded && (
-                  <div className="p-4 border-t border-slate-800/80 bg-slate-900/70 text-xs space-y-3">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-                        <span className="font-semibold text-slate-300 block mb-1">Detected Evidence:</span>
-                        <div className="flex flex-wrap gap-1">
-                          {dim.evidence.detected.length > 0 ? (
-                            dim.evidence.detected.map((item, idx) => (
-                              <span key={idx} className="bg-slate-900 text-slate-300 px-2 py-0.5 rounded text-[10px] font-mono border border-slate-800">
-                                {item}
-                              </span>
-                            ))
-                          ) : (
-                            <span className="text-slate-400 italic text-[11px]">No direct matches detected</span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="bg-slate-950/70 p-3 rounded-lg border border-slate-800">
-                        <span className="font-semibold text-slate-300 block mb-1">Recommended Action:</span>
-                        <p className="text-slate-300 text-[11px]">{dim.evidence.recommendedAction}</p>
-                      </div>
-                    </div>
-
-                    <div className="text-slate-400 text-[11px] border-t border-slate-800/60 pt-2">
-                      <strong className="text-slate-300">Scoring Rationale: </strong>
-                      {dim.reason}
-                    </div>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
+export function ScoreCard({score,onOpenCoverLetter,onNavigateToTab}:{
+ score:ResumeScore; onOpenCoverLetter?:()=>void; onNavigateToTab?:(tab:string)=>void;
+}){
+ const [exporting,setExporting]=useState(false);
+ const [exportError,setExportError]=useState('');
+ const confidence=score.dimensions.some(d=>d.confidence==='low')?'Limited':score.dimensions.every(d=>d.confidence==='high')?'Higher':'Moderate';
+ const quality=score.generalQualityScore??score.overall;
+ const skills=Object.values(score.skillMatrix??{}).flat();
+ async function exportReport(){
+  setExporting(true);setExportError('');
+  try{await generateExecutivePDF(score);}catch{setExportError('The report could not be exported. Try again or export your resume from the editor.');}finally{setExporting(false);}
+ }
+ return <div className="space-y-6">
+  <div className="grid gap-5 lg:grid-cols-[1.1fr_1fr]">
+   <section className="panel space-y-5" aria-label="Resume quality summary">
+    <div className="flex items-start justify-between gap-4"><div><p className="eyebrow">Your resume review</p><h2 className="mt-2 text-2xl font-semibold break-words">{score.parsedResume.personalInfo.name||'Your resume'}</h2></div><FileText className="shrink-0 text-brand" size={24}/></div>
+    <div className="flex flex-wrap items-end gap-x-8 gap-y-4"><div><p className="text-sm text-muted">Resume quality</p><p className="text-5xl font-bold text-brand tracking-tight">{quality}<span className="text-lg font-normal text-muted"> / 100</span></p></div>{score.mode==='job_match'&&<div><p className="text-sm text-muted">Job match</p><p className="text-3xl font-semibold text-ink">{skills.length?score.skillMatchScore:'N/A'}<span className="text-sm font-normal text-muted">{skills.length?' / 100':''}</span></p></div>}</div>
+    <p className="text-sm text-muted">{confidence} evidence confidence · Inferred from supplied text and extraction quality.</p>
+    <p className="border-t border-line pt-4 text-sm text-muted">These are editorial estimates, not a hiring prediction. Expand each dimension below to inspect the evidence and rubric.</p>
+   </section>
+   <section className="panel space-y-4" aria-labelledby="next-step-heading"><p className="eyebrow">Start here</p><h2 id="next-step-heading" className="text-xl font-semibold">{score.topActions[0]?.title||'Review the evidence in your resume'}</h2><p className="text-sm text-muted">{score.topActions[0]?.howToFix||score.topPriority}</p><p className="text-sm text-body">{score.topActions[0]?.reason}</p><button className="action action-primary" onClick={()=>onNavigateToTab?.('review')}>Improve in the editor <ArrowRight size={16}/></button></section>
+  </div>
+  <div className="grid gap-5 md:grid-cols-2">
+   <section className="panel space-y-4"><h3 className="font-semibold">What is working</h3>{score.topStrengths.length?<ul className="space-y-3">{score.topStrengths.slice(0,3).map((s,i)=><li key={i} className="flex items-start gap-2 text-sm"><CheckCircle2 size={17} className="mt-0.5 shrink-0 text-success"/><span>{s}</span></li>)}</ul>:<p className="text-sm text-muted">Add clearer examples of your contributions to make strengths easier to identify.</p>}</section>
+   <section className="panel space-y-4"><h3 className="font-semibold">Your next improvements</h3><ol className="space-y-4">{score.topActions.slice(0,3).map((a,i)=><li key={a.id||i} className="flex items-start gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-soft text-xs font-bold text-brand">{i+1}</span><div><p className="text-sm font-semibold text-ink">{a.title}</p><p className="mt-1 text-sm text-muted">{a.howToFix}</p></div></li>)}</ol></section>
+  </div>
+  <section className="panel space-y-5" aria-labelledby="dimensions-heading"><div><h3 id="dimensions-heading" className="text-lg font-semibold">Understand your score</h3><p className="mt-1 text-sm text-muted">Open a dimension for supporting evidence. Job-mode weights include alignment; general resume quality is calculated separately.</p></div>
+   <div className="divide-y divide-line">{score.dimensions.map(dim=><details key={dim.key} className="py-4"><summary className="flex flex-wrap items-center justify-between gap-3"><span className="font-semibold text-sm text-ink">{dim.name}</span><span className="text-sm text-muted">{dim.score}/100 <span className="ml-3 text-xs">{Math.round(dim.weight*100)}% weight</span></span><span className="h-1.5 w-full rounded-full bg-subtle"><span className="block h-full rounded-full bg-brand" style={{width:dim.score+'%'}}/></span></summary><div className="mt-4 space-y-3 text-sm"><p>{dim.feedback}</p><p><strong>Why:</strong> {dim.reason}</p><p><strong>Evidence confidence:</strong> {dim.confidence??'medium'} (heuristic)</p><div className="grid gap-4 sm:grid-cols-2"><div className="rounded-xl bg-subtle p-4"><h4 className="mb-2 font-semibold">Detected evidence</h4><ul className="list-disc pl-4">{dim.evidence.detected.map((s,i)=><li key={i}>{s}</li>)}</ul>{!dim.evidence.detected.length&&<p>No direct evidence detected.</p>}</div><div className="rounded-xl bg-subtle p-4"><h4 className="mb-2 font-semibold">Missing evidence</h4><ul className="list-disc pl-4">{dim.evidence.missing.map((s,i)=><li key={i}>{s}</li>)}</ul>{!dim.evidence.missing.length&&<p>No specific gap detected by this rubric.</p>}</div></div><p><strong>Next action:</strong> {dim.evidence.recommendedAction}</p></div></details>)}</div>
+  </section>
+  <section className="panel flex flex-wrap items-center justify-between gap-4"><div><h3 className="font-semibold">Keep your next step practical.</h3><p className="text-sm text-muted">Export your review or prepare a truthful cover-letter draft.</p></div><div className="flex flex-wrap gap-2"><Button variant="secondary" onClick={exportReport} isLoading={exporting} icon={<Download size={16}/>}>Export Executive PDF Report</Button>{onNavigateToTab&&<Button variant="secondary" onClick={()=>onNavigateToTab('critique')}>View Qualitative Critique</Button>}{onOpenCoverLetter&&<Button onClick={onOpenCoverLetter}>Generate Cover Letter</Button>}</div>{exportError&&<p role="alert" className="text-danger text-sm">{exportError}</p>}</section>
+ </div>;
 }

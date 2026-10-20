@@ -11,62 +11,69 @@ interface ResumeRewritePanelProps {
 export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) {
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
 
-  const handleCopy = (text: string, idx: number) => {
-    navigator.clipboard.writeText(text);
-    setCopiedIdx(idx);
-    setTimeout(() => setCopiedIdx(null), 2000);
+  const [copyStatus, setCopyStatus] = useState('');
+  const handleCopy = async (text: string, idx: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedIdx(idx);
+      setCopyStatus('Suggested wording copied. Review all claims before using it.');
+      setTimeout(() => setCopiedIdx(null), 2000);
+    } catch {
+      setCopyStatus('Clipboard access was denied. Select and copy the wording manually.');
+    }
   };
 
   const getStrengthBadge = (str: string) => {
     switch (str) {
       case 'Excellent':
-        return 'text-emerald-400 bg-emerald-950/50 border-emerald-800/40';
+        return 'text-success bg-subtle border-line';
       case 'Strong':
-        return 'text-cyan-400 bg-cyan-950/50 border-cyan-800/40';
+        return 'text-brand bg-brand-soft border-line';
       case 'Developing':
-        return 'text-amber-400 bg-amber-950/50 border-amber-800/40';
+        return 'text-warning bg-subtle border-line';
       default:
-        return 'text-rose-400 bg-rose-950/50 border-rose-800/40';
+        return 'text-danger bg-subtle border-line';
     }
   };
 
   return (
-    <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-6 font-sans">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/[0.08] pb-4">
+    <div className="bg-surface border border-line rounded-2xl p-6 shadow-panel space-y-6 font-sans">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line pb-4">
         <div>
-          <h3 className="text-sm font-bold text-slate-100 flex items-center">
-            <Sparkles className="w-4 h-4 mr-2 text-indigo-400" />
+          <h3 className="text-sm font-bold text-ink flex items-center">
+            <Sparkles className="w-4 h-4 mr-2 text-brand" />
             Bullet evidence review ({bulletAnalyses.length} Bullets)
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-muted mt-0.5">
             Preserves supplied facts while prompting for genuine candidate metrics. No AI-manufactured statistics.
           </p>
         </div>
 
-        <div className="flex items-center space-x-2 text-[10px] font-mono">
-          <span className="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-300 border border-emerald-800/40">
+        <div className="flex items-center space-x-2 text-xs font-sans">
+          <span className="px-2 py-0.5 rounded bg-subtle text-success border border-line">
             ✓ Supplied Facts Preserved
           </span>
-          <span className="px-2 py-0.5 rounded bg-amber-950/50 text-amber-300 border border-amber-800/40">
+          <span className="px-2 py-0.5 rounded bg-subtle text-warning border border-line">
             • Candidate Input Prompted
           </span>
         </div>
       </div>
 
+      <p role="status" className="text-sm text-muted">{copyStatus}</p>
       <div className="space-y-4">
         {bulletAnalyses.map((bullet, idx) => (
           <div
             key={bullet.id || idx}
-            className="bg-slate-950/60 border border-slate-800 rounded-xl p-5 space-y-4"
+            className="bg-surface border border-line rounded-xl p-5 space-y-4"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <span className="text-xs font-mono font-bold text-slate-400">Bullet #{idx + 1}</span>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${getStrengthBadge(bullet.strength)}`}>
+            <div className="flex flex-wrap gap-3 items-center justify-between">
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="text-xs font-sans font-bold text-muted">Bullet #{idx + 1}</span>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded border ${getStrengthBadge(bullet.strength)}`}>
                   {bullet.strength}
                 </span>
                 {bullet.hasQuantifiableMetric && (
-                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/40">
+                  <span className="text-xs font-sans text-success bg-subtle px-2 py-0.5 rounded border border-line">
                     Quantified Metric Found
                   </span>
                 )}
@@ -74,16 +81,16 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
 
               <button
                 onClick={() => handleCopy(bullet.rewritten || '', idx)}
-                className="px-3 py-1 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-[11px] text-slate-300 font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-3 py-1 rounded-lg bg-surface hover:bg-subtle border border-line text-xs text-body font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
               >
                 {copiedIdx === idx ? (
                   <>
-                    <Check className="w-3 h-3 text-emerald-400" />
-                    <span className="text-emerald-400">Copied</span>
+                    <Check className="w-3 h-3 text-success" />
+                    <span className="text-success">Copied</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="w-3 h-3 text-slate-400" />
+                    <Copy className="w-3 h-3 text-muted" />
                     <span>Copy Rewrite</span>
                   </>
                 )}
@@ -92,30 +99,30 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
 
             {/* Side by side comparison */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-slate-900/60 border border-slate-800/80 rounded-lg p-3 space-y-1">
-                <span className="text-[10px] uppercase font-mono font-bold text-slate-400">Original Experience Bullet</span>
-                <p className="text-xs text-slate-300 italic font-serif">&ldquo;{bullet.original}&rdquo;</p>
+              <div className="bg-surface border border-line rounded-lg p-3 space-y-1">
+                <span className="text-xs uppercase font-sans font-bold text-muted">Original Experience Bullet</span>
+                <p className="text-xs text-body italic font-serif">&ldquo;{bullet.original}&rdquo;</p>
               </div>
 
-              <div className="bg-indigo-950/20 border border-indigo-900/50 rounded-lg p-3 space-y-1">
+              <div className="bg-brand-soft border border-line rounded-lg p-3 space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-mono font-bold text-indigo-400">Optimized Suggestion</span>
-                  <span className="text-[9px] font-mono text-slate-400">X-Y-Z Impact Formula</span>
+                  <span className="text-xs uppercase font-sans font-bold text-brand">Optimized Suggestion</span>
+                  <span className="text-xs font-sans text-muted">X-Y-Z Impact Formula</span>
                 </div>
-                <p className="text-xs text-slate-100 font-medium leading-relaxed">{bullet.rewritten}</p>
+                <p className="text-xs text-ink font-medium leading-relaxed">{bullet.rewritten}</p>
               </div>
             </div>
 
             {/* Fact grounding tags */}
-            <div className="flex flex-wrap items-center gap-2 text-[10px]">
+            <div className="flex flex-wrap items-center gap-2 text-xs">
               {bullet.technologies.length > 0 && (
-                <div className="flex items-center gap-1 text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/30">
+                <div className="flex items-center gap-1 text-success bg-subtle px-2 py-0.5 rounded border border-line">
                   <ShieldCheck className="w-3 h-3" />
                   <span>Detected terms: {bullet.technologies.join(', ')}</span>
                 </div>
               )}
               {bullet.rewritten?.includes('[Add genuine metric') && (
-                <div className="flex items-center gap-1 text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-800/30">
+                <div className="flex items-center gap-1 text-warning bg-subtle px-2 py-0.5 rounded border border-line">
                   <HelpCircle className="w-3 h-3" />
                   <span>Candidate Input Needed: Replace [Add genuine metric] with your real % or $</span>
                 </div>
@@ -123,12 +130,12 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
             </div>
 
             {/* Actionable Feedback */}
-            <div className="text-[11px] text-slate-400 border-t border-slate-800/60 pt-2 flex items-center justify-between">
+            <div className="text-xs text-muted border-t border-line pt-2 flex items-center justify-between">
               <div>
-                <strong className="text-slate-300">Feedback: </strong>
+                <strong className="text-body">Feedback: </strong>
                 {bullet.suggestions[0] || bullet.rewriteReason || bullet.issues[0] || 'Optimized for action verb strength and impact.'}
               </div>
-              <span className="text-indigo-400 text-[10px] font-mono shrink-0 ml-2">
+              <span className="text-brand text-xs font-sans shrink-0 ml-2">
                 Verb: &ldquo;{bullet.actionVerb || 'Not detected'}&rdquo;
               </span>
             </div>

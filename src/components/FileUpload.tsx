@@ -19,9 +19,12 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [warningMsg, setWarningMsg] = useState<string | null>(null);
   const [pastedText, setPastedText] = useState('');
+  const processing = useRef(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const processFile = async (file: File) => {
+    if (processing.current || isLoading) return;
+    processing.current = true;
     setErrorMsg(null);
     setWarningMsg(null);
     setDiagnostics(null);
@@ -56,6 +59,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
       const msg = err instanceof Error ? err.message : 'Failed to parse resume document.';
       setErrorMsg(msg);
     } finally {
+      processing.current = false;
       setExtracting(false);
     }
   };
@@ -78,33 +82,37 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
   };
 
   return (
-    <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4 font-sans">
+    <div className="bg-surface border border-line rounded-2xl p-6 shadow-panel space-y-4 font-sans">
       {/* Tab Switcher */}
-      <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-        <div className="flex items-center space-x-2">
+      <div className="flex flex-wrap gap-3 items-center justify-between border-b border-line pb-3">
+        <div className="flex flex-wrap items-center gap-2">
           <button
+            disabled={extracting || isLoading}
+            aria-pressed={tab === 'upload'}
             onClick={() => setTab('upload')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`min-h-11 px-3.5 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer ${
               tab === 'upload'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-brand text-white shadow-panel '
+                : 'text-muted hover:text-ink'
             }`}
           >
-            Upload Resume (PDF / DOCX / TXT)
+            Upload resume
           </button>
           <button
+            disabled={extracting || isLoading}
+            aria-pressed={tab === 'paste'}
             onClick={() => setTab('paste')}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
               tab === 'paste'
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-brand text-white shadow-panel '
+                : 'text-muted hover:text-ink'
             }`}
           >
             Paste Text Directly
           </button>
         </div>
 
-        <div className="hidden sm:flex items-center text-[11px] text-emerald-400">
+        <div className="hidden sm:flex items-center text-xs text-success">
           <Shield className="w-3.5 h-3.5 mr-1" />
           Private Local Parsing
         </div>
@@ -121,22 +129,25 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
           }}
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
+          aria-busy={extracting}
+          aria-disabled={extracting || isLoading}
+          onClick={() => { if (!extracting && !isLoading) fileInputRef.current?.click(); }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
               fileInputRef.current?.click();
             }
           }}
-          className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-indigo-500 ${
+          className={`border-2 border-dashed rounded-xl p-5 sm:p-8 text-center cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-indigo-500 ${
             dragOver
-              ? 'border-indigo-500 bg-indigo-950/20 shadow-lg shadow-indigo-500/10'
-              : 'border-slate-700/80 hover:border-slate-600 bg-slate-950/40 hover:bg-slate-950/60'
+              ? 'border-indigo-500 bg-brand-soft shadow-panel '
+              : 'border-line hover:border-line bg-surface hover:bg-surface'
           }`}
         >
           <input
             ref={fileInputRef}
             type="file"
+            disabled={extracting || isLoading}
             accept=".pdf,.docx,.txt"
             aria-label="Upload Resume Document"
             className="hidden"
@@ -145,15 +156,15 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
             }}
           />
 
-          <div className="flex flex-col items-center space-y-3">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+          <div className="flex flex-col items-center space-y-3" role={extracting ? "status" : undefined}>
+            <div className="w-12 h-12 rounded-2xl bg-brand/20 border border-indigo-500/30 flex items-center justify-center text-brand">
               <UploadCloud className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-sm font-bold text-slate-200">
+              <p className="text-sm font-bold text-ink">
                 {extracting ? 'Extracting text...' : 'Drag & drop your resume or browse'}
               </p>
-              <p className="text-xs text-slate-400 mt-0.5">PDF, DOCX or UTF-8 TXT · Up to 5 MB and 20 PDF pages</p>
+              <p className="text-xs text-muted mt-0.5">PDF, DOCX or UTF-8 TXT · Up to 5 MB and 20 PDF pages</p>
             </div>
           </div>
         </div>
@@ -166,7 +177,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
             rows={7}
             aria-label="Paste resume text"
             placeholder="Paste your resume content here (e.g. Work Experience, Education, Skills)..."
-            className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl p-3 text-xs text-slate-200 placeholder-slate-500 focus:border-indigo-500 focus:outline-none font-mono"
+            className="w-full bg-surface border border-line rounded-xl p-3 text-xs text-ink placeholder-muted focus:border-indigo-500 focus:outline-none font-sans"
           />
           <Button variant="primary" size="md" onClick={handlePasteSubmit} isLoading={isLoading}>
             Review Pasted Resume
@@ -176,24 +187,24 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
 
       {/* Diagnostics Alerts */}
       {diagnostics && diagnostics.extractionQuality !== 'excellent' && (
-        <div className="bg-amber-950/40 border border-amber-800/40 rounded-xl p-3 text-xs text-amber-300 space-y-1">
+        <div className="bg-subtle border border-line rounded-xl p-3 text-xs text-warning space-y-1">
           <div className="flex items-center font-bold">
             <AlertTriangle className="w-4 h-4 mr-1.5 shrink-0" />
             Extraction Health: {diagnostics.extractionQuality.toUpperCase()} ({diagnostics.wordsPerPage} Words / Page)
           </div>
           {diagnostics.warnings.map((w, i) => (
-            <p key={i} className="text-[11px] text-amber-400/90 pl-5">• {w}</p>
+            <p key={i} className="text-xs text-warning pl-5">• {w}</p>
           ))}
         </div>
       )}
 
       {errorMsg && (
-        <div role="alert" className="bg-rose-950/40 border border-rose-800/40 rounded-xl p-3 text-xs text-rose-300 flex items-center">
+        <div role="alert" className="bg-subtle border border-line rounded-xl p-3 text-xs text-danger flex items-center">
           <AlertTriangle className="w-4 h-4 mr-2 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
-      {warningMsg && <p role="status" className="text-sm text-amber-300">{warningMsg}</p>}
+      {warningMsg && <p role="status" className="text-sm text-warning">{warningMsg}</p>}
     </div>
   );
 }

@@ -14,26 +14,26 @@ export function ResumeReviewEditor({ resume }: ResumeReviewEditorProps) {
   const [activeSection, setActiveSection] = useState<ReviewSection>('experience');
 
   return (
-    <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-6 font-sans">
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
+    <div className="min-w-0 [overflow-wrap:anywhere] bg-surface border border-line rounded-2xl p-6 shadow-panel space-y-6 font-sans">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center justify-between border-b border-line pb-4">
         <div>
-          <h3 className="text-sm font-bold text-slate-100 flex items-center">
-            <User className="w-4 h-4 mr-2 text-indigo-400" />
+          <h3 className="text-sm font-bold text-ink flex items-center">
+            <User className="w-4 h-4 mr-2 text-brand" />
             Structured Entity Review & Parsing Audit
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-muted mt-0.5">
             Review parsed candidate facts and structured sections extracted from the document.
           </p>
         </div>
 
-        <div className="text-[11px] font-mono text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded border border-emerald-800/40 flex items-center gap-1">
+        <div className="text-xs font-sans text-success bg-subtle px-2.5 py-1 rounded border border-line flex items-center gap-1">
           <CheckCircle2 className="w-3.5 h-3.5" />
           Extraction Quality: {resume.metadata.extractionQuality.toUpperCase()}
         </div>
       </div>
 
       {/* Navigation tabs */}
-      <div className="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+      <div className="flex flex-wrap gap-2 border-b border-line pb-3">
         {[
           { key: 'experience' as const, label: `Experience (${resume.experience.length})`, icon: Briefcase },
           { key: 'skills' as const, label: `Skills (${resume.allSkills.length})`, icon: Code2 },
@@ -46,8 +46,8 @@ export function ResumeReviewEditor({ resume }: ResumeReviewEditorProps) {
             onClick={() => setActiveSection(tab.key)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
               activeSection === tab.key
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                : 'bg-slate-950 text-slate-400 hover:text-slate-200'
+                ? 'bg-brand text-white shadow-panel '
+                : 'bg-surface text-muted hover:text-ink'
             }`}
           >
             <tab.icon className="w-3.5 h-3.5" />
@@ -61,18 +61,18 @@ export function ResumeReviewEditor({ resume }: ResumeReviewEditorProps) {
         {activeSection === 'experience' && (
           <div className="space-y-4">
             {resume.experience.map((exp, idx) => (
-              <div key={idx} className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-2">
+              <div key={idx} className="bg-surface border border-line rounded-xl p-4 space-y-2">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs font-bold text-slate-100">{exp.role}</span>
-                    <span className="text-xs text-indigo-400 font-semibold">• {exp.company}</span>
+                    <span className="text-xs font-bold text-ink">{exp.role}</span>
+                    <span className="text-xs text-brand font-semibold">• {exp.company}</span>
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400">
+                  <span className="text-xs font-sans text-muted">
                     {exp.startDate} – {exp.endDate} {exp.isRemote && '(Remote)'}
                   </span>
                 </div>
 
-                <ul className="list-disc list-inside text-xs text-slate-300 space-y-1 pt-1">
+                <ul className="list-disc list-inside text-xs text-body space-y-1 pt-1">
                   {exp.bullets.map((b, bIdx) => (
                     <li key={bIdx} className="leading-relaxed">{b}</li>
                   ))}
@@ -85,13 +85,13 @@ export function ResumeReviewEditor({ resume }: ResumeReviewEditorProps) {
         {activeSection === 'skills' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {Object.entries(resume.skills).map(([cat, list]) => (
-              <div key={cat} className="bg-slate-950/60 border border-slate-800 rounded-xl p-3 space-y-1.5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono">
+              <div key={cat} className="bg-surface border border-line rounded-xl p-3 space-y-1.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-muted font-sans">
                   {cat.replace('_', ' ')} ({list.length})
                 </span>
                 <div className="flex flex-wrap gap-1">
                   {list.map((skill, sIdx) => (
-                    <span key={sIdx} className="bg-slate-900 border border-slate-800 text-slate-200 px-2 py-0.5 rounded text-[11px]">
+                    <span key={sIdx} className="bg-surface border border-line text-ink px-2 py-0.5 rounded text-xs">
                       {skill}
                     </span>
                   ))}
@@ -104,10 +104,10 @@ export function ResumeReviewEditor({ resume }: ResumeReviewEditorProps) {
         {activeSection === 'education' && (
           <div className="space-y-3">
             {resume.education.map((edu, idx) => (
-              <div key={idx} className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1">
-                <h4 className="text-xs font-bold text-slate-100">{edu.degree}</h4>
-                <p className="text-xs text-indigo-300">{edu.institution}</p>
-                {edu.gpa && <p className="text-[11px] text-slate-400 font-mono">GPA: {edu.gpa}</p>}
+              <div key={idx} className="bg-surface border border-line rounded-xl p-4 space-y-1">
+                <h4 className="text-xs font-bold text-ink">{edu.degree}</h4>
+                <p className="text-xs text-brand">{edu.institution}</p>
+                {edu.gpa && <p className="text-xs text-muted font-sans">GPA: {edu.gpa}</p>}
               </div>
             ))}
           </div>
@@ -116,23 +116,23 @@ export function ResumeReviewEditor({ resume }: ResumeReviewEditorProps) {
         {activeSection === 'projects' && (
           <div className="space-y-3">
             {resume.projects.map((proj, idx) => (
-              <div key={idx} className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-1.5">
-                <h4 className="text-xs font-bold text-slate-100">{proj.name}</h4>
-                <p className="text-xs text-slate-300">{proj.description}</p>
+              <div key={idx} className="bg-surface border border-line rounded-xl p-4 space-y-1.5">
+                <h4 className="text-xs font-bold text-ink">{proj.name}</h4>
+                <p className="text-xs text-body">{proj.description}</p>
               </div>
             ))}
           </div>
         )}
 
         {activeSection === 'info' && (
-          <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-2 text-xs">
+          <div className="bg-surface border border-line rounded-xl p-4 space-y-2 text-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div><strong className="text-slate-400">Name:</strong> {resume.personalInfo.name}</div>
-              <div><strong className="text-slate-400">Email:</strong> {resume.personalInfo.email || 'None'}</div>
-              <div><strong className="text-slate-400">Phone:</strong> {resume.personalInfo.phone || 'None'}</div>
-              <div><strong className="text-slate-400">Location:</strong> {resume.personalInfo.location || 'None'}</div>
-              <div><strong className="text-slate-400">LinkedIn:</strong> {resume.personalInfo.linkedin || 'None'}</div>
-              <div><strong className="text-slate-400">GitHub:</strong> {resume.personalInfo.github || 'None'}</div>
+              <div><strong className="text-muted">Name:</strong> {resume.personalInfo.name}</div>
+              <div><strong className="text-muted">Email:</strong> {resume.personalInfo.email || 'None'}</div>
+              <div><strong className="text-muted">Phone:</strong> {resume.personalInfo.phone || 'None'}</div>
+              <div><strong className="text-muted">Location:</strong> {resume.personalInfo.location || 'None'}</div>
+              <div><strong className="text-muted">LinkedIn:</strong> {resume.personalInfo.linkedin || 'None'}</div>
+              <div><strong className="text-muted">GitHub:</strong> {resume.personalInfo.github || 'None'}</div>
             </div>
           </div>
         )}

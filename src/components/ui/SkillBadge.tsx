@@ -14,26 +14,26 @@ export function SkillBadge({ item, className = '' }: SkillBadgeProps) {
     switch (item.status) {
       case 'matched':
         return {
-          icon: <CheckCircle2 className="w-3 h-3 text-emerald-400" />,
-          bg: 'bg-emerald-950/40 text-emerald-300 border-emerald-800/40 hover:bg-emerald-900/50',
+          icon: <CheckCircle2 className="w-3 h-3 text-success" />,
+          bg: 'bg-subtle text-success border-line hover:bg-subtle',
           title: item.aliasMatched ? `Alias matched: ${item.aliasMatched}` : 'Direct match verified',
         };
       case 'partial':
         return {
-          icon: <AlertCircle className="w-3 h-3 text-amber-400" />,
-          bg: 'bg-amber-950/40 text-amber-300 border-amber-800/40 hover:bg-amber-900/50',
+          icon: <AlertCircle className="w-3 h-3 text-warning" />,
+          bg: 'bg-subtle text-warning border-line hover:bg-subtle',
           title: item.taxonomyRelationship || 'Ecosystem taxonomy relationship',
         };
       case 'missing':
         return {
-          icon: <XCircle className="w-3 h-3 text-rose-400" />,
-          bg: 'bg-rose-950/40 text-rose-300 border-rose-800/40 hover:bg-rose-900/50',
+          icon: <XCircle className="w-3 h-3 text-danger" />,
+          bg: 'bg-subtle text-danger border-line hover:bg-subtle',
           title: 'No explicit evidence found in resume',
         };
       default:
         return {
-          icon: <HelpCircle className="w-3 h-3 text-slate-400" />,
-          bg: 'bg-slate-900 text-slate-400 border-slate-800',
+          icon: <HelpCircle className="w-3 h-3 text-muted" />,
+          bg: 'bg-surface text-muted border-line',
           title: 'Unknown requirement status',
         };
     }
@@ -49,7 +49,7 @@ export function SkillBadge({ item, className = '' }: SkillBadgeProps) {
       {style.icon}
       <span>{item.skill}</span>
       {item.importance === 'required' && (
-        <span className="text-[9px] uppercase font-mono px-1 py-0.2 rounded bg-slate-950/80 text-indigo-400 border border-indigo-900/60 font-bold">
+        <span className="text-xs uppercase font-sans px-1 py-0.2 rounded bg-surface text-brand border border-line font-bold">
           Req
         </span>
       )}

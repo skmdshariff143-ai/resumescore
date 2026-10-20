@@ -12,10 +12,10 @@ interface JobMatchesTrackerProps {
 export function JobMatchesTracker({ jobs, onDeleteJob }: JobMatchesTrackerProps) {
   if (jobs.length === 0) {
     return (
-      <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 text-center space-y-2 font-sans">
-        <Target className="w-6 h-6 text-indigo-400 mx-auto opacity-60" />
-        <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">Saved Target Roles</h3>
-        <p className="text-xs text-slate-400 max-w-sm mx-auto">
+      <div className="bg-surface border border-line rounded-2xl p-6 text-center space-y-2 font-sans">
+        <Target className="w-6 h-6 text-brand mx-auto opacity-60" />
+        <h3 className="text-sm font-semibold text-ink [overflow-wrap:anywhere] uppercase tracking-wider">Saved Target Roles</h3>
+        <p className="text-xs text-muted max-w-sm mx-auto">
           Save job target evaluations to track role-specific requirements and skill alignments.
         </p>
       </div>
@@ -23,41 +23,42 @@ export function JobMatchesTracker({ jobs, onDeleteJob }: JobMatchesTrackerProps)
   }
 
   return (
-    <div className="bg-slate-900/80 border border-white/[0.08] rounded-2xl p-6 shadow-xl space-y-4 font-sans">
-      <div className="flex items-center justify-between border-b border-white/[0.08] pb-3">
-        <h3 className="text-sm font-bold text-slate-100 flex items-center">
-          <Target className="w-4 h-4 mr-2 text-indigo-400" />
+    <div className="bg-surface border border-line rounded-2xl p-6 shadow-panel space-y-4 font-sans">
+      <div className="flex items-center justify-between border-b border-line pb-3">
+        <h3 className="text-sm font-bold text-ink flex items-center">
+          <Target className="w-4 h-4 mr-2 text-brand" />
           Saved Job Targets ({jobs.length})
         </h3>
-        <span className="text-[11px] text-slate-400 font-mono">Role Alignment Archive</span>
+        <span className="text-xs text-muted font-sans">Role Alignment Archive</span>
       </div>
 
       <div className="space-y-3">
         {jobs.map((job) => (
           <div
             key={job.id}
-            className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+            className="bg-surface border border-line rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
           >
             <div>
-              <div className="text-xs font-bold text-slate-200">{job.role}</div>
-              <div className="text-[11px] text-slate-400">
+              <div className="text-sm font-semibold text-ink [overflow-wrap:anywhere]">{job.role}</div>
+              <div className="text-xs text-muted">
                 {job.company} • Saved {new Date(job.date).toLocaleDateString()}
               </div>
               {job.missingSkills.length > 0 && (
-                <div className="text-[10px] text-rose-400 mt-1 font-mono">
+                <div className="text-xs text-danger mt-1 font-sans">
                   Gaps: {job.missingSkills.slice(0, 3).join(', ')}
                 </div>
               )}
             </div>
 
-            <div className="flex items-center space-x-3">
-              <span className="text-xs font-bold text-cyan-400 bg-cyan-950/40 px-2.5 py-1 rounded-lg border border-cyan-800/40 font-mono">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-xs font-bold text-brand bg-brand-soft px-2.5 py-1 rounded-lg border border-line font-sans">
                 {job.matchScore}% Match
               </span>
               {onDeleteJob && (
                 <button
+                  aria-label={`Delete saved job ${job.role}`}
                   onClick={() => onDeleteJob(job.id)}
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-muted hover:text-danger hover:bg-subtle transition-colors cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

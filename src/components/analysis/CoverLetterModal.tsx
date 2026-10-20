@@ -90,20 +90,20 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
       role="dialog"
       aria-modal="true"
       aria-labelledby="cover-letter-title"
-      className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-black/80  flex items-center justify-center p-4"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative font-sans max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+      <div className="bg-surface border border-line rounded-2xl max-w-2xl w-full p-6 space-y-5 shadow-panel relative font-sans max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between border-b border-line pb-4">
           <div className="flex items-center space-x-2">
-            <div className="p-2 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30">
+            <div className="p-2 rounded-xl bg-brand/20 text-brand border border-indigo-500/30">
               <Zap className="w-5 h-5" />
             </div>
             <div>
-              <h3 id="cover-letter-title" className="text-base font-bold text-slate-100">Fact-Grounded Cover Letter Copilot</h3>
-              <p className="text-xs text-slate-400">
+              <h3 id="cover-letter-title" className="text-base font-bold text-ink">Draft a truthful cover letter</h3>
+              <p className="text-xs text-muted">
                 Uses {resume.allSkills.length} detected skills and {resume.experience.length} work history entries. These claims are not independently verified.
               </p>
             </div>
@@ -111,19 +111,19 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
           <button
             onClick={onClose}
             aria-label="Close dialog"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-muted hover:text-ink hover:bg-subtle transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tone Selector */}
-        <p className="text-sm text-slate-300">Generating a letter sends resume and job text to the ResumeScore server, including when analysis was browser-only.</p>
+        <p className="text-sm text-body">Generating a letter sends resume and job text to the ResumeScore server, including when analysis was browser-only.</p>
         <label className="flex items-start gap-3 text-sm"><input type="checkbox" disabled checked={aiConsent} onChange={event => setAIConsent(event.target.checked)} />Paid external AI is disabled in this release. This feature produces a server-based heuristic draft.</label>
-        {error && <p role="alert" className="text-red-300">{error}</p>}
-        {generationSource && <p role="status" className="text-slate-300">{generationSource}</p>}
+        {error && <p role="alert" className="text-danger">{error}</p>}
+        {generationSource && <p role="status" className="text-body">{generationSource}</p>}
         <div className="space-y-2">
-          <span className="text-xs font-semibold text-slate-300">Select Writing Tone:</span>
+          <span className="text-xs font-semibold text-body">Select Writing Tone:</span>
           <div className="flex flex-wrap gap-2">
             {(['professional', 'confident', 'concise', 'startup', 'technical'] as const).map((t) => (
               <button
@@ -131,8 +131,8 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
                 onClick={() => setTone(t)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all cursor-pointer ${
                   tone === t
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
-                    : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+                    ? 'bg-brand text-white shadow-panel '
+                    : 'bg-surface text-muted hover:text-ink border border-line'
                 }`}
               >
                 {t}
@@ -163,7 +163,7 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
               readOnly
               value={coverLetter}
               rows={12}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-slate-200 leading-relaxed font-sans focus:outline-none"
+              className="w-full bg-surface border border-line rounded-xl p-4 text-xs text-ink leading-relaxed font-sans focus:outline-none"
             />
             <label className="flex gap-2 text-sm">
               <input type="checkbox" checked={approved} onChange={event => setApproved(event.target.checked)} />
@@ -186,7 +186,7 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
                 size="sm"
                 onClick={handleCopy}
                 disabled={!approved}
-                icon={copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                icon={copied ? <Check className="w-3.5 h-3.5 text-success" /> : <Copy className="w-3.5 h-3.5" />}
               >
                 {copied ? 'Copied to Clipboard' : 'Copy Cover Letter'}
               </Button>

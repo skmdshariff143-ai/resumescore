@@ -40,16 +40,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-      </head>
-      <body className="min-h-screen bg-slate-950 text-slate-200 antialiased">
+    <html lang="en">
+      <body className="min-h-screen bg-canvas text-body antialiased">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:block focus:p-4">Skip to main content</a>
         <Navbar />
         <main id="main-content" className="relative z-10">{children}</main>

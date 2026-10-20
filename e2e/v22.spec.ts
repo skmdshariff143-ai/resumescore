@@ -46,6 +46,7 @@ test('all six career profiles calculate and reset restores the source text', asy
   await page.goto('/analyze');
   await page.locator('input[type=file]').setInputFiles({ name: 'profiles.txt', mimeType: 'text/plain', buffer: Buffer.from(resume) });
   for (const [value, label] of Object.entries(CAREER_LEVELS)) {
+    if (await page.getByRole('button', { name: 'Review inputs', exact: true }).isVisible()) await page.getByRole('button', { name: 'Review inputs', exact: true }).click();
     await page.getByLabel('Career level', { exact: true }).selectOption(value);
     await page.getByRole('button', { name: 'Analyze reviewed text', exact: true }).click();
     await expect(page.getByText(/General resume quality:/)).toContainText(label);

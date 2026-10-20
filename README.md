@@ -4,7 +4,7 @@
 
 ResumeScore helps candidates review resume text, understand heuristic quality and job-alignment scores, edit their documents, and export improved versions. It does not predict hiring outcomes, certify ATS compatibility, or independently verify qualifications.
 
-**V2.2 status: protected Preview candidate; production NO-GO pending independent validation and dependency risk resolution/owner acceptance. Paid AI is disabled.** Current evidence and release gates are in [final production readiness](docs/FINAL_PRODUCTION_READINESS.md). Earlier V2/V2.1 reports are historical snapshots.
+**V3 status: light-first UI and workflow candidate for protected Preview. Production remains NO-GO pending independent validation and dependency risk resolution/owner acceptance. Paid AI is disabled.** See [V3 design system](docs/V3_DESIGN_SYSTEM.md), [functional QA](docs/V3_FUNCTIONAL_QA.md), [visual QA](docs/V3_VISUAL_QA.md) and [Preview readiness](docs/V3_DEPLOYMENT_READINESS.md). Earlier V2/V2.1/V2.2 reports are historical evidence; their independent-validation release gates still apply.
 
 ## Features
 
@@ -18,7 +18,7 @@ ResumeScore helps candidates review resume text, understand heuristic quality an
 - Optional Claude/Gemini critique and cover-letter drafts, with external-processing consent. Heuristic functionality works without provider keys.
 - Opt-in local history, JSON export, deletion and reopening saved resume text.
 
-![Resume workspace with synthetic example](docs/screenshots/workspace-desktop.png)
+![V3 homepage with clearly labeled fictional sample](docs/screenshots/v3/home-desktop.png)
 
 ## Architecture and stack
 

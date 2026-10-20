@@ -32,11 +32,11 @@ export function ReviewedRewrite({ source, onApply }: { source: string; onApply: 
     } catch { setStatus('Rewrite unavailable. Your resume is unchanged; edit it manually below.'); }
     finally { setBusy(false); }
   }
-  return <section className="border border-slate-600 rounded p-4 space-y-3" aria-label="Review a suggested rewrite">
+  return <section className="border border-line rounded p-4 space-y-3" aria-label="Review a suggested rewrite">
     <h3 className="font-semibold">Review a bullet rewrite</h3>
-    <p className="text-sm text-slate-300">Paste one exact line from the current resume. This request is processed on our server. Paid external AI is disabled in this release; suggestions use deterministic heuristics. Automated checks cannot establish truth.</p>
+    <p className="text-sm text-body">Paste one exact line from the current resume. This request is processed on our server. Paid external AI is disabled in this release; suggestions use deterministic heuristics. Automated checks cannot establish truth.</p>
     <label className="block">Original text
-      <textarea className="block w-full rounded bg-slate-950 border p-2" maxLength={4000} value={original} disabled={busy}
+      <textarea className="block w-full rounded bg-surface border p-2" maxLength={4000} value={original} disabled={busy}
         onChange={event => { setOriginal(event.target.value); setSuggestion(''); setApproved(false); }} />
     </label>
     <label className="flex gap-2"><input type="checkbox" disabled checked={consent} onChange={event => setConsent(event.target.checked)} />

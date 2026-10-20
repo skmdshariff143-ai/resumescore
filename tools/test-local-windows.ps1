@@ -1,6 +1,6 @@
 # Keep an unattended Windows test run active without changing saved power policy
 # or preventing screen locking. Windows releases the request if this process exits.
-param([switch]$Preview)
+param([switch]$Preview, [string[]]$TestFiles)
 $ErrorActionPreference = 'Stop'
 Add-Type -TypeDefinition @'
 using System;
@@ -18,7 +18,7 @@ try {
     if ($Preview) {
         & node tools/run-preview-tests.mjs
     } else {
-        & npm.cmd run test:e2e
+        & npm.cmd run test:e2e -- @TestFiles
     }
     $testExitCode = $LASTEXITCODE
 } finally {

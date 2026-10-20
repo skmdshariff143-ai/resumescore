@@ -17,34 +17,34 @@ export function ProcessingPipeline({ currentStage = 3 }: ProcessingPipelineProps
   ];
 
   return (
-    <div className="max-w-md w-full mx-auto bg-slate-900/90 border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-5 text-center">
+    <div className="max-w-md w-full mx-auto bg-surface border border-line rounded-2xl p-6 shadow-panel space-y-5 text-center">
       <div className="flex items-center justify-center space-x-3">
-        <div className="w-10 h-10 rounded-xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+        <div className="w-10 h-10 rounded-xl bg-brand/20 border border-indigo-500/30 flex items-center justify-center text-brand">
           <Loader2 className="w-5 h-5 animate-spin" />
         </div>
         <div className="text-left">
-          <h4 className="text-sm font-bold text-slate-100">Analyzing Your Career Profile</h4>
-          <p className="text-xs text-slate-400 font-mono">Running deterministic verification...</p>
+          <h4 className="text-sm font-bold text-ink">Analyzing Your Career Profile</h4>
+          <p className="text-xs text-muted font-sans">Running deterministic verification...</p>
         </div>
       </div>
 
-      <div className="space-y-2.5 text-left border-t border-slate-800 pt-4">
+      <div className="space-y-2.5 text-left border-t border-line pt-4">
         {stages.map((st, i) => (
           <div key={i} className="flex items-center space-x-2.5 text-xs">
             {st.done ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-success shrink-0" />
             ) : st.active ? (
-              <Loader2 className="w-4 h-4 text-indigo-400 animate-spin shrink-0" />
+              <Loader2 className="w-4 h-4 text-brand animate-spin shrink-0" />
             ) : (
-              <Circle className="w-4 h-4 text-slate-600 shrink-0" />
+              <Circle className="w-4 h-4 text-body shrink-0" />
             )}
             <span
               className={`${
                 st.done
-                  ? 'text-slate-300 font-medium line-through opacity-70'
+                  ? 'text-body font-medium line-through opacity-70'
                   : st.active
-                  ? 'text-indigo-300 font-bold'
-                  : 'text-slate-500'
+                  ? 'text-brand font-bold'
+                  : 'text-muted'
               }`}
             >
               {st.label}
