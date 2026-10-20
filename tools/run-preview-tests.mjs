@@ -42,8 +42,9 @@ for (let run = 1; run <= repetitions; run++) {
   records.push({ run, code, stats: report.stats, networkEvents });
   await writeFile(path.join(root, '.vercel', 'v22-runs', 'summary.json'), JSON.stringify({
     preview: target.origin, harnessCommit,
-    environment: 'Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one immutable-asset transport retry',
-    runs: records, passed: records.every(record => record.code === 0 && record.stats.unexpected === 0 &&
+    environment: 'Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one bounded asset/navigation GET transport retry; no API retries',
+    requestedRuns: repetitions, completedRuns: records.length,
+    runs: records, passed: records.length === repetitions && records.every(record => record.code === 0 && record.stats.unexpected === 0 &&
       record.stats.skipped === 0 && record.stats.flaky === 0),
   }, null, 2));
   if (code !== 0) process.exitCode = 1;

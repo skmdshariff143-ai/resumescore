@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+import { fetchPreviewRequest } from './preview-transport';
 export { expect } from '@playwright/test';
 
 /** Keep short-lived Vercel authentication inside Node and on the exact preview origin. */
@@ -23,18 +24,10 @@ export const test = base.extend({
           // Browser requests themselves never carry the credential.
           const signal = AbortSignal.any([lifetime.signal, AbortSignal.timeout(30_000)]);
           const payload = route.request().postDataBuffer();
-          const send = () => fetch(route.request().url(), {
+          const response = await fetchPreviewRequest(origin, route.request().url(), {
             method: route.request().method(), body: payload ? new Uint8Array(payload) : undefined,
             headers: requestHeaders, redirect: 'manual', signal,
-          });
-          // Recover a dropped transport connection only for immutable code assets.
-          // Never replay API requests, POSTs, or HTTP error responses.
-          const response = await send().catch(error => {
-            if (signal.aborted || route.request().method() !== 'GET' ||
-              !new URL(route.request().url()).pathname.startsWith('/_next/static/')) throw error;
-            failures.push({ kind: 'asset-transport-retry', path: new URL(route.request().url()).pathname });
-            return send();
-          });
+          }, fetch, kind => failures.push({ kind, path: new URL(route.request().url()).pathname }));
           if (response.status >= 300) {
             failures.push({ kind: 'http', path: new URL(route.request().url()).pathname, status: response.status });
           }

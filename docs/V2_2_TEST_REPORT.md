@@ -28,4 +28,14 @@ Use authenticated `vercel.cmd --scope <existing-team> env run --project <existin
 
 `v22-local-verification.json` contains aggregates and single-sample local performance (including the authenticated transport caveat for remote measurements). These samples are not Lighthouse or real-device performance certification. One later copy-only homepage disclosure and screenshot capture were added after the full local browser run; the final production build and new Preview verify that final source.
 
-The final new-preview results will be recorded after publication. A single 30/30 investigation run does not establish a consistently passing gate.
+## Navigation-transport follow-up
+
+Application commit 49c578c9cb68b3da2d070ee4074a578beef2b0d0 built READY at https://resumescore-dutv24ojg-shaik-mahammad-shariff-s-projects.vercel.app (dpl_Aux2MYSG2udFj2uh3dAWx7qr4Rzk). Hosted CI passed: https://github.com/skmdshariff143-ai/resumescore/actions/runs/39394059816 .
+
+The first full new-preview run passed 32/32 in 125.9 seconds, with seven recovered immutable-asset connection failures. The second run failed at a `/history` navigation with `net::ERR_FAILED` and was stopped before completion to fix the transport; no full passing second run is claimed. Evidence is retained in v22-preview-before-navigation-fix.json. This failure occurred in the authenticated Node/browser bridge rather than an application HTTP error response.
+
+The follow-up permits one bounded connection retry for an explicit allowlist of page GETs and static assets. Fault-injection tests prove that POSTs/API requests, HTTP error responses, redirects and aborted operations are not replayed, another origin is rejected before sending credentials, and a repeated connection failure stops after two attempts. All requests retain manual redirects and the original timeout. No test-case retry or fixed sleep was added. The runner cannot mark its gate passed before all requested repetitions finish.
+
+Final new-preview results follow after this harness-only correction. The application source remains identical to 49c578c.
+
+Follow-up validation: `npm test` passed **142 tests / 23 files**, including four transport fault-injection tests; `npm run typecheck` and `npm run lint` passed.
