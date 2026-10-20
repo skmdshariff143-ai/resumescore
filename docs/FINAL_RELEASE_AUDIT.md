@@ -25,7 +25,7 @@ Added a desktop/mobile workflow that calculates all six career profiles, verifie
 | `npm run test:e2e` | Initial strengthened run: 30 passed, 4 failed; fixed-build rerun: **34 passed, zero failed/skipped/flaky**, 276.5 seconds |
 | `npm audit --omit=dev --json` | Zero advisories |
 | `npm audit --json` | Five high development-only advisories |
-| Protected Preview full suite | Final corrected-commit verification pending publication checkpoint |
+| Protected Preview full suite | **34/34, 34/34, 34/34**, zero failed/skipped/flaky; corrected commit `a4a7fb1` |
 
 Local browser command: set `PLAYWRIGHT_CHANNEL=msedge`, set an isolated `E2E_ARTIFACT_DIR`, unset `BASE_URL`, then `npm run test:e2e`. Tests run against `next start` from the production build, with desktop and iPhone-sized Chromium emulation. No testcase retry or arbitrary sleep is configured.
 
@@ -47,4 +47,37 @@ Synthetic benchmark reports remain reproducible and explicitly labeled: 36/36 en
 
 ## Publication checkpoint
 
-At audit start PR #1 was draft/open/mergeable, CI for `368d7fb` passed, and protected Preview `https://resumescore-lae1sn7tr-shaik-mahammad-shariff-s-projects.vercel.app` was READY on that exact SHA. Production `https://resumescore-phi.vercel.app/` was READY on `79a373c8acc3d234c04e21010598ef9f93764bcf` (`dpl_5NimgXZ6W7XqK3Kypy5S1Eug1FS6`). READY alone is not functional verification. Corrected-commit CI, Preview and final main/production SHA results will be recorded after publication; no production release will occur while the gates above remain open.
+At audit start PR #1 was draft/open/mergeable, CI for `368d7fb` passed, and protected Preview `https://resumescore-lae1sn7tr-shaik-mahammad-shariff-s-projects.vercel.app` was READY on that exact SHA. Production `https://resumescore-phi.vercel.app/` was READY on `79a373c8acc3d234c04e21010598ef9f93764bcf` (`dpl_5NimgXZ6W7XqK3Kypy5S1Eug1FS6`). READY alone is not functional verification. No production release will occur while the gates above remain open.
+
+Correction published as `a4a7fb19bea1f6b84153d696c6e5b0ae5819787b`. Hosted CI passed: https://github.com/skmdshariff143-ai/resumescore/actions/runs/39398813735 . Its protected Preview is READY on the same SHA: https://resumescore-p8239mwgu-shaik-mahammad-shariff-s-projects.vercel.app (`dpl_3zvovjRpJ1Xz74MiNQmyP4htJ9yi`).
+
+Direct deployed-route/API verification passed **19/19** assertions: seven GET routes/assets returned 200; security/no-store headers; deterministic server analysis and job matching; free heuristic responses from rewrite, critique and cover-letter even with external consent supplied; invalid JSON 400, cross-origin 403, oversized body 413, no-fetch URL fallback 503 and unsafe protocol 400. Evidence: `final-release-route-smoke.json`. Only synthetic text was submitted. Production baseline GET `/`, `/analyze` and `/history` returned 200; these checks do not assert V2.2 is present on production.
+
+The fixed-build accessibility journey checked 14 states on desktop and mobile with zero automated violations; the comparison-workspace axe checks also passed. Keyboard approval/dialog-focus assertions passed. This does not replace manual assistive-technology review.
+
+## Complete protected-Preview gate
+
+Exact application/test commit and deployment: `a4a7fb19bea1f6b84153d696c6e5b0ae5819787b`, `dpl_3zvovjRpJ1Xz74MiNQmyP4htJ9yi`. All three full suites passed: **34/34 in 190.6 s, 34/34 in 167.5 s, 34/34 in 182.0 s** (102 executions). Zero failed, skipped or flaky test cases; zero uncaught exceptions. All six accessibility journeys recorded zero violations across their 14 states; workspace axe assertions also passed. The only console errors were intentionally simulated `/api/analyze` service failures.
+
+The first run recovered eight asset and one navigation connection failures; the second recovered one navigation connection failure; the third recorded no transport failures. The existing harness permits one bounded retry for immutable assets/allowlisted page GET connection failures only. No HTTP-error, API, POST or testcase retries were used. This is not a universal network-reliability guarantee. Evidence: `final-release-preview-verification.json`.
+
+Exact remote command: set `BASE_URL=https://resumescore-p8239mwgu-shaik-mahammad-shariff-s-projects.vercel.app`, `PLAYWRIGHT_CHANNEL=msedge`, `PREVIEW_REPETITIONS=3`; run `vercel.cmd --scope team_J1DYhRPYmArh3STLVOFj38nB env run --project prj_pWea9CO5314nbLFNjEj4Q8YdYxY7 --environment development -- node tools/run-preview-tests.mjs`. Existing authentication is scoped to the exact origin and never saved in reports or browser headers. Deployment Protection was not weakened.
+
+Runtime log query: `vercel.cmd --scope team_J1DYhRPYmArh3STLVOFj38nB logs runtime --project prj_pWea9CO5314nbLFNjEj4Q8YdYxY7 --deployment dpl_3zvovjRpJ1Xz74MiNQmyP4htJ9yi --query 'level:error OR level:fatal' --since 30m --limit 100 --json` returned **zero records**, no excluded intervals, in the window ending 2026-10-20T09:18:33Z. This point-in-time query does not provide continuous monitoring or cover later activity.
+
+## Release decision and final publication
+
+| Verification | Result at verified application checkpoint |
+|---|---|
+| GitHub feature branch | `a4a7fb19bea1f6b84153d696c6e5b0ae5819787b`, pushed |
+| PR #1 | Draft/open; no merge; previously confirmed mergeable |
+| GitHub main | `79a373c8acc3d234c04e21010598ef9f93764bcf`, unchanged |
+| CI | Passed on `a4a7fb1` |
+| Protected Preview | `resumescore-p8239mwgu-shaik-mahammad-shariff-s-projects.vercel.app`, exact `a4a7fb1` verified |
+| Production | `resumescore-phi.vercel.app`, exact `79a373c8acc3d234c04e21010598ef9f93764bcf`; unchanged baseline |
+| Functional/security checks | 142 unit/integration; 34 local browser; 102 remote browser executions; 19 direct deployed assertions passed |
+| Security/privacy | Scoped regressions passed; development dependency risks remain |
+| Paid AI | Disabled in the V2.2 candidate; no live paid-provider verification performed |
+| Production readiness | **NO-GO**: independent scoring/extraction validation and development dependency risks unresolved |
+
+This following evidence-only publication changes documentation/measurement reports, preserving the exact application and browser-test source verified above. Its commit, latest CI and new Preview smoke results are recorded in PR #1 and the execution report after publication, avoiding a self-referential commit SHA in this file. Main/production will be rechecked for preservation. PR stays draft; no promotion, purchase, credential disclosure, deployment deletion or production-variable/domain change is performed.
