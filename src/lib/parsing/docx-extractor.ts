@@ -50,7 +50,14 @@ export async function extractTextFromDOCX(bytes: Uint8Array): Promise<string> {
   }
   const paragraphs = Array.from(document.getElementsByTagNameNS(ns, 'p'));
   const text = paragraphs.map(paragraph =>
-    Array.from(paragraph.getElementsByTagNameNS(ns, '*')).map(node =>
+    Array.from(paragraph.getElementsByTagNameNS(ns, '*')).filter(node => {
+      // Text boxes may contain paragraphs inside another paragraph's drawing.
+      // Only the nearest paragraph owns each text/break node; otherwise nested
+      // content is counted in both the outer paragraph and its own paragraph.
+      let owner = node.parentElement;
+      while (owner && !(owner.namespaceURI === ns && owner.localName === 'p')) owner = owner.parentElement;
+      return owner === paragraph;
+    }).map(node =>
       node.localName === 't' ? node.textContent || '' :
         node.localName === 'tab' ? '\t' : ['br', 'cr'].includes(node.localName) ? '\n' : ''
     ).join('')

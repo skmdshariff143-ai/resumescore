@@ -4,7 +4,7 @@
 
 ResumeScore helps candidates review resume text, understand heuristic quality and job-alignment scores, edit their documents, and export improved versions. It does not predict hiring outcomes, certify ATS compatibility, or independently verify qualifications.
 
-**V2.1 status: release hardening in progress; paid AI defaults disabled.** See [V2.1 readiness](docs/V2_1_RELEASE_READINESS.md). See [implementation status](docs/IMPLEMENTATION_STATUS.md) and [deployment readiness](docs/DEPLOYMENT_READINESS.md). This branch has not been deployed.
+**V2.2 status: protected Preview candidate; production NO-GO pending independent validation and dependency risk resolution/owner acceptance. Paid AI is disabled.** Current evidence and release gates are in [final production readiness](docs/FINAL_PRODUCTION_READINESS.md). Earlier V2/V2.1 reports are historical snapshots.
 
 ## Features
 
@@ -63,6 +63,7 @@ API requests have byte, string, collection, nesting, origin and read-time limits
 npm run typecheck
 npm run lint
 npm test
+npm run evaluate:release
 npm run build
 npx playwright install chromium
 npm run test:e2e
@@ -76,18 +77,20 @@ $env:PLAYWRIGHT_CHANNEL='msedge'
 npm run test:e2e
 ```
 
+For unattended Windows runs interrupted by Modern Standby, use `& .\tools\test-local-windows.ps1` with the same environment. It requests temporary system wakefulness during the suite and releases it on exit; it does not change saved power settings or screen locking. `-Preview` invokes the existing remote-suite runner instead; use it only through authenticated Vercel `env run` with the intended `BASE_URL`.
+
 Vitest uses one thread to avoid the observed Windows sandbox temporary-file issue. The older `npm run verify:e2e` command is an API smoke script, not the browser E2E suite. See [test report](docs/TEST_REPORT.md) for measured results and exact limitations. CI includes type checks, lint, tests, build, browser/accessibility tests and production dependency audit.
 
 ## Deployment
 
 Existing production: https://resumescore-phi.vercel.app/
 
-No push, merge, deployment, environment change or domain change is included. Before deployment, address the release gates in [deployment readiness](docs/DEPLOYMENT_READINESS.md), especially distributed AI budget controls, factuality evaluation and operational retention. Deploy only after explicit approval.
+The feature branch is published to GitHub and protected Vercel Previews. PR #1 remains draft; main and the existing production deployment retain the original release. Address the gates in [final production readiness](docs/FINAL_PRODUCTION_READINESS.md) before requesting final production approval. No paid AI activation, production environment change or domain change is included.
 
 ## Limitations and roadmap
 
 - Scoring remains an editorial, predominantly technical rubric; no independent calibration or hiring-outcome validation exists.
-- DOCX extracts main document paragraphs; headers, footers, images, text boxes and table order need review. No OCR.
+- DOCX extracts main document paragraphs, including nested text-box paragraphs once. Headers/footers and images are not extracted; geometric text-box/table order needs review. No OCR.
 - PDF print pagination and DOCX layout need manual review across Word, LibreOffice and browsers.
 - AI drafts require fact checking; semantic factuality is not guaranteed.
 - The Redis budget adapter requires configured infrastructure and live multi-instance validation before paid AI activation. Heuristic fallback remains available.
@@ -101,6 +104,8 @@ Security containment, consent and local analysis; bounded file/API processing; t
 ## V2.1 hardening
 
 Source-provenance rewrite checks and explicit approval, shared fail-closed AI budgets, conservative provider fallback, evidence-based skill limits, negation handling, PDF worker cleanup, export links and broader journey tests. See [AI controls](docs/AI_COST_CONTROLS.md), [factuality evaluation](docs/AI_FACTUALITY_EVALUATION.md), and [baseline](docs/V2_1_BASELINE.md). Configure from `.env.example`; a provider key alone never enables paid calls.
-# V2.2 preview candidate
+## V2.2 preview candidate
 
 V2.2 adds evidence-based version comparison, job-gap review, structured section selection and fixes for skill matching, project parsing and score display. Paid AI remains disabled. See [implementation](docs/V2_2_IMPLEMENTATION.md), [benchmarks](docs/V2_2_BENCHMARKS.md), [test evidence](docs/V2_2_TEST_REPORT.md) and [release gates](docs/V2_2_RELEASE_READINESS.md). PR #1 remains draft; production promotion is not authorized.
+
+Final hardening fixes duplicate nested-DOCX text, bounds CI permissions/execution and adds an [offline review package](evaluation/README.md). The package measures private, source-labeled datasets without exporting candidate text or claiming that synthetic expectations are independent validation. See [scoring](docs/FINAL_SCORING_VALIDATION.md), [extraction](docs/FINAL_EXTRACTION_VALIDATION.md) and [dependency resolution](docs/DEPENDENCY_SECURITY_RESOLUTION.md).

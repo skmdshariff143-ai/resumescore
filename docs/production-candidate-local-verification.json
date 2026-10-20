@@ -1,0 +1,40 @@
+{
+  "stats": {
+    "startTime": "2026-10-20T11:09:17.961Z",
+    "duration": 378708.808,
+    "expected": 36,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "environment": "Windows Edge desktop/mobile emulation, production build, temporary system sleep request",
+  "browserHealth": {
+    "checks": 36,
+    "uncaught": [],
+    "consoleErrors": [
+      {
+        "test": "server failures are visible and recoverable",
+        "project": "desktop",
+        "uncaught": [],
+        "consoleErrors": [
+          {
+            "kind": "resource",
+            "path": "/api/analyze"
+          }
+        ]
+      },
+      {
+        "test": "server failures are visible and recoverable",
+        "project": "mobile",
+        "uncaught": [],
+        "consoleErrors": [
+          {
+            "kind": "resource",
+            "path": "/api/analyze"
+          }
+        ]
+      }
+    ]
+  },
+  "priorAttempts": "First attempt: 35 passed, 1 failed during confirmed Modern Standby. Second attempt stopped incomplete after another Standby timeout. No assertions/timeouts changed."
+}

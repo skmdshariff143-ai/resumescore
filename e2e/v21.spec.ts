@@ -3,9 +3,30 @@ import AxeBuilder from '@axe-core/playwright';
 import { writeFile } from 'node:fs/promises';
 import { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun } from 'docx';
 import { printableResumeHTML, splitResumeBlocks } from '../src/lib/export/resume-document';
+import { ZipWriter, Uint8ArrayWriter, TextReader } from '@zip.js/zip.js';
 
 const bullet = 'Developed an inventory application using Python and SQL.';
 const resume = `Alex Example\nalex@example.com\nSUMMARY\nGraduate interested in analysis.\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nInventory application\n${bullet}\nSKILLS\nPython, SQL`;
+
+test('DOCX text boxes preserve Unicode and extract each nested paragraph once', async ({ page }) => {
+  const zip = new ZipWriter(new Uint8ArrayWriter(), { useWebWorkers: false });
+  await zip.add('[Content_Types].xml', new TextReader('<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>'));
+  await zip.add('_rels/.rels', new TextReader('<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="r1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>'));
+  await zip.add('word/document.xml', new TextReader(`<?xml version="1.0"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:v="urn:schemas-microsoft-com:vml"><w:body>
+    <w:p><w:r><w:t>José Example</w:t></w:r></w:p>
+    <w:p><w:r><w:t>alex@example.com</w:t></w:r></w:p>
+    <w:p><w:r><w:pict><v:shape id="textbox1" style="width:150pt;height:100pt"><v:textbox><w:txbxContent><w:p><w:r><w:t>Unique SQL project evidence</w:t></w:r></w:p></w:txbxContent></v:textbox></v:shape></w:pict></w:r></w:p>
+    <w:tbl><w:tr><w:tc><w:p><w:r><w:t>Table cell preserved</w:t></w:r></w:p></w:tc></w:tr></w:tbl>
+    </w:body></w:document>`));
+  const bytes = await zip.close();
+  await page.goto('/analyze');
+  await page.locator('input[type=file]').setInputFiles({ name: 'text-box.docx', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', buffer: Buffer.from(bytes) });
+  const extracted = page.getByLabel('Extracted resume text');
+  await expect(extracted).toHaveValue(/José Example/);
+  const text = await extracted.inputValue();
+  expect(text.match(/Unique SQL project evidence/g)).toHaveLength(1);
+  expect(text).toContain('Table cell preserved');
+});
 
 test('compiled release rejects paid AI activation even when consent is supplied', async ({ page }) => {
   await page.goto('/analyze');
