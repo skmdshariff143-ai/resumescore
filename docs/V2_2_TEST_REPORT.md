@@ -39,3 +39,23 @@ The follow-up permits one bounded connection retry for an explicit allowlist of 
 Final new-preview results follow after this harness-only correction. The application source remains identical to 49c578c.
 
 Follow-up validation: `npm test` passed **142 tests / 23 files**, including four transport fault-injection tests; `npm run typecheck` and `npm run lint` passed.
+
+## Final protected-Preview gate — passed
+
+Source/harness commit: **f384f10bccc4ebaa9968a65f7f677863a586ab08**. Application source unchanged from 49c578c. Deployment **dpl_ELZcByiGwgrvpfxqUfvvSERskp4F**, READY: https://resumescore-m1ghxn576-shaik-mahammad-shariff-s-projects.vercel.app . Hosted CI passed: https://github.com/skmdshariff143-ai/resumescore/actions/runs/39395095245 .
+
+| Complete run | Passed | Failed / skipped / flaky | Duration |
+|---|---:|---|---:|
+| 1 | 32 | 0 / 0 / 0 | 130.7 s |
+| 2 | 32 | 0 / 0 / 0 | 145.8 s |
+| 3 | 32 | 0 / 0 / 0 | 130.0 s |
+
+These are 32 unique desktop/mobile checks repeated three times, **96 successful executions**. They cover homepage/navigation, PDF/DOCX/TXT/paste extraction, correction, career selection, local analysis, job matching, rewriting approval, comparison, editing/undo, history/data deletion, exports, errors and the paid-AI lock. All six full accessibility journeys checked 14 states and recorded zero automated violations; the comparison workspace also passed its scoped axe assertions. Manual screen-reader behavior remains unverified.
+
+Run 2 recorded one recovered immutable-asset connection failure and two ECONNRESET events on auxiliary `/.well-known/vercel/jwe` and `/favicon.ico` requests. They did not fail the tested workflows. API requests and test cases were never retried; no HTTP failure was retried. The network bridge preserves protection and source confidentiality. Remote timing includes this bridge and is not a production performance benchmark.
+
+Exact execution used `BASE_URL=https://resumescore-m1ghxn576-shaik-mahammad-shariff-s-projects.vercel.app`, `PLAYWRIGHT_CHANNEL=msedge`, `PREVIEW_REPETITIONS=3`, then `vercel.cmd --scope team_J1DYhRPYmArh3STLVOFj38nB env run --project prj_pWea9CO5314nbLFNjEj4Q8YdYxY7 --environment development -- node tools/run-preview-tests.mjs`.
+
+`vercel.cmd ... logs runtime --project prj_pWea9CO5314nbLFNjEj4Q8YdYxY7 --deployment dpl_ELZcByiGwgrvpfxqUfvvSERskp4F --query 'level:error OR level:fatal' --since 30m --limit 100 --json` returned zero records in its window ending 2026-10-20T08:48:27Z. This is a point-in-time query, not continuous monitoring. Evidence and safe diagnostics: v22-preview-verification.json.
+
+Production remains READY on original commit 79a373c8acc3d234c04e21010598ef9f93764bcf; `main` is unchanged. This final evidence publication changes only documentation and screenshots. The subsequent Preview build/smoke must be reported separately from the complete gate above.

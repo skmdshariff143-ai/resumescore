@@ -2,12 +2,12 @@
 
 ## Decision
 
-Implementation candidate for a protected Preview. **Not approved for production.** PR #1 must remain draft/unmerged. Paid AI is disabled by the existing build-level lock, irrespective of provider credentials. No production variables, domains, settings or deployments were changed.
+Verified protected-Preview release candidate. **Not approved for production.** PR #1 remains draft/unmerged. Paid AI is disabled by the existing build-level lock, irrespective of provider credentials. No production variables, domains, settings or deployments were changed.
 
 ## Gates
 
 - P0: no known new security/data-loss issue identified in this scoped work; this is not a penetration-test certification.
-- P1: new Preview must pass three consecutive complete remote suites on the final application source. Investigation achieved one complete 30/30 run after two 28/30 runs; final release validation pending.
+- Resolved preview gate: three consecutive complete remote suites passed **32/32, 32/32, 32/32**, with zero failed/skipped/flaky test cases, on f384f10. Evidence: v22-preview-verification.json. Application source is identical to 49c578c. One recovered static-asset connection failure and two auxiliary favicon/JWE resets were recorded separately; this does not establish universal network reliability.
 - P1: independent scoring calibration and broader complex-document extraction evaluation remain pending. Synthetic labels are explicitly identified.
 - P1: five high development dependency advisories remain; no compatible published patch found. They affect lint tooling, not the audited production dependency set.
 - Paid AI activation: Redis coordination/live-provider/billing/cancellation/factuality validation remains blocked and unnecessary for deterministic operation. The paid lock must remain in place.
@@ -23,3 +23,5 @@ New score comparison runs locally and creates no storage or external request. Ex
 ## Publication
 
 Continue on feat/resumescore-v2 and update existing PR #1. Publish only after local checks pass; use the existing protected Preview project. Final commit/CI/deployment results belong in V2_2_TEST_REPORT.md and the PR. Do not merge or promote without a separate explicit instruction.
+
+Verified Preview: https://resumescore-m1ghxn576-shaik-mahammad-shariff-s-projects.vercel.app (dpl_ELZcByiGwgrvpfxqUfvvSERskp4F), READY on f384f10bccc4ebaa9968a65f7f677863a586ab08. Hosted CI passed. The following publication update changes only documentation/evidence; application and test source are unchanged. Its deployment build/smoke status is recorded separately in PR #1 and the final execution report, retaining the exact tested commit above.

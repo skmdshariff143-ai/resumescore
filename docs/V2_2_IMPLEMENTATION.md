@@ -19,3 +19,5 @@ Baseline: clean `feat/resumescore-v2`, HEAD `ca8873540bfd753f64f7f2ebaf0be819668
 See V2_2_TEST_REPORT.md and V2_2_BENCHMARKS.md. UI changes were reviewed using the Vercel React checklist: stable hooks, event-driven calculations, no per-keystroke scoring, bounded undo, semantic forms/table/status, existing CSS and no added dependencies.
 
 The benchmark foundation is synthetic, not independent recruitment validation. Theme switching, broader multilingual parsing, OCR, manual assistive-technology sessions and cross-reader visual export certification are not implemented by this iteration. Existing paid AI/distributed budget activation remains separately gated.
+
+Synthetic-fixture comparison screenshots: [desktop](screenshots/v22-comparison-desktop.png), [mobile](screenshots/v22-comparison-mobile.png). Final three-run Preview evidence is in v22-preview-verification.json.
