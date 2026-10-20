@@ -1,0 +1,271 @@
+{
+  "recordedAt": "2026-10-20T13:57:50.071Z",
+  "preview": {
+    "id": "dpl_BZYQzZKuSTwpsxfoptv8gJ7Eujug",
+    "url": "resumescore-1zvlc0fbd-shaik-mahammad-shariff-s-projects.vercel.app",
+    "state": "READY",
+    "sha": "b248a9655a3f37edde851e9b3228a54fb1704161",
+    "target": null
+  },
+  "ci": {
+    "url": "https://github.com/skmdshariff143-ai/resumescore/actions/runs/39433498544",
+    "sha": "b248a9655a3f37edde851e9b3228a54fb1704161",
+    "conclusion": "success",
+    "unitTests": 154,
+    "browserTests": 46
+  },
+  "firstFullProtectedRun": {
+    "preview": "https://resumescore-1zvlc0fbd-shaik-mahammad-shariff-s-projects.vercel.app",
+    "harnessCommit": "b248a9655a3f37edde851e9b3228a54fb1704161",
+    "environment": "Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one bounded asset/navigation GET transport retry; no API retries",
+    "requestedRuns": 1,
+    "completedRuns": 1,
+    "runs": [
+      {
+        "run": 1,
+        "code": 1,
+        "stats": {
+          "startTime": "2026-10-20T13:49:12.108Z",
+          "duration": 341770.789,
+          "expected": 45,
+          "skipped": 0,
+          "unexpected": 1,
+          "flaky": 0
+        },
+        "networkEvents": [
+          {
+            "kind": "navigation-transport-retry",
+            "path": "/history"
+          },
+          {
+            "kind": "navigation-transport-retry",
+            "path": "/"
+          },
+          {
+            "kind": "navigation-transport-retry",
+            "path": "/analyze"
+          },
+          {
+            "kind": "navigation-transport-retry",
+            "path": "/analyze"
+          },
+          {
+            "kind": "ECONNRESET",
+            "path": "/.well-known/vercel/jwe"
+          },
+          {
+            "kind": "ECONNRESET",
+            "path": "/favicon.ico"
+          },
+          {
+            "kind": "ECONNRESET",
+            "path": "/api/ai/rewrite"
+          }
+        ]
+      }
+    ],
+    "passed": false
+  },
+  "incident": {
+    "observed": "ECONNRESET in Node authenticated transport, including /api/ai/rewrite; browser fetch rejected without an application response assertion",
+    "underlyingCause": "Not established beyond TCP reset; no permanent network fix claimed",
+    "postRetried": false,
+    "applicationCodeChanged": false
+  },
+  "isolatedReproduction": {
+    "startTime": "2026-10-20T13:56:35.046Z",
+    "duration": 13122.345,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "api": {
+    "preview": "https://resumescore-1zvlc0fbd-shaik-mahammad-shariff-s-projects.vercel.app",
+    "results": [
+      {
+        "name": "GET /",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Security headers",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /analyze",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /history",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /privacy",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /robots.txt",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /sitemap.xml",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /favicon.ico",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Server deterministic analysis",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "API no-store",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Server job matching",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: rewrite",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: critique",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: cover-letter",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Invalid JSON rejected",
+        "pass": true,
+        "status": 400
+      },
+      {
+        "name": "Cross-origin rejected",
+        "pass": true,
+        "status": 403
+      },
+      {
+        "name": "Oversized payload rejected",
+        "pass": true,
+        "status": 413
+      },
+      {
+        "name": "Job URL no-fetch containment",
+        "pass": true,
+        "status": 503
+      },
+      {
+        "name": "Unsafe protocol rejected",
+        "pass": true,
+        "status": 400
+      }
+    ],
+    "passed": true,
+    "note": "Synthetic data only. Native Node requests use origin-scoped short-lived OIDC and manual redirects; no secrets or resume response contents saved."
+  },
+  "runtime": {
+    "type": "summary",
+    "recordsReturned": 0,
+    "timeRange": {
+      "start": "2026-10-20T13:27:14.567Z",
+      "end": "2026-10-20T13:57:14.567Z"
+    },
+    "pagination": {
+      "hasMore": false,
+      "next": null
+    },
+    "excludedIntervals": []
+  },
+  "accessibility": [
+    {
+      "screens": 14,
+      "violations": 0
+    },
+    {
+      "screens": 14,
+      "violations": 0
+    }
+  ],
+  "screenshots": 204,
+  "browserHealth": {
+    "uncaught": 0,
+    "consoleErrors": [
+      {
+        "kind": "resource",
+        "path": "/.well-known/vercel/jwe"
+      },
+      {
+        "kind": "resource",
+        "path": "/favicon.ico"
+      },
+      {
+        "kind": "resource",
+        "path": "/api/ai/rewrite"
+      },
+      {
+        "kind": "resource",
+        "path": "/api/analyze"
+      },
+      {
+        "kind": "resource",
+        "path": "/api/analyze"
+      }
+    ]
+  },
+  "security": {
+    "scope": "Current tracked blobs plus all feature-only historical blobs; known credential patterns and local secret-value comparison. No secret contents printed.",
+    "uniqueBlobsScanned": 334,
+    "findings": [],
+    "startingSnapshotPaths": 116,
+    "missingSnapshotPaths": [],
+    "ancestors": [
+      {
+        "commit": "a44367e",
+        "present": true
+      },
+      {
+        "commit": "829f81f",
+        "present": true
+      },
+      {
+        "commit": "ca88735",
+        "present": true
+      },
+      {
+        "commit": "49c578c",
+        "present": true
+      },
+      {
+        "commit": "f384f10",
+        "present": true
+      },
+      {
+        "commit": "368d7fb",
+        "present": true
+      }
+    ],
+    "deletedPathsAgainstMain": [],
+    "limitations": "Not a general certification of absence of every possible secret/PII. Synthetic fixtures and screenshots reviewed separately."
+  },
+  "decision": "NO-GO — EXTERNAL APPROVAL OR EVIDENCE REQUIRED",
+  "disclosure": "First protected run FAILED (45 passed / 1 failed), despite isolated reproduction 2/2 and direct API 19/19 passing. Do not count the failed full run as a passing gate. Final evidence publication requires its own full protected check; no assertions or retry policy weakened."
+}
