@@ -1,0 +1,1455 @@
+{
+  "recordedAt": "2026-10-20T13:47:15.414Z",
+  "baseline": "e0f7b0291abb2d126744c57508cefa4a7e786739",
+  "scope": "Blinded evaluation handoff and release documentation; V3 application/scoring/parsing/privacy/AI policy unchanged",
+  "install": {
+    "passed": true,
+    "packagesAdded": 486
+  },
+  "unit": {
+    "passed": 154,
+    "files": 27,
+    "durationSeconds": 52.63
+  },
+  "checks": {
+    "types": 0,
+    "lint": 0
+  },
+  "build": {
+    "passed": true,
+    "next": "16.4.2"
+  },
+  "browser": {
+    "startTime": "2026-10-20T13:38:37.115Z",
+    "duration": 508706.091,
+    "expected": 46,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "accessibility": [
+    {
+      "project": "desktop",
+      "screens": 14,
+      "violations": 0
+    },
+    {
+      "project": "mobile",
+      "screens": 14,
+      "violations": 0
+    }
+  ],
+  "screenshots": 204,
+  "handoff": {
+    "targetedTests": 6,
+    "prepare": true,
+    "compare": true,
+    "assemble": true,
+    "fileSafety": {
+      "existingPacketUnchanged": true,
+      "existingOutputRejected": true
+    },
+    "rehearsal": {
+      "groundTruth": "engineered-synthetic",
+      "samples": 6,
+      "independentValidation": "pending-provenance-and-release-owner-review",
+      "reviewedHoldout": 0,
+      "engineRevisionMatches": true
+    }
+  },
+  "benchmarks": {
+    "documents": {
+      "pdf": [
+        {
+          "layout": "single",
+          "durationMs": 1544.0694999999996,
+          "characters": 440,
+          "pages": 1,
+          "detectedColumns": false,
+          "quality": "excellent",
+          "name": true,
+          "email": true
+        },
+        {
+          "layout": "columns",
+          "durationMs": 19.63839999999982,
+          "characters": 610,
+          "pages": 1,
+          "detectedColumns": true,
+          "quality": "degraded",
+          "name": true,
+          "email": true
+        },
+        {
+          "layout": "table",
+          "durationMs": 19.164199999999255,
+          "characters": 610,
+          "pages": 1,
+          "detectedColumns": true,
+          "quality": "degraded",
+          "name": true,
+          "email": true
+        },
+        {
+          "layout": "multipage",
+          "durationMs": 17.525100000000748,
+          "characters": 463,
+          "pages": 2,
+          "detectedColumns": false,
+          "quality": "degraded",
+          "name": true,
+          "email": true
+        },
+        {
+          "layout": "empty",
+          "durationMs": 5.556699999999182,
+          "characters": 0,
+          "pages": 1,
+          "detectedColumns": false,
+          "quality": "failed",
+          "name": false,
+          "email": false
+        },
+        {
+          "layout": "image-only",
+          "durationMs": 7.069100000000617,
+          "characters": 0,
+          "pages": 1,
+          "detectedColumns": false,
+          "quality": "failed",
+          "name": false,
+          "email": false
+        }
+      ],
+      "docx": [
+        {
+          "repetitions": 1,
+          "bytes": 9832,
+          "durationMs": 238.6329999999998,
+          "preservedOccurrences": 1
+        },
+        {
+          "repetitions": 100,
+          "bytes": 13450,
+          "durationMs": 122.6265000000003,
+          "preservedOccurrences": 100
+        }
+      ],
+      "protectedRejected": true,
+      "corruptRejected": true,
+      "limits": "DOCX ZIP/XML inspection; no Word/LibreOffice interoperability claim"
+    },
+    "scoring": {
+      "labels": "engineered synthetic; independent calibration pending",
+      "results": [
+        {
+          "domain": "engineering",
+          "careerLevel": "student",
+          "fields": {
+            "name": true,
+            "email": true
+          },
+          "requiredSkills": [
+            "AutoCAD",
+            "SolidWorks"
+          ],
+          "detectedSkills": [
+            "AutoCAD",
+            "SolidWorks"
+          ],
+          "expectedSkillRecall": 1,
+          "expectedSkillPrecision": 1,
+          "sectionPrecision": 1,
+          "sectionRecall": 1,
+          "employmentFields": {
+            "expectedRoles": 0,
+            "actualRoles": 0
+          },
+          "demonstratedPrecision": 1,
+          "sections": [
+            "Header",
+            "EDUCATION",
+            "PROJECTS",
+            "SKILLS"
+          ],
+          "score": 53,
+          "reorderScoreDelta": 0,
+          "durationMs": 105.73500000000058,
+          "reorderDimensionDeltas": [],
+          "mentionSkillScore": 10,
+          "evidencedSkillScore": 40,
+          "jobCoverage": 80
+        },
+        {
+          "domain": "data",
+          "careerLevel": "internship",
+          "fields": {
+            "name": true,
+            "email": true
+          },
+          "requiredSkills": [
+            "Python",
+            "SQL"
+          ],
+          "detectedSkills": [
+            "Python",
+            "SQL"
+          ],
+          "expectedSkillRecall": 1,
+          "expectedSkillPrecision": 1,
+          "sectionPrecision": 1,
+          "sectionRecall": 1,
+          "employmentFields": {
+            "expectedRoles": 0,
+            "actualRoles": 0
+          },
+          "demonstratedPrecision": 1,
+          "sections": [
+            "Header",
+            "EDUCATION",
+            "PROJECTS",
+            "SKILLS"
+          ],
+          "score": 53,
+          "reorderScoreDelta": 0,
+          "durationMs": 8.61200000000099,
+          "reorderDimensionDeltas": [],
+          "mentionSkillScore": 10,
+          "evidencedSkillScore": 40,
+          "jobCoverage": 80
+        },
+        {
+          "domain": "business",
+          "careerLevel": "entry",
+          "fields": {
+            "name": true,
+            "email": true
+          },
+          "requiredSkills": [
+            "Procurement",
+            "Stakeholder Management"
+          ],
+          "detectedSkills": [
+            "Stakeholder Management",
+            "Procurement"
+          ],
+          "expectedSkillRecall": 1,
+          "expectedSkillPrecision": 1,
+          "sectionPrecision": 1,
+          "sectionRecall": 1,
+          "employmentFields": {
+            "expectedRoles": 0,
+            "actualRoles": 0
+          },
+          "demonstratedPrecision": 1,
+          "sections": [
+            "Header",
+            "EDUCATION",
+            "PROJECTS",
+            "SKILLS"
+          ],
+          "score": 51,
+          "reorderScoreDelta": 0,
+          "durationMs": 7.763499999999112,
+          "reorderDimensionDeltas": [],
+          "mentionSkillScore": 10,
+          "evidencedSkillScore": 40,
+          "jobCoverage": 80
+        },
+        {
+          "domain": "finance",
+          "careerLevel": "experienced",
+          "fields": {
+            "name": true,
+            "email": true
+          },
+          "requiredSkills": [
+            "Financial Reporting",
+            "Budgeting",
+            "GAAP"
+          ],
+          "detectedSkills": [
+            "Financial Reporting",
+            "Budgeting",
+            "GAAP"
+          ],
+          "expectedSkillRecall": 1,
+          "expectedSkillPrecision": 1,
+          "sectionPrecision": 1,
+          "sectionRecall": 1,
+          "employmentFields": {
+            "expectedHeader": "Financial Analyst | Example Cooperative | 2018 - Present",
+            "actual": [
+              {
+                "company": "Example Cooperative",
+                "role": "Financial Analyst",
+                "startDate": "2018",
+                "endDate": "Present"
+              }
+            ]
+          },
+          "demonstratedPrecision": 1,
+          "sections": [
+            "Header",
+            "SUMMARY",
+            "WORK EXPERIENCE",
+            "EDUCATION",
+            "SKILLS"
+          ],
+          "score": 58,
+          "reorderScoreDelta": 0,
+          "durationMs": 10.070299999999406,
+          "reorderDimensionDeltas": [],
+          "mentionSkillScore": 15,
+          "evidencedSkillScore": 60,
+          "jobCoverage": 86
+        },
+        {
+          "domain": "marketing",
+          "careerLevel": "senior",
+          "fields": {
+            "name": true,
+            "email": true
+          },
+          "requiredSkills": [
+            "Content Marketing",
+            "Market Research"
+          ],
+          "detectedSkills": [
+            "Market Research",
+            "Content Marketing"
+          ],
+          "expectedSkillRecall": 1,
+          "expectedSkillPrecision": 1,
+          "sectionPrecision": 1,
+          "sectionRecall": 1,
+          "employmentFields": {
+            "expectedHeader": "Marketing Lead | Example Cooperative | 2012 - Present",
+            "actual": [
+              {
+                "company": "Example Cooperative",
+                "role": "Marketing Lead",
+                "startDate": "2012",
+                "endDate": "Present"
+              }
+            ]
+          },
+          "demonstratedPrecision": 1,
+          "sections": [
+            "Header",
+            "SUMMARY",
+            "WORK EXPERIENCE",
+            "EDUCATION",
+            "SKILLS"
+          ],
+          "score": 56,
+          "reorderScoreDelta": 0,
+          "durationMs": 4.0033000000003085,
+          "reorderDimensionDeltas": [],
+          "mentionSkillScore": 10,
+          "evidencedSkillScore": 40,
+          "jobCoverage": 80
+        },
+        {
+          "domain": "healthcare",
+          "careerLevel": "switcher",
+          "fields": {
+            "name": true,
+            "email": true
+          },
+          "requiredSkills": [
+            "Patient Care",
+            "Clinical Documentation"
+          ],
+          "detectedSkills": [
+            "Patient Care",
+            "Clinical Documentation"
+          ],
+          "expectedSkillRecall": 1,
+          "expectedSkillPrecision": 1,
+          "sectionPrecision": 1,
+          "sectionRecall": 1,
+          "employmentFields": {
+            "expectedHeader": "Care Assistant | Example Clinic | 2019 - 2025",
+            "actual": [
+              {
+                "company": "Example Clinic",
+                "role": "Care Assistant",
+                "startDate": "2019",
+                "endDate": "2025"
+              }
+            ]
+          },
+          "demonstratedPrecision": 1,
+          "sections": [
+            "Header",
+            "SUMMARY",
+            "WORK EXPERIENCE",
+            "EDUCATION",
+            "SKILLS"
+          ],
+          "score": 53,
+          "reorderScoreDelta": 0,
+          "durationMs": 4.3799999999992,
+          "reorderDimensionDeltas": [],
+          "mentionSkillScore": 10,
+          "evidencedSkillScore": 40,
+          "jobCoverage": 80
+        }
+      ]
+    },
+    "fields": {
+      "provenance": "Author-engineered synthetic expectations; not human-reviewed calibration",
+      "independentCalibration": "pending",
+      "fixtureSource": "src/__tests__/fixtures/domain-resumes.json",
+      "fieldMatches": 36,
+      "fieldLabels": 36,
+      "skillPrecision": 1,
+      "skillRecall": 1,
+      "results": [
+        {
+          "sector": "engineering",
+          "profile": "student",
+          "fields": {
+            "name": true,
+            "email": true,
+            "degree": true,
+            "institution": true,
+            "projectName": true,
+            "projectDescription": true
+          },
+          "truePositive": 2,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "demonstrated": 2,
+          "score": 53
+        },
+        {
+          "sector": "data",
+          "profile": "internship",
+          "fields": {
+            "name": true,
+            "email": true,
+            "degree": true,
+            "institution": true,
+            "projectName": true,
+            "projectDescription": true
+          },
+          "truePositive": 2,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "demonstrated": 2,
+          "score": 53
+        },
+        {
+          "sector": "business",
+          "profile": "entry",
+          "fields": {
+            "name": true,
+            "email": true,
+            "degree": true,
+            "institution": true,
+            "projectName": true,
+            "projectDescription": true
+          },
+          "truePositive": 2,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "demonstrated": 2,
+          "score": 51
+        },
+        {
+          "sector": "finance",
+          "profile": "experienced",
+          "fields": {
+            "name": true,
+            "email": true,
+            "degree": true,
+            "institution": true,
+            "projectName": true,
+            "projectDescription": true
+          },
+          "truePositive": 3,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "demonstrated": 3,
+          "score": 56
+        },
+        {
+          "sector": "marketing",
+          "profile": "senior",
+          "fields": {
+            "name": true,
+            "email": true,
+            "degree": true,
+            "institution": true,
+            "projectName": true,
+            "projectDescription": true
+          },
+          "truePositive": 2,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "demonstrated": 2,
+          "score": 62
+        },
+        {
+          "sector": "healthcare",
+          "profile": "switcher",
+          "fields": {
+            "name": true,
+            "email": true,
+            "degree": true,
+            "institution": true,
+            "projectName": true,
+            "projectDescription": true
+          },
+          "truePositive": 2,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "demonstrated": 2,
+          "score": 49
+        }
+      ]
+    },
+    "evidence": [
+      {
+        "text": "Developed software using Python.",
+        "expected": "demonstrated",
+        "actual": "demonstrated"
+      },
+      {
+        "text": "Python",
+        "expected": "mentioned",
+        "actual": "mentioned"
+      },
+      {
+        "text": "Never developed software using Python.",
+        "expected": "mentioned",
+        "actual": "mentioned"
+      },
+      {
+        "text": "Learning Python; developed a sample.",
+        "expected": "mentioned",
+        "actual": "mentioned"
+      },
+      {
+        "text": "Managed procurement schedules.",
+        "expected": "missing",
+        "actual": "missing"
+      }
+    ]
+  },
+  "evaluation": {
+    "datasetId": "engineered-six-sector",
+    "declaredEngineCommit": "ab51d103aa1c783301a5be454dd3bde21bd904da",
+    "independentValidation": "pending-provenance-and-release-owner-review",
+    "groundTruth": "engineered-synthetic",
+    "sampleCount": 6,
+    "totals": {
+      "name": {
+        "truePositive": 6,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "email": {
+        "truePositive": 6,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "degree": {
+        "truePositive": 6,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "institution": {
+        "truePositive": 6,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "company": {
+        "truePositive": 0,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": null,
+        "recall": null
+      },
+      "role": {
+        "truePositive": 0,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": null,
+        "recall": null
+      },
+      "projectName": {
+        "truePositive": 6,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "projectDescription": {
+        "truePositive": 6,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "skill": {
+        "truePositive": 13,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "section": {
+        "truePositive": 18,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      },
+      "requiredSkill": {
+        "truePositive": 13,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "precision": 1,
+        "recall": 1
+      }
+    },
+    "profileCoverage": {
+      "student": {
+        "samples": 1,
+        "reviewedHoldout": 0,
+        "meanAbsoluteError": null,
+        "meanSignedError": null
+      },
+      "internship": {
+        "samples": 1,
+        "reviewedHoldout": 0,
+        "meanAbsoluteError": null,
+        "meanSignedError": null
+      },
+      "entry": {
+        "samples": 1,
+        "reviewedHoldout": 0,
+        "meanAbsoluteError": null,
+        "meanSignedError": null
+      },
+      "experienced": {
+        "samples": 1,
+        "reviewedHoldout": 0,
+        "meanAbsoluteError": null,
+        "meanSignedError": null
+      },
+      "senior": {
+        "samples": 1,
+        "reviewedHoldout": 0,
+        "meanAbsoluteError": null,
+        "meanSignedError": null
+      },
+      "switcher": {
+        "samples": 1,
+        "reviewedHoldout": 0,
+        "meanAbsoluteError": null,
+        "meanSignedError": null
+      }
+    },
+    "rows": [
+      {
+        "id": "synthetic-1",
+        "careerLevel": "student",
+        "sector": "engineering",
+        "style": "single-column",
+        "split": "regression",
+        "provenance": "synthetic",
+        "reviewCount": 0,
+        "labelDisagreement": false,
+        "reviewerScoreSpread": null,
+        "fields": {
+          "name": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "email": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "degree": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "institution": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "company": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "role": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "projectName": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "projectDescription": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "skill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "section": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "requiredSkill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        },
+        "evidence": [
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          },
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          }
+        ],
+        "generalQuality": 53,
+        "jobAlignment": 100,
+        "scoreRepeatDelta": 0,
+        "jobGeneralQualityDelta": 0,
+        "recommendationCount": 3,
+        "reviewerMean": null,
+        "signedScoreError": null
+      },
+      {
+        "id": "synthetic-2",
+        "careerLevel": "internship",
+        "sector": "data",
+        "style": "single-column",
+        "split": "regression",
+        "provenance": "synthetic",
+        "reviewCount": 0,
+        "labelDisagreement": false,
+        "reviewerScoreSpread": null,
+        "fields": {
+          "name": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "email": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "degree": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "institution": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "company": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "role": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "projectName": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "projectDescription": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "skill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "section": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "requiredSkill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        },
+        "evidence": [
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          },
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          }
+        ],
+        "generalQuality": 53,
+        "jobAlignment": 100,
+        "scoreRepeatDelta": 0,
+        "jobGeneralQualityDelta": 0,
+        "recommendationCount": 3,
+        "reviewerMean": null,
+        "signedScoreError": null
+      },
+      {
+        "id": "synthetic-3",
+        "careerLevel": "entry",
+        "sector": "business",
+        "style": "single-column",
+        "split": "regression",
+        "provenance": "synthetic",
+        "reviewCount": 0,
+        "labelDisagreement": false,
+        "reviewerScoreSpread": null,
+        "fields": {
+          "name": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "email": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "degree": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "institution": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "company": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "role": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "projectName": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "projectDescription": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "skill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "section": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "requiredSkill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        },
+        "evidence": [
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          },
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          }
+        ],
+        "generalQuality": 51,
+        "jobAlignment": 100,
+        "scoreRepeatDelta": 0,
+        "jobGeneralQualityDelta": 0,
+        "recommendationCount": 3,
+        "reviewerMean": null,
+        "signedScoreError": null
+      },
+      {
+        "id": "synthetic-4",
+        "careerLevel": "experienced",
+        "sector": "finance",
+        "style": "single-column",
+        "split": "regression",
+        "provenance": "synthetic",
+        "reviewCount": 0,
+        "labelDisagreement": false,
+        "reviewerScoreSpread": null,
+        "fields": {
+          "name": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "email": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "degree": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "institution": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "company": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "role": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "projectName": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "projectDescription": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "skill": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "section": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "requiredSkill": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        },
+        "evidence": [
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          },
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          },
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          }
+        ],
+        "generalQuality": 56,
+        "jobAlignment": 100,
+        "scoreRepeatDelta": 0,
+        "jobGeneralQualityDelta": 0,
+        "recommendationCount": 3,
+        "reviewerMean": null,
+        "signedScoreError": null
+      },
+      {
+        "id": "synthetic-5",
+        "careerLevel": "senior",
+        "sector": "marketing",
+        "style": "single-column",
+        "split": "regression",
+        "provenance": "synthetic",
+        "reviewCount": 0,
+        "labelDisagreement": false,
+        "reviewerScoreSpread": null,
+        "fields": {
+          "name": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "email": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "degree": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "institution": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "company": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "role": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "projectName": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "projectDescription": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "skill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "section": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "requiredSkill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        },
+        "evidence": [
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          },
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          }
+        ],
+        "generalQuality": 62,
+        "jobAlignment": 100,
+        "scoreRepeatDelta": 0,
+        "jobGeneralQualityDelta": 0,
+        "recommendationCount": 2,
+        "reviewerMean": null,
+        "signedScoreError": null
+      },
+      {
+        "id": "synthetic-6",
+        "careerLevel": "switcher",
+        "sector": "healthcare",
+        "style": "single-column",
+        "split": "regression",
+        "provenance": "synthetic",
+        "reviewCount": 0,
+        "labelDisagreement": false,
+        "reviewerScoreSpread": null,
+        "fields": {
+          "name": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "email": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "degree": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "institution": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "company": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "role": {
+            "truePositive": 0,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": null,
+            "recall": null,
+            "f1": null
+          },
+          "projectName": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "projectDescription": {
+            "truePositive": 1,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "skill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "section": {
+            "truePositive": 3,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          },
+          "requiredSkill": {
+            "truePositive": 2,
+            "falsePositive": 0,
+            "falseNegative": 0,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        },
+        "evidence": [
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          },
+          {
+            "expected": "demonstrated",
+            "actual": "demonstrated"
+          }
+        ],
+        "generalQuality": 49,
+        "jobAlignment": 100,
+        "scoreRepeatDelta": 0,
+        "jobGeneralQualityDelta": 0,
+        "recommendationCount": 3,
+        "reviewerMean": null,
+        "signedScoreError": null
+      }
+    ],
+    "limitations": "Source-span checks validate label integrity, not license/consent or reviewer independence. Metrics do not certify fairness, ATS compatibility, factuality or hiring outcomes. Empty denominators are null. Owner must verify provenance and pre-registered holdout acceptance thresholds.",
+    "actualEngineCommit": "e0f7b0291abb2d126744c57508cefa4a7e786739",
+    "trackedEngineInputsModified": false,
+    "engineRevisionMatches": false,
+    "engineSourceSha256": "e60ca66e383a2af355d03d5685967e2411f10ba625e9aab31c30b61d1b76cf5b",
+    "datasetSha256": "020f39339d4e6270f11aaefc0535ea1511ad331513b88836cefac379070c6714"
+  },
+  "audits": {
+    "full": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 5,
+      "critical": 0,
+      "total": 5
+    },
+    "production": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "exitCodes": {
+      "full": 1,
+      "production": 0
+    }
+  },
+  "security": {
+    "scope": "Current tracked blobs plus all feature-only historical blobs; known credential patterns and local secret-value comparison. No secret contents printed.",
+    "uniqueBlobsScanned": 324,
+    "findings": [],
+    "startingSnapshotPaths": 116,
+    "missingSnapshotPaths": [],
+    "ancestors": [
+      {
+        "commit": "a44367e",
+        "present": true
+      },
+      {
+        "commit": "829f81f",
+        "present": true
+      },
+      {
+        "commit": "ca88735",
+        "present": true
+      },
+      {
+        "commit": "49c578c",
+        "present": true
+      },
+      {
+        "commit": "f384f10",
+        "present": true
+      },
+      {
+        "commit": "368d7fb",
+        "present": true
+      }
+    ],
+    "deletedPathsAgainstMain": [],
+    "limitations": "Not a general certification of absence of every possible secret/PII. Synthetic fixtures and screenshots reviewed separately."
+  },
+  "disclosure": "Only synthetic expectations/rehearsal ratings; no human labels or independent calibration obtained. Initial targeted command before clean install completed could not find Vitest; corrected after install. Existing-output attempt intentionally failed and preserved packet hash.",
+  "decision": "NO-GO — EXTERNAL APPROVAL OR EVIDENCE REQUIRED",
+  "blockers": [
+    "Independent scoring holdout/calibration",
+    "Independent complex-document extraction labels",
+    "Compatible dependency fix or explicit scoped owner risk disposition"
+  ],
+  "manualPending": [
+    "Screen-reader speech",
+    "Safari/Firefox and physical devices",
+    "Cross-reader visual export validation"
+  ]
+}

@@ -14,7 +14,8 @@
     "test:burst": "node tools/test-burst-ratelimit.js",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
-    "evaluate:release": "vitest run tools/release-evaluation.test.ts"
+    "evaluate:release": "vitest run tools/release-evaluation.test.ts",
+    "evaluate:review": "vitest run tools/review-handoff.test.ts"
   },
   "lint-staged": {
     "*.{ts,tsx}": [

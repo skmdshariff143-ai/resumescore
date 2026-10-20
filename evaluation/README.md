@@ -1,5 +1,7 @@
 # Offline review package
 
+See [the executable blinded-review handoff](HUMAN_REVIEW_HANDOFF.md) for unfilled reviewer packets, source/return schemas, comparison, consensus assembly and the exact owner acceptance checklist. `npm run evaluate:review` runs a synthetic self-check by default; explicit private inputs/actions are required to write packets.
+
 `npm run evaluate:release` runs six **engineered synthetic** records in `synthetic.json`. It does not perform independent validation. No real candidate records or reviewer labels are included. Existing document benchmarks cover layouts and failures separately.
 
 To evaluate authorized private data in PowerShell:

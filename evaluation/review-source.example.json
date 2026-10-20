@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "id": "engineered-six-sector",
+  "engineCommit": "ab51d103aa1c783301a5be454dd3bde21bd904da",
+  "rubricVersion": "quality-v1",
+  "reviewers": [
+    {
+      "id": "reviewer-a",
+      "independentOfEngine": false
+    },
+    {
+      "id": "reviewer-b",
+      "independentOfEngine": false
+    }
+  ],
+  "records": [
+    {
+      "id": "synthetic-1",
+      "careerLevel": "student",
+      "sector": "engineering",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nDesigned mechanical components using AutoCAD and SolidWorks.\nSKILLS\nAutoCAD, SolidWorks",
+      "jobText": "Required: AutoCAD, SolidWorks",
+      "annotationScope": "all-supported-fields"
+    },
+    {
+      "id": "synthetic-2",
+      "careerLevel": "internship",
+      "sector": "data",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nAnalyzed inventory trends using Python and SQL.\nSKILLS\nPython, SQL",
+      "jobText": "Required: Python, SQL",
+      "annotationScope": "all-supported-fields"
+    },
+    {
+      "id": "synthetic-3",
+      "careerLevel": "entry",
+      "sector": "business",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nManaged procurement schedules and stakeholder management activities.\nSKILLS\nProcurement, Stakeholder Management",
+      "jobText": "Required: Procurement, Stakeholder Management",
+      "annotationScope": "all-supported-fields"
+    },
+    {
+      "id": "synthetic-4",
+      "careerLevel": "experienced",
+      "sector": "finance",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nPrepared financial reporting and budgeting reports using GAAP.\nSKILLS\nFinancial Reporting, Budgeting, GAAP",
+      "jobText": "Required: Financial Reporting, Budgeting, GAAP",
+      "annotationScope": "all-supported-fields"
+    },
+    {
+      "id": "synthetic-5",
+      "careerLevel": "senior",
+      "sector": "marketing",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nDelivered content marketing and market research for a community campaign.\nSKILLS\nContent Marketing, Market Research",
+      "jobText": "Required: Content Marketing, Market Research",
+      "annotationScope": "all-supported-fields"
+    },
+    {
+      "id": "synthetic-6",
+      "careerLevel": "switcher",
+      "sector": "healthcare",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nSupported patient care and clinical documentation under supervision.\nSKILLS\nPatient Care, Clinical Documentation",
+      "jobText": "Required: Patient Care, Clinical Documentation",
+      "annotationScope": "all-supported-fields"
+    }
+  ]
+}
