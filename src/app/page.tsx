@@ -23,26 +23,26 @@ export default function LandingPage() {
     {
       role: 'Backend / Distributed Systems',
       weak: 'Worked on database queries and helped improve backend API latency for users.',
-      strong: 'Engineered high-throughput PostgreSQL query optimizations and Redis caching layers, reducing API p99 latency by [Add genuine metric: % or ms] across 200k+ daily requests.',
-      verifiedTechs: ['PostgreSQL', 'Redis', 'REST APIs'],
-      candidateInput: 'Latency reduction % or millisecond improvement',
-      why: 'Replaces passive "worked on" with active impact verb, specifies technical stack, and prompts for genuine verified metrics.',
+      strong: 'Worked on database queries and helped improve backend API latency.',
+      verifiedTechs: ['Database queries', 'Backend APIs'],
+      candidateInput: 'Which changes did you make? Add a measured outcome only if known.',
+      why: 'Removes redundant wording while preserving the original scope. No technologies, ownership or metrics are added.',
     },
     {
       role: 'Frontend / Full-Stack',
       weak: 'Responsible for building new frontend user interfaces in React and fixing bugs.',
-      strong: 'Architected responsive customer-facing dashboard in React and TypeScript, accelerating client onboarding workflow speed by [Add genuine metric: % or time].',
-      verifiedTechs: ['React', 'TypeScript', 'Responsive UI'],
-      candidateInput: 'Onboarding speed increase or user adoption count',
-      why: 'Eliminates weak phrase "responsible for" and frames work around user velocity and verified frontend technologies.',
+      strong: 'Built new user interfaces in React and fixed bugs.',
+      verifiedTechs: ['React'],
+      candidateInput: 'Describe a specific interface or bug you worked on, if relevant.',
+      why: 'Uses a direct verb without adding TypeScript, architecture ownership or a business outcome.',
     },
     {
       role: 'DevOps / Cloud Architecture',
       weak: 'Set up Docker containers and Kubernetes clusters on AWS cloud.',
-      strong: 'Automated containerized microservice deployments via Docker and Kubernetes on AWS EKS, establishing automated zero-downtime CI/CD pipelines via GitHub Actions.',
-      verifiedTechs: ['Docker', 'Kubernetes', 'AWS', 'CI/CD'],
-      candidateInput: 'Deployment frequency or infrastructure cost savings',
-      why: 'Demonstrates end-to-end cloud infrastructure ownership while preserving candidate truth without manufactured statistics.',
+      strong: 'Configured Docker containers and Kubernetes clusters on AWS.',
+      verifiedTechs: ['Docker', 'Kubernetes', 'AWS'],
+      candidateInput: 'Clarify your contribution and environment without adding unverified tools.',
+      why: 'Preserves the named tools and task. Automation, EKS, zero downtime and CI/CD are not established by the source.',
     },
   ];
 
@@ -56,14 +56,14 @@ export default function LandingPage() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <span className="uppercase text-slate-400">System v0.4.0</span>
+          <span className="uppercase text-slate-400">V2.2 Preview</span>
           <span className="text-slate-400">/</span>
           <span className="text-slate-200">Evidence-First Career Intelligence Workspace</span>
         </div>
 
         {/* High-Contrast Typographic Display Headline */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-slate-100 tracking-[-0.035em] leading-[1.08]">
-          Know exactly how your resume performs <br className="hidden sm:inline" />
+          Understand the evidence in your resume <br className="hidden sm:inline" />
           <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-slate-100 to-slate-400">
             before you apply.
           </span>
@@ -98,6 +98,7 @@ export default function LandingPage() {
 
         {/* Hero Interactive Career Signal Centerpiece */}
         <div className="pt-8 max-w-3xl mx-auto">
+          <p className="text-sm text-slate-300 mb-3">Illustrative dashboard with fictional sample data. These values are not a measured candidate result or a company endorsement.</p>
           <div className="bg-slate-900/90 border border-slate-800 rounded-2xl shadow-2xl p-6 sm:p-8 text-left space-y-6 relative overflow-hidden backdrop-blur-xl ring-1 ring-white/[0.06]">
             {/* Ambient Corner Accent */}
             <div className="absolute top-0 right-0 w-72 h-72 bg-blue-500/[0.03] rounded-full blur-3xl pointer-events-none" />

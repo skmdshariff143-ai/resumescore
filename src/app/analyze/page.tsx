@@ -84,6 +84,7 @@ function AnalyzeContent() {
       } else {
       const res = await fetch('/api/analyze', {
         method: 'POST',
+        signal: AbortSignal.timeout(30_000),
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           resumeText: text,
@@ -140,7 +141,11 @@ function AnalyzeContent() {
         });
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Analysis failed. Please try again.');
+      setError(err instanceof Error && /chunk/i.test(err.message)
+        ? 'Analysis code could not finish loading. Check your connection and retry; your text is retained.'
+        : err instanceof Error && err.name === 'TimeoutError'
+        ? 'Analysis timed out. Your text is retained; retry or use browser-only analysis.'
+        : err instanceof Error ? err.message : 'Analysis failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -242,7 +247,7 @@ function AnalyzeContent() {
         <div className="space-y-6">
           <p className="rounded-lg border border-slate-700 p-4">
             General resume quality: <strong>{score.generalQualityScore ?? score.overall}/100</strong>.
-            {score.mode === 'job_match' && <> Job terminology alignment: <strong>{score.skillMatchScore}/100</strong>.</>}
+            {score.mode === 'job_match' && <> Job terminology alignment: <strong>{Object.values(score.skillMatrix ?? {}).flat().length ? `${score.skillMatchScore}/100` : 'Unavailable: no recognized job skills'}</strong>.</>}
             {' '}Editorial rubric for {CAREER_LEVELS[score.careerLevel ?? 'experienced']}. Evidence is inferred from text and is not independently verified.
           </p>
           {/* Navigation Tabs */}
@@ -300,7 +305,7 @@ function AnalyzeContent() {
           )}
 
             <div hidden={activeTab !== 'review'} className="space-y-6">
-              <ResumeWorkspace key={score.id} original={score.parsedResume.rawText} onAnalyze={text => { setResumeText(text); runAnalysis(text, currentFileName); }} />
+              <ResumeWorkspace key={score.id} original={score.parsedResume.rawText} analysis={score} onAnalyze={text => { setResumeText(text); runAnalysis(text, currentFileName); }} />
               <ResumeReviewEditor resume={score.parsedResume} />
             </div>
         </div>

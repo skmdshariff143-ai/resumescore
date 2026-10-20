@@ -40,7 +40,7 @@ test('review, browser-only analysis, edit, compare, download and privacy', async
   await expect(page.locator('body')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.getByRole('heading', { name: 'Edit your resume' }).scrollIntoViewIfNeeded();
-  await page.screenshot({ path: `docs/screenshots/workspace-${test.info().project.name}.png` });
+  await page.screenshot({ path: test.info().outputPath('workspace.png') });
 });
 
 test('opt-in history can be deleted', async ({ page }) => {
@@ -70,8 +70,10 @@ test('analyzer has no serious or critical automated accessibility findings', asy
 });
 
 test('printable export produces a selectable PDF that can be uploaded again', async ({ page }) => {
-  await page.setContent(printableResumeHTML(splitResumeBlocks(resume)));
-  const pdf = await page.pdf({ format: 'A4' });
+  const printPage = await page.context().newPage();
+  await printPage.setContent(printableResumeHTML(splitResumeBlocks(resume)));
+  const pdf = await printPage.pdf({ format: 'A4' });
+  await printPage.close();
   expect(pdf.subarray(0, 5).toString()).toBe('%PDF-');
   await page.goto('/analyze');
   await page.locator('input[type=file]').setInputFiles({ name: 'exported-resume.pdf', mimeType: 'application/pdf', buffer: pdf });
@@ -121,5 +123,5 @@ test('pasted job requirements produce a separate match score', async ({ page }) 
   await page.getByRole('button', { name: 'Use this job description' }).click();
   await page.locator('input[type=file]').setInputFiles({ name: 'resume.txt', mimeType: 'text/plain', buffer: Buffer.from(resume) });
   await page.getByRole('button', { name: 'Analyze reviewed text' }).click();
-  await expect(page.getByText(/General resume quality:/)).toContainText('Job terminology alignment:', { timeout: 15_000 });
+  await expect(page.getByText(/General resume quality:/)).toContainText('Job terminology alignment:');
 });

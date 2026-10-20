@@ -23,6 +23,7 @@ import {
   SKILL_ALIASES,
   SECTION_HEADERS,
   QUANTIFIABLE_PATTERNS,
+  ACTION_VERBS,
   getSkillRegex,
 } from '../keywords';
 
@@ -480,7 +481,10 @@ export function parseProjectsSection(projText: string): ProjectItem[] {
 
   for (const line of lines) {
     const isBullet = /^\s*[•\-*▪►◦‣⁃]/.test(line);
-    if (!isBullet && line.length < 70 && !/^(built|developed|created|implemented)/i.test(line)) {
+      const firstWord = line.trim().split(/\s+/)[0].toLowerCase();
+      const isAction = (ACTION_VERBS as readonly string[]).includes(firstWord) ||
+        ['prepared', 'supported', 'assisted', 'treated', 'researched'].includes(firstWord);
+      if (!isBullet && line.length < 70 && !isAction) {
       if (currentName) {
         const descStr = currentDesc.join(' ');
         const { all: techs } = extractCategorizedSkills(descStr);

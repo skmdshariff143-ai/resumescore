@@ -1,0 +1,51 @@
+{
+  "unit": {
+    "files": 22,
+    "passed": 138
+  },
+  "browser": {
+    "startTime": "2026-10-20T08:24:47.973Z",
+    "duration": 253695.19100000002,
+    "expected": 32,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "accessibility": [
+    {
+      "project": "desktop",
+      "states": 14,
+      "violations": 0
+    },
+    {
+      "project": "mobile",
+      "states": 14,
+      "violations": 0
+    }
+  ],
+  "performance": [
+    {
+      "project": "desktop",
+      "environment": "Local production build, Chromium, no network/CPU throttling; single sample",
+      "analysisUIElapsedMs": 254.94529999999213,
+      "docxDownloadElapsedMs": 253.05449999999837,
+      "domContentLoadedMs": 359.69999998807907,
+      "loadMs": 497.89999997615814,
+      "javascriptTransferBytes": 205555,
+      "usedJSHeapBytes": 8139203,
+      "resourceCount": 23
+    },
+    {
+      "project": "mobile",
+      "environment": "Local production build, Chromium, no network/CPU throttling; single sample",
+      "analysisUIElapsedMs": 274.4280999999901,
+      "docxDownloadElapsedMs": 248.66969999999856,
+      "domContentLoadedMs": 415.19999998807907,
+      "loadMs": 531.1999999880791,
+      "javascriptTransferBytes": 205555,
+      "usedJSHeapBytes": 8186252,
+      "resourceCount": 23
+    }
+  ],
+  "limitations": "Single-sample local performance; no Lighthouse, peak-memory or real-device claim."
+}

@@ -107,8 +107,15 @@ export function calculateResumeScore(
   }
 
   let skillScoreVal = 70;
-  if (isJobMatch && allRequired > 0) {
-    skillScoreVal = clamp(Math.round((allMatched / allRequired) * 100), 0, 100);
+  const hasJobSkills = Boolean(job && job.requiredSkills.length + job.preferredSkills.length + job.bonusSkills.length);
+  if (isJobMatch) {
+    const requirements = hasJobSkills ? Object.values(skillMatrix).flat() : [];
+    const weight = { required: 1, preferred: 0.5, bonus: 0.25 };
+    const total = requirements.reduce((sum, item) => sum + weight[item.importance], 0);
+    const supported = requirements.reduce((sum, item) => sum + weight[item.importance] *
+      (item.status === 'matched' ? 1 : item.status === 'partial' ? item.evidenceLevel === 'mentioned' ? 0.3 : 0.6 : 0), 0);
+    skillScoreVal = total ? Math.round(100 * supported / total) : 0;
+    if (!hasJobSkills) for (const items of Object.values(skillMatrix)) items.length = 0;
   } else {
     // Mention-only lists cannot earn more than 30. Reward practical evidence.
     const items = Object.values(skillMatrix).flat();
@@ -125,15 +132,15 @@ export function calculateResumeScore(
     icon: '⚡',
     color: 'text-cyan-400',
     feedback: isJobMatch
-      ? `Matched ${Math.round(allMatched)} of ${allRequired} required core skill competencies.`
+      ? hasJobSkills ? `${Math.round(allMatched * 10) / 10} evidence-weighted matches across ${allRequired} required skills; preferred and optional skills also contribute.` : 'No recognized job skill requirements. Match score is unavailable.'
       : `Identified ${resume.allSkills.length} skills across ${Object.values(resume.skills).filter((s) => s.length > 0).length} recognized categories.`,
     reason: isJobMatch
-      ? `Evaluated against ${allRequired} target job requirements using layered semantic matching.`
+      ? 'Recognized required/preferred/optional terms carry weights 1/0.5/0.25. Demonstrated/transferable/mentioned evidence earns 100%/60%/30% credit. Other requirements need manual review.'
       : 'Mentioned terms earn limited credit; practical action evidence earns additional credit. This heuristic does not verify proficiency.',
     tips: missingRequiredList.slice(0, 3).map((s) => `Add evidence for missing skill: ${s}`),
     evidence: {
       detected: resume.allSkills.slice(0, 10),
-      expected: job?.requiredSkills?.slice(0, 10) || ['Core Languages', 'Frameworks', 'Databases', 'Cloud'],
+      expected: job?.requiredSkills?.slice(0, 10) || ['Skills relevant to your chosen profession', 'Practical examples'],
       matched: matchedSkillsList.slice(0, 8),
       missing: missingRequiredList.slice(0, 6),
       impactExplanation: 'This editorial rubric gives partial credit to mentions and more credit to detected practical evidence; it does not measure proficiency.',
@@ -202,11 +209,11 @@ export function calculateResumeScore(
     ],
     evidence: {
       detected: impactAnalysis.detectedMetrics,
-      expected: ['Quantified outcomes', 'Scale metrics', 'Revenue/cost improvements'],
+      expected: ['Clear action', 'Accurate scope', 'Substantiated outcome'],
       matched: impactAnalysis.detectedMetrics,
-      missing: impactAnalysis.metricsCount < 3 ? ['Add metrics to at least 3 bullet points'] : [],
+      missing: impactAnalysis.metricsCount === 0 ? ['No measurable outcomes detected; qualitative outcomes may still be useful'] : [],
       impactExplanation: 'Genuine measurements can clarify scope and outcomes. This score does not predict interview rates.',
-      recommendedAction: 'Use the AI Bullet Rewrite copilot to inject measurable candidate placeholders.',
+      recommendedAction: 'Clarify your contribution and a substantiated outcome. Add numbers only when known; never invent them.',
     },
   };
 
@@ -217,8 +224,7 @@ export function calculateResumeScore(
   let projectScoreVal = 40;
   if (projectCount >= 2) projectScoreVal += 35;
   else if (projectCount === 1) projectScoreVal += 20;
-  if (hasGitHub) projectScoreVal += 15;
-  if (hasPortfolio) projectScoreVal += 10;
+  if (hasGitHub || hasPortfolio) projectScoreVal += 25;
   projectScoreVal = clamp(projectScoreVal, 20, 100);
 
   const projectDimension: DimensionScore = {
@@ -229,24 +235,26 @@ export function calculateResumeScore(
     contribution: Number((projectScoreVal * 0.10).toFixed(1)),
     icon: '🚀',
     color: 'text-amber-400',
-    feedback: `${projectCount} project(s) documented. ${hasGitHub ? 'GitHub profile connected.' : 'Consider adding GitHub link.'}`,
-    reason: 'Demonstrates independent initiative, open-source work, and practical system building.',
-    tips: ['Link live demos or public code repositories for your top 2 projects.'],
+    feedback: `${projectCount} project(s) documented. ${hasGitHub || hasPortfolio ? 'Supporting profile or portfolio link detected.' : 'A relevant portfolio link is optional.'}`,
+    reason: 'Recognizes practical projects, academic work and professional case studies. Links are supporting evidence, not verification.',
+    tips: ['Describe your contribution and outcome; include a suitable public example only if you can share it.'],
     evidence: {
       detected: resume.projects.map((p) => p.name),
-      expected: ['2+ Technical Projects', 'Live Links / GitHub'],
+      expected: ['Relevant project or case study', 'Contribution and outcome'],
       matched: resume.projects.slice(0, 3).map((p) => p.name),
       missing: projectCount === 0 ? ['Dedicated projects section'] : [],
-      impactExplanation: 'Project links validate technical depth and hands-on system building capability.',
-      recommendedAction: 'Add 2 substantial projects highlighting modern stack components.',
+      impactExplanation: 'Projects can demonstrate applied skills across professions. Public links do not establish ownership or proficiency.',
+      recommendedAction: 'Describe a relevant project, academic assignment or case study with your actual contribution.',
     },
   };
 
   // 6. Structure & Readability (10%)
   const wordCount = resume.wordCount;
   let readScoreVal = 60;
-  if (wordCount >= 350 && wordCount <= 900) readScoreVal = 95;
-  else if (wordCount >= 250 && wordCount <= 1200) readScoreVal = 75;
+  const earlyCareer = careerLevel === 'student' || careerLevel === 'internship' || careerLevel === 'entry';
+  const minimumWords = earlyCareer ? 180 : 350;
+  if (wordCount >= minimumWords && wordCount <= 900) readScoreVal = 95;
+  else if (wordCount >= (earlyCareer ? 100 : 250) && wordCount <= 1200) readScoreVal = 75;
   else readScoreVal = 45;
 
   const readDimension: DimensionScore = {
@@ -257,12 +265,12 @@ export function calculateResumeScore(
     contribution: Number((readScoreVal * 0.10).toFixed(1)),
     icon: '📐',
     color: 'text-sky-400',
-    feedback: `Resume word count is ${wordCount} words (editorial full-credit band: 350-900 words).`,
+    feedback: `Resume word count is ${wordCount} words (editorial full-credit band for this career profile: ${minimumWords}-900 words).`,
     reason: 'Uses a documented word-count heuristic, not a measured recruiter reading-time model.',
     tips: ['Keep paragraphs concise and bullet-focused.'],
     evidence: {
       detected: [`${wordCount} words`, `Estimated ${resume.pageCountEstimate} page(s)`],
-      expected: ['350-900 total words for this editorial rubric; shorter early-career resumes may be appropriate'],
+      expected: [`${minimumWords}-900 words in this editorial rubric; content relevance matters more than length`],
       matched: [`${wordCount} words`],
       missing: [],
       impactExplanation: 'Clear visual hierarchy ensures key technical achievements are noticed immediately.',
@@ -324,7 +332,8 @@ export function calculateResumeScore(
   dimensions.forEach((dimension, index) => {
     dimension.weight = RUBRIC_WEIGHTS[careerLevel][index];
     dimension.contribution = Number((dimension.score * dimension.weight).toFixed(1));
-    dimension.confidence = resume.metadata.extractionQuality === 'degraded' ? 'low' : 'medium';
+    dimension.confidence = ['degraded', 'failed'].includes(resume.metadata.extractionQuality) ||
+      dimension.evidence.detected.length === 0 ? 'low' : 'medium';
   });
   if (careerLevel === 'student' || careerLevel === 'internship') {
     expDimension.name = 'Practical & Academic Evidence';
@@ -335,6 +344,8 @@ export function calculateResumeScore(
       ...resume.education.map(item => item.degree),
     ];
     expDimension.evidence.recommendedAction = 'Describe your actual contribution to a project, internship, or academic assignment.';
+    expDimension.feedback = `${resume.projects.length} project(s), ${resume.education.length} education entry/entries and ${expCount} role(s) detected.`;
+    expDimension.evidence.missing = expDimension.evidence.detected.length ? [] : ['No practical or academic evidence detected'];
   }
 
   const overall = Math.round(dimensions.reduce((sum, d) => sum + d.contribution, 0));
@@ -345,6 +356,7 @@ export function calculateResumeScore(
   for (const exp of resume.experience) {
     allBullets.push(...exp.bullets);
   }
+  allBullets.push(...resume.projects.map(project => project.description).filter(Boolean));
   const bulletAnalyses = allBullets.map((b, i) => analyzeBullet(b, i));
 
   // Prioritized Top 3 Actions with mathematically justified score boost estimates
@@ -369,12 +381,12 @@ export function calculateResumeScore(
   if (impactAnalysis.metricsCount < 3) {
     topActions.push({
       id: 'action-metrics',
-      title: 'Quantify at least 3 experience bullets with measurable metrics',
+      title: 'Clarify the outcome of a work or project contribution',
       impact: 'High',
       dimension: 'Impact & Metrics',
-      reason: `Only ${impactAnalysis.metricsCount} quantified metrics detected across work experience.`,
-      evidence: 'Bullet points currently lack numerical outcomes (% latency, revenue, users, scale).',
-      howToFix: 'Use the AI Rewrite copilot to apply the X-Y-Z formula and fill in your genuine metrics.',
+      reason: `${impactAnalysis.metricsCount} measured outcomes detected in work and project descriptions.`,
+      evidence: impactAnalysis.detectedMetrics.join('; ') || 'No measured outcomes detected; this does not establish that the work had no impact.',
+      howToFix: 'Explain the problem, your action and an outcome you can substantiate. Qualitative outcomes are useful; numbers are optional.',
       expectedScoreBoost: 0,
       expectedScoreBoostLabel: 'Re-analyze after editing; no guaranteed increase',
       confidence: 0.92,
@@ -400,7 +412,7 @@ export function calculateResumeScore(
   // Top Strengths and Critical Issues
   const topStrengths: string[] = [];
   if (atsScoreVal >= 85) topStrengths.push('Detected readable text with standard machine-readable section headings');
-  if (skillScoreVal >= 80) topStrengths.push(`Strong coverage of technical competencies (${resume.allSkills.length} skills identified)`);
+  if (skillScoreVal >= 80) topStrengths.push(`Strong coverage of recognized competencies (${resume.allSkills.length} skills identified)`);
   if (impactScoreVal >= 75) topStrengths.push(`Effective use of quantifiable results (${impactAnalysis.metricsCount} metrics detected)`);
   if (topStrengths.length === 0) topStrengths.push('Solid foundational structure ready for targeted metric enhancements');
 
@@ -417,10 +429,10 @@ export function calculateResumeScore(
       title: `Overall Score: ${overall}/100 (${grade})`,
       message:
         overall >= 85
-          ? 'Exceptional resume! Strong technical alignment, clear ATS formatting, and measurable achievements.'
+          ? 'Strong coverage under the selected editorial rubric. Review the evidence and extraction limitations.'
           : overall >= 70
-          ? 'Competitive profile with solid fundamentals. Addressing the top recommendations will elevate your score to top-tier.'
-          : 'Resume requires key enhancements in quantified metrics and target skill alignment.',
+          ? 'Several rubric dimensions have supporting evidence. Review the prioritized improvements.'
+          : 'Some rubric dimensions have limited detected evidence. Check extraction and add only truthful, relevant detail.',
       impactWeight: 'high',
     },
   ];
@@ -433,6 +445,24 @@ export function calculateResumeScore(
     return deficitB - deficitA;
   })[0];
 
+  // Rank existing evidence-backed actions by the corresponding rubric deficit.
+  topActions.sort((a, b) => {
+    const deficit = (action: TopActionItem) => {
+      const dimension = dimensions.find(item => item.name === action.dimension);
+      return dimension ? (100 - dimension.score) * dimension.weight : 0;
+    };
+    return deficit(b) - deficit(a);
+  });
+  if (lowestPillar && !topActions.some(action => action.dimension === lowestPillar.name)) {
+    topActions.unshift({
+      id: `action-${lowestPillar.key}`, title: lowestPillar.evidence.recommendedAction,
+      dimension: lowestPillar.name, impact: 'High', reason: lowestPillar.reason,
+      evidence: lowestPillar.evidence.detected.join('; ') || 'No supporting evidence detected.',
+      howToFix: lowestPillar.evidence.recommendedAction, expectedScoreBoost: 0,
+      expectedScoreBoostLabel: 'Recalculate after editing; no guaranteed increase',
+      confidence: lowestPillar.confidence === 'low' ? 0.3 : 0.6,
+    });
+  }
   const topPriority =
     topActions[0]?.title ||
     lowestPillar?.evidence.recommendedAction ||

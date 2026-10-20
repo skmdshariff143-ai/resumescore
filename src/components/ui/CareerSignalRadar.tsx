@@ -17,21 +17,22 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
   // 1. Resume Quality (ATS + Readability + Profile)
   const atsDim = score.dimensions.find((d) => d.key === 'ats');
   const readabilityDim = score.dimensions.find((d) => d.key === 'readability');
-  const profileDim = score.dimensions.find((d) => d.key === 'profile');
-  const resumeQuality = Math.round(((atsDim?.score || 80) * 0.4) + ((readabilityDim?.score || 85) * 0.3) + ((profileDim?.score || 80) * 0.3));
+  const resumeQuality = score.generalQualityScore ?? score.overall;
 
   // 2. Job Alignment (Skill match + Seniority match)
   const skillDim = score.dimensions.find((d) => d.key === 'skill_match');
-  const jobAlignment = skillDim?.score || 78;
+  const jobAlignment = skillDim?.score ?? 0;
+  const matchAvailable = score.mode !== 'job_match' || Boolean(score.parsedJob &&
+    score.parsedJob.requiredSkills.length + score.parsedJob.preferredSkills.length + score.parsedJob.bonusSkills.length);
 
   // 3. Evidence Strength (Verified items vs unverified)
   const projDim = score.dimensions.find((d) => d.key === 'projects');
-  const evidenceStrength = Math.round(((readabilityDim?.score || 85) * 0.3) + ((projDim?.score || 75) * 0.7));
+  const evidenceStrength = Math.round(((readabilityDim?.score ?? 0) * 0.3) + ((projDim?.score ?? 0) * 0.7));
 
   // 4. Career Impact (Experience + Impact metrics)
   const expDim = score.dimensions.find((d) => d.key === 'experience');
   const impactDim = score.dimensions.find((d) => d.key === 'impact');
-  const careerImpact = Math.round(((expDim?.score || 78) * 0.5) + ((impactDim?.score || 72) * 0.5));
+  const careerImpact = Math.round(((expDim?.score ?? 0) * 0.5) + ((impactDim?.score ?? 0) * 0.5));
 
   const vectors = [
     {
@@ -41,20 +42,20 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
       icon: ShieldCheck,
       color: 'text-blue-400',
       barBg: 'bg-blue-500',
-      why: 'Measures structural formatting, section discoverability, and machine-readability across ATS standards.',
-      evidence: `ATS score of ${atsDim?.score || 80}/100 with ${score.parsedResume.sections.length} recognized sections.`,
+      why: 'Uses the general resume-quality rubric, independently of the target job.',
+      evidence: `Readability estimate of ${atsDim?.score ?? 0}/100 with ${score.parsedResume.sections.length} recognized sections.`,
       action: 'Standardize any irregular section headings and ensure contact info is easily parsed.',
       tab: 'ats',
     },
     {
       id: 'alignment',
-      label: 'Job Alignment',
-      score: jobAlignment,
+      label: score.mode === 'job_match' ? 'Job Alignment' : 'Skill Evidence',
+      score: matchAvailable ? jobAlignment : null,
       icon: Target,
       color: 'text-cyan-400',
       barBg: 'bg-cyan-500',
-      why: 'Evaluates required and preferred technical competencies against role specifications.',
-      evidence: `Semantic match score of ${jobAlignment}/100 across ${score.parsedResume.allSkills.length} identified skills.`,
+      why: 'Uses detected skill terms and practical evidence. It does not verify proficiency or predict hiring.',
+      evidence: matchAvailable ? `Evidence-weighted terminology score of ${jobAlignment}/100.` : 'No recognized job skill requirements; review the description manually.',
       action: 'Review missing skill requirements in the Semantic Skill Matrix.',
       tab: 'skills',
     },
@@ -65,9 +66,9 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
       icon: Zap,
       color: 'text-emerald-400',
       barBg: 'bg-emerald-500',
-      why: 'Verifies whether skills and achievements are backed by direct quotes in projects and work narratives.',
-      evidence: `${score.parsedResume.projects.length} verified projects with concrete technology references.`,
-      action: 'Add GitHub repository links and technical implementation details to your projects.',
+      why: 'Combines readability (30%) and project evidence (70%). This editorial summary is not independent verification.',
+      evidence: `${score.parsedResume.projects.length} project entries detected in the supplied text.`,
+      action: 'Describe your contribution and outcome in relevant projects, academic work or case studies.',
       tab: 'review',
     },
     {
@@ -147,12 +148,12 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
                     <vec.icon className={`w-3.5 h-3.5 mr-1.5 ${vec.color}`} />
                     {vec.label}
                   </span>
-                  <span className="text-xs font-bold text-slate-100 font-mono">{vec.score}</span>
+                  <span className="text-xs font-bold text-slate-100 font-mono">{vec.score ?? 'N/A'}</span>
                 </div>
                 <div className="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
                   <div
                     className={`h-full ${vec.barBg} rounded-full transition-all duration-500`}
-                    style={{ width: `${vec.score}%` }}
+                    style={{ width: `${vec.score ?? 0}%` }}
                   />
                 </div>
                 <div className="text-[9px] font-mono text-slate-400 text-right">
@@ -170,7 +171,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
           <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
             <div className="flex items-center space-x-2">
               <selectedVecData.icon className={`w-4 h-4 ${selectedVecData.color}`} />
-              <span className="font-bold text-slate-100">{selectedVecData.label} Signal Analysis ({selectedVecData.score}/100)</span>
+              <span className="font-bold text-slate-100">{selectedVecData.label} Signal Analysis ({selectedVecData.score === null ? 'unavailable' : `${selectedVecData.score}/100`})</span>
             </div>
             {onNavigateToTab && (
               <button

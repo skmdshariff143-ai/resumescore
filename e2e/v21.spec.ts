@@ -56,7 +56,7 @@ test('journey accessibility, keyboard approval and production-like paid-disabled
   async function audit(screen: string) {
     const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
     reports.push({ screen, violations: result.violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) })) });
-    await writeFile(`docs/v21-accessibility-${test.info().project.name}.json`, JSON.stringify(reports, null, 2));
+    await writeFile(test.info().outputPath('accessibility.json'), JSON.stringify(reports, null, 2));
   }
   await page.goto('/');
   await page.keyboard.press('Tab');
@@ -87,7 +87,10 @@ test('journey accessibility, keyboard approval and production-like paid-disabled
   }
   const review = page.getByRole('region', { name: 'Review a suggested rewrite' });
   await review.getByLabel('Original text', { exact: true }).fill(bullet);
+  const rewriteResponse = page.waitForResponse(response =>
+    response.url().endsWith('/api/ai/rewrite') && response.request().method() === 'POST');
   await review.getByRole('button', { name: 'Suggest rewrite' }).click();
+  expect((await rewriteResponse).status()).toBe(200);
   await expect(review.getByRole('status')).toContainText('Heuristic');
   await audit('rewrite-review');
   await expect(review.getByRole('button', { name: 'Approve and apply rewrite' })).toBeDisabled();
@@ -102,7 +105,7 @@ test('journey accessibility, keyboard approval and production-like paid-disabled
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.goto('/history'); await audit('history');
   await page.goto('/privacy'); await audit('privacy');
-  await writeFile(`docs/v21-accessibility-${test.info().project.name}.json`, JSON.stringify(reports, null, 2));
+  await writeFile(test.info().outputPath('accessibility.json'), JSON.stringify(reports, null, 2));
   expect(reports.flatMap(r => r.violations).filter(v => ['serious', 'critical'].includes((v as { impact: string }).impact))).toEqual([]);
 });
 
@@ -120,9 +123,11 @@ test('DOCX tables and Unicode survive extraction; long PDF has selectable first 
   await expect(page.getByLabel('Extracted resume text')).toHaveValue(/José Example — résumé/);
   await expect(page.getByLabel('Extracted resume text')).toHaveValue(/Python and SQL project experience/);
   const long = resume + '\n' + Array.from({ length: 100 }, (_, i) => `Project record ${i}: ${bullet}`).join('\n') + '\nFinal record preserved';
-  await page.setContent(printableResumeHTML(splitResumeBlocks(long)));
-  const pdf = await page.pdf({ format: 'A4' });
-  await page.goto('/analyze');
+  // Never replace the DOM beneath a hydrated Next.js application.
+  const printPage = await page.context().newPage();
+  await printPage.setContent(printableResumeHTML(splitResumeBlocks(long)));
+  const pdf = await printPage.pdf({ format: 'A4' });
+  await printPage.close();
   await page.locator('input[type=file]').setInputFiles({ name: 'long.pdf', mimeType: 'application/pdf', buffer: pdf });
   await expect(page.getByLabel('Extracted resume text')).toHaveValue(/Alex Example/);
   await expect(page.getByLabel('Extracted resume text')).toHaveValue(/Project record 99/);
@@ -151,8 +156,10 @@ test('records local performance evidence without claiming Lighthouse scores', as
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Download DOCX' }).click();
   await download;
-  await writeFile(`docs/v21-performance-${test.info().project.name}.json`, JSON.stringify({
-    environment: 'Local production build, Edge Chromium, no network/CPU throttling; single sample',
+  await writeFile(test.info().outputPath('performance.json'), JSON.stringify({
+    environment: process.env.BASE_URL
+      ? 'Protected Preview with authenticated Node transport; single sample, not production network performance'
+      : 'Local production build, Chromium, no network/CPU throttling; single sample',
     analysisUIElapsedMs, docxDownloadElapsedMs: performance.now() - exportStart, ...measurements,
   }, null, 2));
 });

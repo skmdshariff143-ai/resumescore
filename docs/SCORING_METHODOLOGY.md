@@ -24,3 +24,10 @@ Major dimensions expose weights, detected/missing evidence, explanation, action 
 Recommendations no longer promise arbitrary point gains. Re-analyzing edited text computes an actual new score. No score simulation or interview guarantee is offered.
 
 Limitations: the taxonomy and several underlying dimensions remain software-oriented. Education and certifications are not separately calibrated dimensions. General-mode skill breadth still rewards keyword counts; career switcher/senior weighting alone does not establish relevance. Layout, dates, tables and reading order need broader document benchmarks. No independently reviewed scoring-agreement, extraction accuracy, or skill precision/recall benchmark has been completed.
+# V2.2 additions
+
+The historical rubric below remains the basis. V2.2 weights recognized required/preferred/optional job terms at 1/0.5/0.25, with demonstrated/transferable/mentioned credit of 1/0.6/0.3. Transferable credit requires practical evidence for the related skill. A job with no recognized skills is labeled unavailable.
+
+Students, interns and entry-level profiles receive the full readability band at 180–900 words (others: 350–900). Project descriptions contribute impact evidence. Portfolio and code links receive equal supporting-link credit. Recommendations are ordered by weighted rubric deficit and require truthful source evidence. Failed extraction or absent dimension evidence lowers confidence. None of these editorial choices is independently calibrated.
+
+Version comparison recalculates both texts using the same current profile, job and rubric, excluding original PDF layout diagnostics. Historical stored scores should be re-analyzed before comparison. See [V2.2 benchmarks](V2_2_BENCHMARKS.md).

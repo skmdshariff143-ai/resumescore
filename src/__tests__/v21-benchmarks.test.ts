@@ -72,7 +72,7 @@ describe('V2.1 reproducible engineered benchmarks', () => {
         mentionSkillScore: mentionScore.dimensions[1].score, evidencedSkillScore: score.dimensions[1].score,
         jobCoverage: alignment.skillMatchScore };
     });
-    writeFileSync('docs/v21-scoring-measurements.json', JSON.stringify({ labels: 'engineered synthetic; independent calibration pending', results }, null, 2));
+    writeFileSync('docs/v22-scoring-measurements.json', JSON.stringify({ labels: 'engineered synthetic; independent calibration pending', results }, null, 2));
     expect(results.every(row => row.fields.name && row.fields.email && row.expectedSkillRecall === 1)).toBe(true);
   });
   it('caps unsupported keyword lists and records false-positive evidence classifications', () => {
@@ -91,7 +91,7 @@ describe('V2.1 reproducible engineered benchmarks', () => {
     }));
     expect(results.every(row => row.actual === row.expected)).toBe(true);
     expect(results.filter(row => row.actual === 'demonstrated').length).toBe(1);
-    writeFileSync('docs/v21-evidence-measurements.json', JSON.stringify(results, null, 2));
+    writeFileSync('docs/v22-evidence-measurements.json', JSON.stringify(results, null, 2));
   });
   it('extracts generated PDF layouts, handles empty/protected/corrupt documents and measures export round trips', async () => {
     const results = [];
@@ -131,7 +131,7 @@ describe('V2.1 reproducible engineered benchmarks', () => {
       expect(xml).toContain('w:hyperlink');
       exportResults.push({ repetitions: count, bytes: blob.size, durationMs: performance.now() - start, preservedOccurrences: count });
     }
-    writeFileSync('docs/v21-document-measurements.json', JSON.stringify({ pdf: results, docx: exportResults,
+    writeFileSync('docs/v22-document-measurements.json', JSON.stringify({ pdf: results, docx: exportResults,
       protectedRejected: true, corruptRejected: true, limits: 'DOCX ZIP/XML inspection; no Word/LibreOffice interoperability claim' }, null, 2));
   }, 30000);
 });
