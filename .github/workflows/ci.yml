@@ -42,11 +42,14 @@ jobs:
       - name: Run Production Build
         run: npm run build
 
-      - name: Install browser
-        run: npx playwright install --with-deps chromium
+      - name: Install browsers
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Browser workflows and accessibility
         run: npm run test:e2e
+
+      - name: Firefox and WebKit workflows, keyboard access and reflow
+        run: npm run test:cross-browser
 
       - name: Production dependency audit
         run: npm audit --omit=dev --audit-level=high

@@ -42,9 +42,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-canvas text-body antialiased">
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:block focus:p-4">Skip to main content</a>
+        <a href="#main-content" tabIndex={0} className="sr-only focus:not-sr-only focus:block focus:p-4">Skip to main content</a>
         <Navbar />
-        <main id="main-content" className="relative z-10">{children}</main>
+        <main id="main-content" tabIndex={-1} className="relative z-10">{children}</main>
         <Footer />
       </body>
     </html>

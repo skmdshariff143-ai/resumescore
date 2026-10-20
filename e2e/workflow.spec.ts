@@ -39,7 +39,9 @@ test('review, browser-only analysis, edit, compare, download and privacy', async
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
   await expect(content).toHaveValue('Jane Doe\njane@example.com');
   await expect(page.locator('body')).toBeVisible();
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  // WebKit on Windows can scale innerWidth independently of its emulated root.
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <=
+    Math.ceil(parseFloat(getComputedStyle(document.documentElement).width)))).toBe(true);
   await page.getByRole('heading', { name: 'Edit your resume' }).scrollIntoViewIfNeeded();
   await page.screenshot({ path: test.info().outputPath('workspace.png') });
 });

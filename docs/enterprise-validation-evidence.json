@@ -1,0 +1,202 @@
+{
+  "date": "2026-10-20",
+  "baselineCommit": "f97a0d166b0f0553b9639dc3e6b04b38b3aeccfe",
+  "sourceFingerprint": {
+    "scope": "Normalized source/test/tool/config/lockfile/CI paths including new working-tree files; documentation excluded",
+    "sha256": "51e4a3eb31df986c18533feb4ca10b7743f4701f40b7e99a82e5f35546d4754f"
+  },
+  "environment": {
+    "os": "Windows",
+    "node": "v24.21.0",
+    "npm": "11.19.0",
+    "playwright": "1.64.1"
+  },
+  "commands": [
+    {
+      "command": "npm ci",
+      "exitCode": 0,
+      "packages": 486
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "passed": 159,
+      "failed": 0,
+      "files": 28,
+      "skipped": 0
+    },
+    {
+      "command": "npm run lint",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run build",
+      "exitCode": 0
+    },
+    {
+      "command": "npm run evaluate:release",
+      "exitCode": 0,
+      "passed": 1
+    },
+    {
+      "command": "npm run evaluate:review",
+      "exitCode": 0,
+      "passed": 1
+    },
+    {
+      "command": "npm audit --json",
+      "exitCode": 1,
+      "advisories": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 5,
+        "critical": 0,
+        "total": 5
+      }
+    },
+    {
+      "command": "npm audit --omit=dev --json",
+      "exitCode": 0,
+      "advisories": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    }
+  ],
+  "local": {
+    "core": {
+      "stats": {
+        "startTime": "2026-10-20T14:41:57.687Z",
+        "duration": 389551.40900000004,
+        "expected": 46,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "runtime": {
+        "reports": 46,
+        "uncaughtExceptions": 0,
+        "consoleErrors": [
+          {
+            "kind": "resource",
+            "path": "/api/analyze"
+          },
+          {
+            "kind": "resource",
+            "path": "/api/analyze"
+          }
+        ]
+      }
+    },
+    "crossBrowser": {
+      "stats": {
+        "startTime": "2026-10-20T14:39:54.791Z",
+        "duration": 109258.99100000001,
+        "expected": 72,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "runtime": {
+        "reports": 72,
+        "uncaughtExceptions": 0,
+        "consoleErrors": [
+          {
+            "kind": "resource",
+            "path": "/api/analyze"
+          },
+          {
+            "kind": "resource",
+            "path": "/api/analyze"
+          }
+        ]
+      }
+    }
+  },
+  "failedOrInterruptedAttempts": [
+    {
+      "run": "enterprise-cross-focus-first",
+      "stats": {
+        "startTime": "2026-10-20T14:20:10.942Z",
+        "duration": 56114.15,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 3,
+        "flaky": 0
+      }
+    },
+    {
+      "run": "enterprise-cross-focus-second",
+      "stats": {
+        "startTime": "2026-10-20T14:24:53.640Z",
+        "duration": 100120.15999999999,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 12,
+        "flaky": 0
+      }
+    },
+    {
+      "run": "enterprise-cross-final",
+      "stats": {
+        "startTime": "2026-10-20T14:26:52.636Z",
+        "duration": 136723.594,
+        "expected": 27,
+        "skipped": 0,
+        "unexpected": 9,
+        "flaky": 0
+      }
+    },
+    {
+      "run": "enterprise-cross-verified",
+      "status": "interrupted-incomplete-not-a-pass"
+    },
+    {
+      "run": "enterprise-cross-verified-second",
+      "stats": {
+        "startTime": "2026-10-20T14:32:06.443Z",
+        "duration": 141894.328,
+        "expected": 33,
+        "skipped": 0,
+        "unexpected": 3,
+        "flaky": 0
+      }
+    },
+    {
+      "run": "enterprise-cross-final-pass",
+      "stats": {
+        "startTime": "2026-10-20T14:34:43.275Z",
+        "duration": 279926.804,
+        "expected": 35,
+        "skipped": 0,
+        "unexpected": 1,
+        "flaky": 0
+      }
+    }
+  ],
+  "independentEvidence": {
+    "authenticatedReviewers": 0,
+    "reviewedHoldoutPairs": 0,
+    "scoring": "blocked",
+    "extraction": "blocked",
+    "manualAssistiveTechnology": "pending",
+    "dependencyRiskAcceptance": "not-supplied"
+  },
+  "production": {
+    "id": "dpl_5NimgXZ6W7XqK3Kypy5S1Eug1FS6",
+    "sha": "79a373c8acc3d234c04e21010598ef9f93764bcf",
+    "url": "https://resumescore-phi.vercel.app/",
+    "unchanged": true
+  },
+  "paidAI": "compiled-disabled",
+  "publication": "Post-commit hosted CI and protected Preview are verified after publication and recorded in PR #1 and the final execution response; no future results asserted here."
+}

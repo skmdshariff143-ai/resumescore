@@ -3,6 +3,7 @@ import { parseResume } from '@/lib/parsing/resume-parser';
 import { parseJobDescription } from '@/lib/jobs/job-parser';
 import { calculateResumeScore } from '@/lib/scoring/scoring-engine';
 import { buildSkillMatrix } from '@/lib/matching/semantic-matcher';
+import { pairedScoreMetrics, reviewerAgreement } from './agreement';
 
 export const evaluationFields = ['name', 'email', 'degree', 'institution', 'company', 'role',
   'projectName', 'projectDescription', 'skill', 'section', 'requiredSkill'] as const;
@@ -39,6 +40,7 @@ export const EvaluationDatasetSchema = z.object({
       const source = label.source === 'resume' ? row.resumeText : row.jobText;
       if (label.end <= label.start || source.slice(label.start, label.end) !== label.quote) problem('Label source span does not match its quote');
       if ((label.field === 'requiredSkill') !== (label.source === 'job')) problem('Label uses the wrong source document');
+      if (label.evidence && !['skill', 'requiredSkill'].includes(label.field)) problem('Evidence levels apply only to skill labels');
     }
     const evidenceBySkill = new Map<string, string>();
     for (const label of row.labels.filter(label => label.evidence)) {
@@ -55,12 +57,13 @@ export const EvaluationDatasetSchema = z.object({
       if (row.reviews.some(review => canonicalLabels(review.labels) !== labels) && !row.adjudication) problem('Label disagreements require an adjudication reference');
     }
     if (row.adjudication && reviewers.get(row.adjudication.reviewerId) !== true) problem('Adjudicator must be a declared independent reviewer');
+    if (row.adjudication && reviewerIds.includes(row.adjudication.reviewerId)) problem('Adjudicator must not adjudicate their own review');
   });
 });
 export type EvaluationDataset = z.infer<typeof EvaluationDatasetSchema>;
 const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase('en-US').replace(/\s+/g, ' ').trim();
 function canonicalLabels(labels: z.infer<typeof annotation>[]) {
-  return JSON.stringify(labels.map(l => `${l.field}:${normalize(l.value)}:${l.evidence || ''}`).sort());
+  return JSON.stringify(labels.map(l => JSON.stringify([l.field, normalize(l.value), l.source, l.start, l.end, l.evidence || ''])).sort());
 }
 
 /** Set-based canonical field values; repeated occurrences are intentionally not counted. */
@@ -111,7 +114,9 @@ export function evaluateReleaseDataset(input: unknown) {
     const tp = rows.reduce((n, row) => n + row.fields[field].truePositive, 0);
     const fp = rows.reduce((n, row) => n + row.fields[field].falsePositive, 0);
     const fn = rows.reduce((n, row) => n + row.fields[field].falseNegative, 0);
-    return [field, { truePositive: tp, falsePositive: fp, falseNegative: fn, precision: tp + fp ? tp / (tp + fp) : null, recall: tp + fn ? tp / (tp + fn) : null }];
+    return [field, { truePositive: tp, falsePositive: fp, falseNegative: fn, precision: tp + fp ? tp / (tp + fp) : null, recall: tp + fn ? tp / (tp + fn) : null,
+      falseDiscoveryRate: tp + fp ? fp / (tp + fp) : null, falseNegativeRate: tp + fn ? fn / (tp + fn) : null,
+      falsePositiveRate: null, falsePositiveRateReason: 'No exhaustively labeled true-negative universe; false discovery rate is reported instead.' }];
   }));
   const profileCoverage = Object.fromEntries(['student', 'internship', 'entry', 'experienced', 'senior', 'switcher'].map(profile => {
     const group = rows.filter(row => row.careerLevel === profile);
@@ -120,9 +125,16 @@ export function evaluateReleaseDataset(input: unknown) {
       meanAbsoluteError: errors.length ? errors.reduce((n, error) => n + Math.abs(error), 0) / errors.length : null,
       meanSignedError: errors.length ? errors.reduce((n, error) => n + error, 0) / errors.length : null }];
   }));
+  const holdout = rows.filter(row => row.reviewerMean !== null);
+  const agreement = reviewerAgreement(dataset.records.filter(row => row.source.kind !== 'synthetic').map(row => ({
+    scores: row.reviews.map(review => review.qualityScore), labelSets: row.reviews.map(review => canonicalLabels(review.labels)),
+  })));
   return { datasetId: dataset.id, declaredEngineCommit: dataset.engineCommit,
     independentValidation: 'pending-provenance-and-release-owner-review',
     groundTruth: rows.every(r => r.provenance === 'synthetic') ? 'engineered-synthetic' : 'declared-human-labels-not-authenticated',
     sampleCount: rows.length, totals, profileCoverage, rows,
+    reviewedHoldoutMetrics: pairedScoreMetrics(holdout.map(row => row.generalQuality), holdout.map(row => row.reviewerMean!)),
+    reviewerAgreement: agreement,
+    confidenceCalibration: { status: 'not-applicable', reason: 'Displayed confidence is a heuristic category, not a calibrated probability; no probabilistic calibration claim is supported.' },
     limitations: 'Source-span checks validate label integrity, not license/consent or reviewer independence. Metrics do not certify fairness, ATS compatibility, factuality or hiring outcomes. Empty denominators are null. Owner must verify provenance and pre-registered holdout acceptance thresholds.' };
 }

@@ -49,7 +49,9 @@ describe('offline review evaluation', () => {
     const reviews = [{ reviewerId: 'reviewer-a', qualityScore: 40, labels: row.labels }, { reviewerId: 'reviewer-b', qualityScore: 60, labels: row.labels.slice(1) }];
     const input = { ...sample, reviewers, records: [{ ...row, split: 'holdout', source: { kind: 'licensed', reference: 'schema-test-only' }, reviews }] };
     expect(EvaluationDatasetSchema.safeParse(input).success).toBe(false);
-    const report = evaluateReleaseDataset({ ...input, records: [{ ...input.records[0], adjudication: { reviewerId: 'reviewer-a', reference: 'schema-test-only' } }] });
+    expect(EvaluationDatasetSchema.safeParse({ ...input, records: [{ ...input.records[0], adjudication: { reviewerId: 'reviewer-a', reference: 'schema-test-only' } }] }).success).toBe(false);
+    const report = evaluateReleaseDataset({ ...input, reviewers: [...reviewers, { id: 'reviewer-c', independentOfEngine: true }],
+      records: [{ ...input.records[0], adjudication: { reviewerId: 'reviewer-c', reference: 'schema-test-only' } }] });
     expect(report.rows[0]).toMatchObject({ labelDisagreement: true, reviewerScoreSpread: 20, reviewerMean: 50 });
     expect(report.profileCoverage.student.reviewedHoldout).toBe(1);
     expect(report.independentValidation).toBe('pending-provenance-and-release-owner-review');

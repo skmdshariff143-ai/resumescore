@@ -65,8 +65,9 @@ npm run lint
 npm test
 npm run evaluate:release
 npm run build
-npx playwright install chromium
+npx playwright install chromium firefox webkit
 npm run test:e2e
+npm run test:cross-browser
 npm audit --omit=dev
 ```
 
@@ -79,13 +80,13 @@ npm run test:e2e
 
 For unattended Windows runs interrupted by Modern Standby, use `& .\tools\test-local-windows.ps1` with the same environment. It requests temporary system wakefulness during the suite and releases it on exit; it does not change saved power settings or screen locking. `-Preview` invokes the existing remote-suite runner instead; use it only through authenticated Vercel `env run` with the intended `BASE_URL`.
 
-Vitest uses one thread to avoid the observed Windows sandbox temporary-file issue. The older `npm run verify:e2e` command is an API smoke script, not the browser E2E suite. See [test report](docs/TEST_REPORT.md) for measured results and exact limitations. CI includes type checks, lint, tests, build, browser/accessibility tests and production dependency audit.
+Vitest uses one thread to avoid the observed Windows sandbox temporary-file issue. The older `npm run verify:e2e` command is an API smoke script, not the browser E2E suite. See [cross-browser validation](docs/CROSS_BROWSER_VALIDATION.md) and [test report](docs/TEST_REPORT.md) for scope and limitations. CI runs Chromium, Firefox and WebKit checks; selectable PDF automation is Chromium-only. Native Safari, screen-reader speech and native print/Office validation remain manual gates.
 
 ## Deployment
 
 Existing production: https://resumescore-phi.vercel.app/
 
-The feature branch is published to GitHub and protected Vercel Previews. PR #1 remains draft; main and the existing production deployment retain the original release. Address the gates in [final production readiness](docs/FINAL_PRODUCTION_READINESS.md) before requesting final production approval. No paid AI activation, production environment change or domain change is included.
+The feature branch is published to GitHub and protected Vercel Previews. PR #1 remains draft; main and the existing production deployment retain the original release. Address the [final release gates](docs/FINAL_RELEASE_GATE_MATRIX.md) before requesting final production approval. No paid AI activation, production environment change or domain change is included.
 
 ## Limitations and roadmap
 

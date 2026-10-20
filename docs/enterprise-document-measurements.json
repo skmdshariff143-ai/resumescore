@@ -1,0 +1,81 @@
+{
+  "pdf": [
+    {
+      "layout": "single",
+      "durationMs": 1667.7496999999994,
+      "characters": 440,
+      "pages": 1,
+      "detectedColumns": false,
+      "quality": "excellent",
+      "name": true,
+      "email": true
+    },
+    {
+      "layout": "columns",
+      "durationMs": 25.285499999999956,
+      "characters": 610,
+      "pages": 1,
+      "detectedColumns": true,
+      "quality": "degraded",
+      "name": true,
+      "email": true
+    },
+    {
+      "layout": "table",
+      "durationMs": 12.959499999999025,
+      "characters": 610,
+      "pages": 1,
+      "detectedColumns": true,
+      "quality": "degraded",
+      "name": true,
+      "email": true
+    },
+    {
+      "layout": "multipage",
+      "durationMs": 9.36239999999998,
+      "characters": 463,
+      "pages": 2,
+      "detectedColumns": false,
+      "quality": "degraded",
+      "name": true,
+      "email": true
+    },
+    {
+      "layout": "empty",
+      "durationMs": 3.5451000000011845,
+      "characters": 0,
+      "pages": 1,
+      "detectedColumns": false,
+      "quality": "failed",
+      "name": false,
+      "email": false
+    },
+    {
+      "layout": "image-only",
+      "durationMs": 3.449000000000524,
+      "characters": 0,
+      "pages": 1,
+      "detectedColumns": false,
+      "quality": "failed",
+      "name": false,
+      "email": false
+    }
+  ],
+  "docx": [
+    {
+      "repetitions": 1,
+      "bytes": 9830,
+      "durationMs": 132.90999999999985,
+      "preservedOccurrences": 1
+    },
+    {
+      "repetitions": 100,
+      "bytes": 13437,
+      "durationMs": 106.58989999999903,
+      "preservedOccurrences": 100
+    }
+  ],
+  "protectedRejected": true,
+  "corruptRejected": true,
+  "limits": "DOCX ZIP/XML inspection; no Word/LibreOffice interoperability claim"
+}

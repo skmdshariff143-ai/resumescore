@@ -5,6 +5,10 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
+const suite = process.env.PREVIEW_SUITE || 'core';
+if (!['core', 'cross-browser'].includes(suite)) throw new Error('Use core or cross-browser PREVIEW_SUITE');
+const configuration = suite === 'core' ? 'playwright.config.ts' : 'playwright.cross.config.ts';
+const resultsDirectory = suite === 'core' ? 'v22-runs' : 'cross-browser-runs';
 const harnessCommit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
 const target = new URL(process.env.BASE_URL || '');
 if (target.protocol !== 'https:' || !target.hostname.endsWith('.vercel.app') || target.username || target.password) {
@@ -15,7 +19,7 @@ const repetitions = Number(process.env.PREVIEW_REPETITIONS || 3);
 if (!Number.isInteger(repetitions) || repetitions < 1 || repetitions > 5) throw new Error('Use 1–5 repetitions');
 const records = [];
 for (let run = 1; run <= repetitions; run++) {
-  const folder = path.join(root, '.vercel', 'v22-runs', `run-${run}`);
+  const folder = path.join(root, '.vercel', resultsDirectory, `run-${run}`);
   await mkdir(path.join(folder, 'docs', 'screenshots'), { recursive: true });
   const env = { ...process.env, BASE_URL: target.origin, E2E_ARTIFACT_DIR: folder };
   delete env.DEBUG;
@@ -23,7 +27,7 @@ for (let run = 1; run <= repetitions; run++) {
   const code = await new Promise(resolve => {
     const child = spawn(process.execPath, [
       path.join(root, 'node_modules', '@playwright', 'test', 'cli.js'), 'test',
-      '--config', path.join(root, 'playwright.config.ts'),
+      '--config', path.join(root, configuration),
     ], { cwd: folder, env, stdio: 'inherit' });
     child.on('error', () => resolve(1));
     child.on('exit', code => resolve(code ?? 1));
@@ -40,8 +44,8 @@ for (let run = 1; run <= repetitions; run++) {
   }
   report.suites.forEach(collect);
   records.push({ run, code, stats: report.stats, networkEvents });
-  await writeFile(path.join(root, '.vercel', 'v22-runs', 'summary.json'), JSON.stringify({
-    preview: target.origin, harnessCommit,
+  await writeFile(path.join(root, '.vercel', resultsDirectory, 'summary.json'), JSON.stringify({
+    preview: target.origin, harnessCommit, suite, configuration,
     environment: 'Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one bounded asset/navigation GET transport retry; no API retries',
     requestedRuns: repetitions, completedRuns: records.length,
     runs: records, passed: records.length === repetitions && records.every(record => record.code === 0 && record.stats.unexpected === 0 &&
