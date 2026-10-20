@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   getAIProvider,
   isAIConfigured,
@@ -9,18 +9,25 @@ import { ClaudeAIProvider } from '../lib/ai/claude-provider';
 import { GeminiAIProvider, GeminiCritiqueResponseSchema } from '../lib/ai/gemini-provider';
 import { parseResume } from '../lib/parsing/resume-parser';
 
+const { generateContent } = vi.hoisted(() => ({ generateContent: vi.fn() }));
+vi.mock('@google/genai', () => ({
+  GoogleGenAI: class { models = { generateContent }; },
+}));
+
 describe('AI Provider Architecture & Gemini Integration', () => {
   const originalAnthropicKey = process.env.ANTHROPIC_API_KEY;
   const originalGeminiKey = process.env.GEMINI_API_KEY;
   const originalGoogleKey = process.env.GOOGLE_API_KEY;
 
   beforeEach(() => {
+    generateContent.mockReset();
     delete process.env.ANTHROPIC_API_KEY;
     delete process.env.GEMINI_API_KEY;
     delete process.env.GOOGLE_API_KEY;
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     if (originalAnthropicKey) process.env.ANTHROPIC_API_KEY = originalAnthropicKey;
     else delete process.env.ANTHROPIC_API_KEY;
 
@@ -92,6 +99,9 @@ describe('AI Provider Architecture & Gemini Integration', () => {
   });
 
   it('sanitizes the error when Gemini API fails', async () => {
+    generateContent.mockRejectedValue(new Error('private provider failure with test-only credential'));
+    const network = vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Unexpected HTTP in offline test'));
+    const logging = vi.spyOn(console, 'error').mockImplementation(() => {});
     const geminiProvider = new GeminiAIProvider('invalid-gemini-key');
     const resume = parseResume(
       'John Doe\njohn@example.com\n\nEXPERIENCE\nDeveloper at Tech Co\n• Built backend APIs in Node.js',
@@ -99,11 +109,17 @@ describe('AI Provider Architecture & Gemini Integration', () => {
     );
 
     await expect(geminiProvider.rewriteBullet('Built backend APIs in Node.js', ['Node.js'])).rejects.toThrow(
-      /AI provider unavailable/
+      'AI provider unavailable. Please try again later.'
     );
 
     await expect(geminiProvider.generateCritique(resume)).rejects.toThrow(
-      /AI provider unavailable/
+      'AI provider unavailable. Please try again later.'
     );
+    expect(generateContent).toHaveBeenCalledTimes(2);
+    expect(network).not.toHaveBeenCalled();
+    expect(logging.mock.calls).toEqual([
+      [JSON.stringify({ event: 'ai_provider_failed' })],
+      [JSON.stringify({ event: 'ai_provider_failed' })],
+    ]);
   });
 });

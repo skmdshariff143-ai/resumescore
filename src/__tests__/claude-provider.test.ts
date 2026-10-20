@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   getAIProvider,
   isAIConfigured,
@@ -8,14 +8,21 @@ import {
 import { ClaudeAIProvider, CritiqueResponseSchema } from '../lib/ai/claude-provider';
 import { parseResume } from '../lib/parsing/resume-parser';
 
+const { createMessage } = vi.hoisted(() => ({ createMessage: vi.fn() }));
+vi.mock('@anthropic-ai/sdk', () => ({
+  default: class { messages = { create: createMessage }; },
+}));
+
 describe('AI Provider Architecture & Claude Integration', () => {
   const originalApiKey = process.env.ANTHROPIC_API_KEY;
 
   beforeEach(() => {
+    createMessage.mockReset();
     delete process.env.ANTHROPIC_API_KEY;
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
     if (originalApiKey) {
       process.env.ANTHROPIC_API_KEY = originalApiKey;
     } else {
@@ -69,17 +76,25 @@ describe('AI Provider Architecture & Claude Integration', () => {
   });
 
   it('sanitizes the error when Claude API fails', async () => {
-    // Instantiate with dummy key so network/auth call fails
+    // Reject at the SDK boundary: invalid keys must never trigger real requests.
+    createMessage.mockRejectedValue(new Error('private provider failure with test-only credential'));
+    const network = vi.spyOn(globalThis, 'fetch').mockRejectedValue(new Error('Unexpected HTTP in offline test'));
+    const logging = vi.spyOn(console, 'error').mockImplementation(() => {});
     const claudeProvider = new ClaudeAIProvider('invalid-key');
     const resume = parseResume('John Doe\njohn@example.com\n\nEXPERIENCE\nDeveloper at Tech Co\n• Built backend APIs in Node.js', 'resume.txt');
 
-    // Should reject with descriptive error rather than silently masking failure
     await expect(claudeProvider.rewriteBullet('Built backend APIs in Node.js', ['Node.js'])).rejects.toThrow(
-      /AI provider unavailable/
+      'AI provider unavailable. Please try again later.'
     );
 
     await expect(claudeProvider.generateCritique(resume)).rejects.toThrow(
-      /AI provider unavailable/
+      'AI provider unavailable. Please try again later.'
     );
+    expect(createMessage).toHaveBeenCalledTimes(2);
+    expect(network).not.toHaveBeenCalled();
+    expect(logging.mock.calls).toEqual([
+      [JSON.stringify({ event: 'ai_provider_failed' })],
+      [JSON.stringify({ event: 'ai_provider_failed' })],
+    ]);
   });
 });
