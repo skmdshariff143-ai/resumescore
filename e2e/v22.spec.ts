@@ -1,5 +1,6 @@
 import { test, expect } from './access-fixture';
 import AxeBuilder from '@axe-core/playwright';
+import { CAREER_LEVELS } from '../src/lib/scoring/rubric';
 
 const resume = `Alex Example
 alex@example.com
@@ -37,4 +38,23 @@ test('structured sections, evidence comparison, job gaps and undo stay local', a
   expect(findings.violations).toEqual([]);
   expect(apiRequests).toEqual([]);
   await comparison.screenshot({ path: test.info().outputPath('comparison.png') });
+});
+
+test('all six career profiles calculate and reset restores the source text', async ({ page }) => {
+  const apiRequests: string[] = [];
+  page.on('request', request => { if (new URL(request.url()).pathname.startsWith('/api/')) apiRequests.push(request.url()); });
+  await page.goto('/analyze');
+  await page.locator('input[type=file]').setInputFiles({ name: 'profiles.txt', mimeType: 'text/plain', buffer: Buffer.from(resume) });
+  for (const [value, label] of Object.entries(CAREER_LEVELS)) {
+    await page.getByLabel('Career level', { exact: true }).selectOption(value);
+    await page.getByRole('button', { name: 'Analyze reviewed text', exact: true }).click();
+    await expect(page.getByText(/General resume quality:/)).toContainText(label);
+  }
+  await page.getByRole('button', { name: 'Edit & Export Resume' }).click();
+  const content = page.getByLabel('Section 1 content', { exact: true });
+  const original = await content.inputValue();
+  await content.fill(original + '\nAn explicitly entered edit.');
+  await page.getByRole('button', { name: 'Reset to original', exact: true }).click();
+  await expect(content).toHaveValue(original);
+  expect(apiRequests).toEqual([]);
 });

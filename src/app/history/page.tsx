@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useSyncExternalStore } from 'react';
 import { useRouter } from 'next/navigation';
 import { VersionComparison } from '@/components/dashboard/VersionComparison';
 import { JobMatchesTracker } from '@/components/dashboard/JobMatchesTracker';
@@ -23,8 +23,15 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 export default function HistoryPage() {
   const router = useRouter();
+  // Browser storage is unavailable during prerendering. Keep the hydration render
+  // identical to the server before showing the locally initialized history.
+  const hydrated = useSyncExternalStore(subscribeToHydration, clientSnapshot, serverSnapshot);
   const [history, setHistory] = useState<ScanHistory[]>(() => {
     if (typeof window !== 'undefined') return getScanHistory();
     return [];
@@ -66,6 +73,10 @@ export default function HistoryPage() {
     history.length >= 2
       ? history[0].overallScore - history[history.length - 1].overallScore
       : 0;
+
+  if (!hydrated) {
+    return <div role="status" className="max-w-7xl mx-auto px-4 py-8 text-slate-300">Loading saved history…</div>;
+  }
 
   return (
     <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 font-sans">
