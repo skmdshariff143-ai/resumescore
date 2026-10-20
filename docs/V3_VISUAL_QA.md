@@ -25,3 +25,11 @@ The first full journey audit recorded zero axe violations at all 14 states in ea
 Final focused local V3 suite: 10/10 passed. Public pages, six result/editor views and populated history fit all ten widths. Additional checks verify aligned logo/hero edges, real CTA navigation, mode changes and explicit mobile preview switching. Final editor/contact-review and homepage/history axe assertions reported zero violations.
 
 Single light theme; optional dark mode deferred. Automated contrast/semantics checks and browser keyboard tests do not verify screen-reader speech, every zoom combination, physical touch devices or all browser engines. Hosted/Preview evidence is appended after execution.
+
+## Final implementation evidence
+
+Commit `02251d4`: **46/46 Linux hosted browser cases and 46/46 Windows/Edge protected-Preview cases passed** after the contrast correction. Remote run produced **204 screenshots**; both 14-state journey reports had **zero violations**. Additional strict axe checks cover homepage/sample controls, the expanded editor/contact review, and populated history. All ten requested widths passed public-page, result/editor and long-filename history checks.
+
+Selected repository artifacts: `screenshots/v3/hero-desktop.png`, `home-desktop.png`, `home-mobile.png`, `analyze-mobile.png`, `results-desktop.png`, `editor-desktop.png`; baseline screenshots are prefixed `before-`. Full final remote artifacts: `.vercel/v22-runs/run-1/test-results`; first V3 remote run retained in `.vercel/v3-preview-b6db459`. The appearance is unchanged by the final motion-only correction.
+
+Measured single samples through authenticated Node transport: desktop/mobile analysis UI elapsed **186.9/312.4ms**, DOCX download **360.6/349.5ms**. These are not Lighthouse scores, controlled mobile benchmarks, production-network latency or performance SLOs. Full resource/memory samples and their environment caveats are in the evidence JSON. No performance improvement percentage is claimed.

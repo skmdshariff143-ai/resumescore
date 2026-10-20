@@ -1,0 +1,311 @@
+{
+  "implementationCommit": "02251d413974a2e647e548c0c2e2bbce5b0440b4",
+  "ci": {
+    "conclusion": "success",
+    "headSha": "02251d413974a2e647e548c0c2e2bbce5b0440b4",
+    "status": "completed",
+    "url": "https://github.com/skmdshariff143-ai/resumescore/actions/runs/39422639240"
+  },
+  "observedCiCounts": {
+    "unitIntegration": 148,
+    "testFiles": 25,
+    "browserCases": 46
+  },
+  "accessibility": [
+    {
+      "project": "desktop",
+      "states": 14,
+      "violations": 0
+    },
+    {
+      "project": "mobile",
+      "states": 14,
+      "violations": 0
+    }
+  ],
+  "performanceSamples": [
+    {
+      "project": "desktop",
+      "environment": "Protected Preview with authenticated Node transport; single sample, not production network performance",
+      "analysisUIElapsedMs": 186.87109999999666,
+      "docxDownloadElapsedMs": 360.6099000000031,
+      "domContentLoadedMs": 258.09999999403954,
+      "loadMs": 737.5999999940395,
+      "javascriptTransferBytes": 645877,
+      "usedJSHeapBytes": 7423750,
+      "resourceCount": 26
+    },
+    {
+      "project": "mobile",
+      "environment": "Protected Preview with authenticated Node transport; single sample, not production network performance",
+      "analysisUIElapsedMs": 312.44710000000487,
+      "docxDownloadElapsedMs": 349.4873000000007,
+      "domContentLoadedMs": 261.2999999821186,
+      "loadMs": 833.0999999940395,
+      "javascriptTransferBytes": 629445,
+      "usedJSHeapBytes": 7888319,
+      "resourceCount": 25
+    }
+  ],
+  "screenshotsCaptured": 204,
+  "priorCandidate": {
+    "commit": "b6db45904c84e5bc3a245ba539ccca5ea7560a82",
+    "remoteStats": [
+      {
+        "startTime": "2026-10-20T12:20:05.038Z",
+        "duration": 393795.777,
+        "expected": 46,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    ],
+    "ciResult": "44 passed, 2 contrast journey failures; corrected in current candidate",
+    "ciUrl": "https://github.com/skmdshariff143-ai/resumescore/actions/runs/39421317552"
+  },
+  "localBrowserIterations": [
+    {
+      "name": "v3-local",
+      "stats": {
+        "startTime": "2026-10-20T11:53:03.165Z",
+        "duration": 522451.48000000004,
+        "expected": 41,
+        "skipped": 0,
+        "unexpected": 3,
+        "flaky": 0
+      }
+    },
+    {
+      "name": "v3-final-local",
+      "stats": {
+        "startTime": "2026-10-20T12:03:34.622Z",
+        "duration": 490684.82399999996,
+        "expected": 44,
+        "skipped": 0,
+        "unexpected": 2,
+        "flaky": 0
+      }
+    },
+    {
+      "name": "v3-regression-local",
+      "stats": {
+        "startTime": "2026-10-20T12:13:51.948Z",
+        "duration": 171645.929,
+        "expected": 10,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    {
+      "name": "v3-contrast-local",
+      "stats": {
+        "startTime": "2026-10-20T12:26:19.218Z",
+        "duration": 161251.222,
+        "expected": 14,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "protectedPreview": {
+    "url": "https://resumescore-fh9momtcl-shaik-mahammad-shariff-s-projects.vercel.app",
+    "stats": [
+      {
+        "startTime": "2026-10-20T12:30:27.747Z",
+        "duration": 336279.978,
+        "expected": 46,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    ],
+    "passed": true,
+    "uncaughtBrowserExceptions": 0,
+    "consoleErrorCategories": [
+      {
+        "kind": "resource",
+        "path": "/api/analyze"
+      },
+      {
+        "kind": "resource",
+        "path": "/api/analyze"
+      }
+    ],
+    "transportEvents": []
+  },
+  "dependencyAudit": {
+    "production": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "all": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 5,
+      "critical": 0,
+      "total": 5
+    }
+  },
+  "security": {
+    "scope": "Current tracked blobs plus all feature-only historical blobs; known credential patterns and local secret-value comparison. No secret contents printed.",
+    "uniqueBlobsScanned": 313,
+    "findings": [],
+    "startingSnapshotPaths": 116,
+    "missingSnapshotPaths": [],
+    "ancestors": [
+      {
+        "commit": "a44367e",
+        "present": true
+      },
+      {
+        "commit": "829f81f",
+        "present": true
+      },
+      {
+        "commit": "ca88735",
+        "present": true
+      },
+      {
+        "commit": "49c578c",
+        "present": true
+      },
+      {
+        "commit": "f384f10",
+        "present": true
+      },
+      {
+        "commit": "368d7fb",
+        "present": true
+      }
+    ],
+    "deletedPathsAgainstMain": [],
+    "limitations": "Not a general certification of absence of every possible secret/PII. Synthetic fixtures and screenshots reviewed separately."
+  },
+  "limitations": [
+    "Synthetic benchmarks are not independent calibration",
+    "Manual screen-reader speech and cross-engine coverage pending",
+    "Production remains unchanged and NO-GO"
+  ],
+  "routeSmoke": {
+    "preview": "https://resumescore-fh9momtcl-shaik-mahammad-shariff-s-projects.vercel.app",
+    "results": [
+      {
+        "name": "GET /",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Security headers",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /analyze",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /history",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /privacy",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /robots.txt",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /sitemap.xml",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /favicon.ico",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Server deterministic analysis",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "API no-store",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Server job matching",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: rewrite",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: critique",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: cover-letter",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Invalid JSON rejected",
+        "pass": true,
+        "status": 400
+      },
+      {
+        "name": "Cross-origin rejected",
+        "pass": true,
+        "status": 403
+      },
+      {
+        "name": "Oversized payload rejected",
+        "pass": true,
+        "status": 413
+      },
+      {
+        "name": "Job URL no-fetch containment",
+        "pass": true,
+        "status": 503
+      },
+      {
+        "name": "Unsafe protocol rejected",
+        "pass": true,
+        "status": 400
+      }
+    ],
+    "passed": true,
+    "note": "Synthetic data only. Native Node requests use origin-scoped short-lived OIDC and manual redirects; no secrets or resume response contents saved."
+  },
+  "runtimeLogQuery": {
+    "type": "summary",
+    "recordsReturned": 0,
+    "timeRange": {
+      "start": "2026-10-20T12:06:47.647Z",
+      "end": "2026-10-20T12:36:47.647Z"
+    },
+    "pagination": {
+      "hasMore": false,
+      "next": null
+    },
+    "excludedIntervals": []
+  }
+}

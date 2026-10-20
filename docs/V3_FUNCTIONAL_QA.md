@@ -27,6 +27,18 @@ The correction removes foreground/background fades from controls, preserving imm
 
 Correction validation: `npm run build` and `npm run lint` passed. `PLAYWRIGHT_CHANNEL=msedge` with `& .\tools\test-local-windows.ps1 -TestFiles e2e/v21.spec.ts`: **14/14 passed**, 2.7 minutes; both 14-state axe/keyboard journeys reported zero violations. Evidence: `.vercel/v3-contrast-local`.
 
+## Verified implementation
+
+**`02251d413974a2e647e548c0c2e2bbce5b0440b4`** passed [hosted CI](https://github.com/skmdshariff143-ai/resumescore/actions/runs/39422639240): lint, TypeScript, **148 unit/integration tests / 25 files**, production build, **46/46 browser cases** (1.6 minutes), production audit zero advisories.
+
+[Protected Preview](https://resumescore-fh9momtcl-shaik-mahammad-shariff-s-projects.vercel.app/), deployment `dpl_DhFFec1YpKUanTQpydaVNVpKde16`, was verified by Vercel metadata as that exact SHA. Full remote suite: **46/46 passed**, 336.3 seconds, zero failed/skipped/flaky cases, zero transport retries. Both 14-state audits reported zero violations. Zero uncaught browser exceptions; the only two resource console errors were the intentionally mocked `/api/analyze` 503 recovery cases.
+
+Direct authenticated HTTP/API smoke: **19/19 assertions passed**, including homepage/analyzer/history/privacy/SEO assets, no-store/security headers, deterministic server analysis, job matching, all three paid-disabled AI fallbacks, invalid JSON, origin and body limits, unsafe protocol rejection and no-fetch job URL containment. Runtime error/fatal query returned zero records for 2026-10-20 12:06:47–12:36:47 UTC with no excluded intervals.
+
+Remote command: set `BASE_URL` to that deployment, `PLAYWRIGHT_CHANNEL=msedge`, `PREVIEW_REPETITIONS=1`; run `vercel.cmd --scope team_J1DYhRPYmArh3STLVOFj38nB env run --project prj_pWea9CO5314nbLFNjEj4Q8YdYxY7 --environment development -- pwsh -NoProfile -File tools/test-local-windows.ps1 -Preview`. Authentication remains in the child process and is never committed. Direct route smoke used the private synthetic-data audit harness; its full assertions/results are retained in the evidence JSON.
+
+Sanitized machine-readable evidence: [v3-verification-evidence.json](v3-verification-evidence.json). Earlier failing iterations above remain disclosed. This evidence publication changes documentation only; it does not change the verified application implementation.
+
 ## Regression scope
 
 Upload/extraction/correction for TXT/DOCX/PDF, image/corrupt-file failures, pasted Unicode, all six profiles, separate job matching, unsupported AI claims, approval, editing/reordering/undo/reset, comparison, local history save/delete/reopen, legacy deletion, exports and server failure recovery. New regressions check result invalidation for text/profile/mode/job changes, job-draft preservation, focus, mobile navigation, sample controls, mobile preview draft continuity, populated history and ten-width layout invariants.

@@ -26,3 +26,13 @@ Preview readiness depends on final local/hosted/remote verification. Publication
 That commit's Linux CI failed two contrast journey cases (44/46 browser cases passed), so it was not accepted as the final release gate. State-color animations were corrected without changing test thresholds. The corrected candidate must pass CI and protected Preview before the V3 Preview gate is considered satisfied.
 
 The pre-publication scan found zero credential-pattern/local-secret matches across 291 unique tracked/historical blobs, retained all 116 original snapshot paths and all checked V2 ancestors, and found no deleted paths against main. This is a scoped scan, not proof that every possible secret/PII pattern is absent.
+
+## Verified Preview decision
+
+**GO for protected Preview review of implementation `02251d413974a2e647e548c0c2e2bbce5b0440b4`.** [CI](https://github.com/skmdshariff143-ai/resumescore/actions/runs/39422639240) passed 148 unit/integration and 46 browser cases, lint, types, build and production audit. [Protected Preview](https://resumescore-fh9momtcl-shaik-mahammad-shariff-s-projects.vercel.app/) was READY with that exact SHA (`dpl_DhFFec1YpKUanTQpydaVNVpKde16`): 46/46 full remote browser cases, no failed/skipped/flaky cases or transport retries, 19/19 HTTP/API checks, zero uncaught exceptions and zero error/fatal runtime records in the observed window. Both 14-state accessibility audits had zero violations. The CI contrast defect is resolved without weaker assertions.
+
+The corrected implementation scan covered **313 unique tracked/historical blobs**, zero findings, all original 116 paths retained. No dependency, scoring/parser/provider/storage/security policy or production configuration changed. See [functional QA](V3_FUNCTIONAL_QA.md), [visual QA](V3_VISUAL_QA.md) and [machine-readable evidence](v3-verification-evidence.json).
+
+This final evidence publication changes documentation only. Its subsequent Git/Vercel SHA must be checked against live metadata; the application, tests, configuration and lockfile remain identical to the verified implementation. Final publication SHA, CI and Preview smoke results are also recorded in PR #1 and the release handoff.
+
+**Production remains NO-GO and unchanged** at `79a373c8acc3d234c04e21010598ef9f93764bcf` (`dpl_5NimgXZ6W7XqK3Kypy5S1Eug1FS6`). PR #1 remains draft. Independent scoring/extraction calibration and resolution/owner acceptance of five high development-only advisories remain required. Manual screen-reader speech/cross-engine review and optional dark mode are not claimed complete. No merge, production promotion, paid-AI activation or domain/environment change was performed.
