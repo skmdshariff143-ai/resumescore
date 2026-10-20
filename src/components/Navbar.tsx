@@ -79,6 +79,8 @@ export function Navbar() {
         {/* Mobile Hamburger Button */}
         <div className="md:hidden flex items-center">
           <button
+            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors cursor-pointer"
           >
@@ -89,7 +91,7 @@ export function Navbar() {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0A0F1A] border-b border-slate-800 px-4 py-4 space-y-2">
+          <div className="md:hidden bg-[#0A0F1A] border-b border-slate-800 px-4 py-4 space-y-2" aria-label="Mobile navigation">
           {navLinks.map((link) => (
             <Link
               key={link.href}

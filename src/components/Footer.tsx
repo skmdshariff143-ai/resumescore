@@ -6,7 +6,7 @@ import { Activity, Lock } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-[#05070B] border-t border-white/[0.08] py-12 mt-20 text-xs text-slate-500 font-sans">
+    <footer className="bg-[#05070B] border-t border-white/[0.08] py-12 mt-20 text-xs text-slate-400 font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-1.5 text-center md:text-left">
@@ -32,6 +32,7 @@ export function Footer() {
             <Link href="/history" className="hover:text-slate-200 transition-colors">
               History
             </Link>
+            <Link href="/privacy" className="hover:text-slate-200 transition-colors">Privacy</Link>
           </div>
         </div>
 
@@ -40,17 +41,17 @@ export function Footer() {
           <div className="flex items-center space-x-2">
             <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
             <span>
-              <strong className="text-slate-200">Zero-Data Selling: </strong>
-              All document extraction runs in your browser environment. Your resume is never used to train public LLMs. Optional AI analysis features use zero-retention APIs.
+              <strong className="text-slate-200">Privacy choices: </strong>
+              Browser-only analysis is the default. Server and external AI processing are optional. Provider retention depends on provider and account settings. History is saved only when enabled.
             </span>
           </div>
-          <div className="font-mono text-[10px] text-slate-500 shrink-0">
+          <div className="font-mono text-[10px] text-slate-400 shrink-0">
             Next.js 16 • Turbopack • React 19
           </div>
         </div>
 
-        <div className="text-center text-[10px] text-slate-600">
-          © {new Date().getFullYear()} ResumeScore Inc. Evidence-backed career intelligence.
+        <div className="text-center text-[10px] text-slate-400">
+          © {new Date().getFullYear()} ResumeScore. Resume feedback with transparent limitations.
         </div>
       </div>
     </footer>

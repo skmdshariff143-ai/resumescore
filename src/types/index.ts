@@ -27,6 +27,7 @@ export interface DimensionEvidence {
 }
 
 export interface DimensionScore {
+  confidence?: 'low' | 'medium' | 'high';
   key: string;
   name: string;
   score: number;
@@ -149,7 +150,7 @@ export interface ParsedSection {
 export interface ResumeDocument {
   metadata: {
     fileName: string;
-    fileType: 'pdf' | 'txt' | 'paste' | 'sample';
+    fileType: 'pdf' | 'docx' | 'txt' | 'paste' | 'sample';
     extractedCharCount: number;
     wordCount: number;
     pageCountEstimate: number;
@@ -226,6 +227,7 @@ export type MatchLevel =
   | 'level_6_evidence';
 
 export interface SkillMatchItem {
+  evidenceLevel?: 'demonstrated' | 'mentioned' | 'transferable' | 'missing';
   skill: string;
   category: SkillCategory;
   status: SkillMatchStatus;
@@ -319,6 +321,8 @@ export interface TopActionItem {
 }
 
 export interface ResumeScore {
+  careerLevel?: import('@/lib/scoring/rubric').CareerLevel;
+  generalQualityScore?: number;
   id: string;
   mode: AnalysisMode;
   overall: number;

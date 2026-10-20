@@ -36,16 +36,16 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
         <div>
           <h3 className="text-sm font-bold text-slate-100 flex items-center">
             <Sparkles className="w-4 h-4 mr-2 text-indigo-400" />
-            Anti-Hallucination Bullet Copilot ({bulletAnalyses.length} Bullets)
+            Bullet evidence review ({bulletAnalyses.length} Bullets)
           </h3>
           <p className="text-xs text-slate-400 mt-0.5">
-            Preserves verified facts while prompting for genuine candidate metrics. No AI-manufactured statistics.
+            Preserves supplied facts while prompting for genuine candidate metrics. No AI-manufactured statistics.
           </p>
         </div>
 
         <div className="flex items-center space-x-2 text-[10px] font-mono">
           <span className="px-2 py-0.5 rounded bg-emerald-950/50 text-emerald-300 border border-emerald-800/40">
-            ✓ Verified Facts Preserved
+            ✓ Supplied Facts Preserved
           </span>
           <span className="px-2 py-0.5 rounded bg-amber-950/50 text-amber-300 border border-amber-800/40">
             • Candidate Input Prompted
@@ -93,7 +93,7 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
             {/* Side by side comparison */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-slate-900/60 border border-slate-800/80 rounded-lg p-3 space-y-1">
-                <span className="text-[10px] uppercase font-mono font-bold text-slate-500">Original Experience Bullet</span>
+                <span className="text-[10px] uppercase font-mono font-bold text-slate-400">Original Experience Bullet</span>
                 <p className="text-xs text-slate-300 italic font-serif">&ldquo;{bullet.original}&rdquo;</p>
               </div>
 
@@ -111,7 +111,7 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
               {bullet.technologies.length > 0 && (
                 <div className="flex items-center gap-1 text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-800/30">
                   <ShieldCheck className="w-3 h-3" />
-                  <span>Verified Tech: {bullet.technologies.join(', ')}</span>
+                  <span>Detected terms: {bullet.technologies.join(', ')}</span>
                 </div>
               )}
               {bullet.rewritten?.includes('[Add genuine metric') && (
@@ -129,7 +129,7 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
                 {bullet.suggestions[0] || bullet.rewriteReason || bullet.issues[0] || 'Optimized for action verb strength and impact.'}
               </div>
               <span className="text-indigo-400 text-[10px] font-mono shrink-0 ml-2">
-                Verb: &ldquo;{bullet.actionVerb || 'Led'}&rdquo;
+                Verb: &ldquo;{bullet.actionVerb || 'Not detected'}&rdquo;
               </span>
             </div>
           </div>

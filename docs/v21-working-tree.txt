@@ -1,0 +1,116 @@
+ M .env.example
+ M .github/workflows/ci.yml
+ M .gitignore
+ M README.md
+ M next.config.ts
+ M package-lock.json
+ M package.json
+ M src/__tests__/adversarial.test.ts
+ M src/__tests__/claude-provider.test.ts
+ M src/__tests__/fixtures.test.ts
+ M src/__tests__/gemini-provider.test.ts
+ M src/__tests__/impact.test.ts
+ M src/app/analyze/page.tsx
+ M src/app/api/ai/cover-letter/route.ts
+ M src/app/api/ai/critique/route.ts
+ M src/app/api/ai/rewrite/route.ts
+ M src/app/api/analyze/route.ts
+ M src/app/api/extract-job/route.ts
+ M src/app/globals.css
+ M src/app/history/page.tsx
+ M src/app/layout.tsx
+ M src/app/page.tsx
+ M src/components/FileUpload.tsx
+ M src/components/Footer.tsx
+ M src/components/Navbar.tsx
+ M src/components/ScoreCard.tsx
+ M src/components/analysis/CoverLetterModal.tsx
+ M src/components/analysis/CritiquePanel.tsx
+ M src/components/analysis/JobMatchInput.tsx
+ M src/components/analysis/ResumeRewritePanel.tsx
+ M src/components/analysis/SkillMatrixView.tsx
+ M src/components/ui/Button.tsx
+ M src/components/ui/CareerSignalRadar.tsx
+ M src/components/ui/EvidenceRow.tsx
+ M src/components/ui/StepIndicator.tsx
+ M src/lib/ai/claude-provider.ts
+ M src/lib/ai/gemini-provider.ts
+ M src/lib/ai/provider.ts
+ M src/lib/ats/ats-checker.ts
+ M src/lib/impact/impact-evaluator.ts
+ M src/lib/jobs/job-parser.ts
+ M src/lib/keywords.ts
+ M src/lib/matching/semantic-matcher.ts
+ M src/lib/parsing/pdf-extractor.ts
+ M src/lib/parsing/resume-parser.ts
+ M src/lib/scoring/scoring-engine.ts
+ M src/lib/storage/history-store.ts
+ M src/types/index.ts
+ M vitest.config.mts
+?? docs/ACCESSIBILITY_AUDIT.md
+?? docs/AI_COST_CONTROLS.md
+?? docs/AI_FACTUALITY_EVALUATION.md
+?? docs/ARCHITECTURE.md
+?? docs/DEPLOYMENT_READINESS.md
+?? docs/EXPORT_COMPATIBILITY.md
+?? docs/GIT_REPORT.md
+?? docs/IMPLEMENTATION_STATUS.md
+?? docs/PARSING_BENCHMARK_REPORT.md
+?? docs/PERFORMANCE_REPORT.md
+?? docs/RESUMESCORE_V2_AUDIT.md
+?? docs/SCORING_BENCHMARK_REPORT.md
+?? docs/SCORING_METHODOLOGY.md
+?? docs/SECURITY_AND_PRIVACY.md
+?? docs/SECURITY_REGRESSION_REPORT.md
+?? docs/TEST_REPORT.md
+?? docs/V2_1_BASELINE.md
+?? docs/V2_1_RELEASE_READINESS.md
+?? docs/browser-test-summary.json
+?? docs/dependency-audit-after.json
+?? docs/dependency-audit-before.json
+?? docs/dependency-audit-production.json
+?? docs/screenshots/v21-320-layout.png
+?? docs/screenshots/workspace-desktop.png
+?? docs/screenshots/workspace-mobile.png
+?? docs/v21-accessibility-desktop.json
+?? docs/v21-accessibility-mobile.json
+?? docs/v21-browser-summary.json
+?? docs/v21-bundle-measurements.json
+?? docs/v21-dependency-audit.json
+?? docs/v21-document-measurements.json
+?? docs/v21-evidence-measurements.json
+?? docs/v21-performance-desktop.json
+?? docs/v21-performance-mobile.json
+?? docs/v21-production-audit.json
+?? docs/v21-scoring-measurements.json
+?? docs/v21-smoke-measurements.json
+?? docs/v21-working-tree.txt
+?? e2e/v21.spec.ts
+?? e2e/workflow.spec.ts
+?? playwright.config.ts
+?? src/__tests__/api-security.test.ts
+?? src/__tests__/docx.test.ts
+?? src/__tests__/fixtures/domain-resumes.json
+?? src/__tests__/v2-boundaries.test.ts
+?? src/__tests__/v2-workflow.test.ts
+?? src/__tests__/v21-benchmarks.test.ts
+?? src/__tests__/v21-hardening.test.ts
+?? src/app/privacy/page.tsx
+?? src/app/robots.ts
+?? src/app/sitemap.ts
+?? src/components/analysis/ResumeWorkspace.tsx
+?? src/components/analysis/ReviewedRewrite.tsx
+?? src/lib/ai/budget.ts
+?? src/lib/ai/controlled.ts
+?? src/lib/ai/factuality.ts
+?? src/lib/export/docx-resume.ts
+?? src/lib/export/resume-document.ts
+?? src/lib/parsing/docx-extractor.ts
+?? src/lib/parsing/file-validation.ts
+?? src/lib/rate-limit.ts
+?? src/lib/scoring/rubric.ts
+?? src/lib/validation/request.ts
+?? src/lib/validation/schemas.ts
+?? tools/inspect-v21-layout.mjs
+?? tools/test-burst-ratelimit.js
+?? tools/v21-production-smoke.mjs

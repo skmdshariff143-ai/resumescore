@@ -61,7 +61,7 @@ export function CritiquePanel({ critique, onNavigateToTab }: CritiquePanelProps)
             AI Career Narrative & Qualitative Critique
           </h3>
           <p className="text-xs text-slate-400 mt-0.5">
-            Holistic assessment of career narrative, section impact, and structural ATS risks.
+            Suggestions based on supplied text, not verified candidate facts. Check claims against your experience before using them.
           </p>
         </div>
 
@@ -87,7 +87,7 @@ export function CritiquePanel({ critique, onNavigateToTab }: CritiquePanelProps)
             <Quote className="w-3 h-3 text-blue-400" />
             Executive Recruiter Impression & Narrative Positioning
           </span>
-          <span className="text-[10px] font-mono text-slate-500">Qualitative Synthesis</span>
+          <span className="text-[10px] font-mono text-slate-400">Qualitative Synthesis</span>
         </div>
         <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-sans">
           {critique.overallNarrative}
@@ -133,7 +133,7 @@ export function CritiquePanel({ critique, onNavigateToTab }: CritiquePanelProps)
           <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
             Section-by-Section Feedback
           </h4>
-          <span className="text-[10px] font-mono text-slate-500">Recruiter Rubric</span>
+          <span className="text-[10px] font-mono text-slate-400">Recruiter Rubric</span>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {critique.sections.map((sec, idx) => (

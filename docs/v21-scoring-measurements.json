@@ -1,0 +1,259 @@
+{
+  "labels": "engineered synthetic; independent calibration pending",
+  "results": [
+    {
+      "domain": "engineering",
+      "careerLevel": "student",
+      "fields": {
+        "name": true,
+        "email": true
+      },
+      "requiredSkills": [
+        "AutoCAD",
+        "SolidWorks"
+      ],
+      "detectedSkills": [
+        "AutoCAD",
+        "SolidWorks"
+      ],
+      "expectedSkillRecall": 1,
+      "expectedSkillPrecision": 1,
+      "sectionPrecision": 1,
+      "sectionRecall": 1,
+      "employmentFields": {
+        "expectedRoles": 0,
+        "actualRoles": 0
+      },
+      "demonstratedPrecision": 1,
+      "sections": [
+        "Header",
+        "EDUCATION",
+        "PROJECTS",
+        "SKILLS"
+      ],
+      "score": 56,
+      "reorderScoreDelta": 0,
+      "durationMs": 43.33869999999979,
+      "reorderDimensionDeltas": [],
+      "mentionSkillScore": 10,
+      "evidencedSkillScore": 40,
+      "jobCoverage": 100
+    },
+    {
+      "domain": "data",
+      "careerLevel": "internship",
+      "fields": {
+        "name": true,
+        "email": true
+      },
+      "requiredSkills": [
+        "Python",
+        "SQL"
+      ],
+      "detectedSkills": [
+        "Python",
+        "SQL"
+      ],
+      "expectedSkillRecall": 1,
+      "expectedSkillPrecision": 1,
+      "sectionPrecision": 1,
+      "sectionRecall": 1,
+      "employmentFields": {
+        "expectedRoles": 0,
+        "actualRoles": 0
+      },
+      "demonstratedPrecision": 1,
+      "sections": [
+        "Header",
+        "EDUCATION",
+        "PROJECTS",
+        "SKILLS"
+      ],
+      "score": 56,
+      "reorderScoreDelta": 0,
+      "durationMs": 3.5574000000001433,
+      "reorderDimensionDeltas": [],
+      "mentionSkillScore": 10,
+      "evidencedSkillScore": 40,
+      "jobCoverage": 100
+    },
+    {
+      "domain": "business",
+      "careerLevel": "entry",
+      "fields": {
+        "name": true,
+        "email": true
+      },
+      "requiredSkills": [
+        "Procurement",
+        "Stakeholder Management"
+      ],
+      "detectedSkills": [
+        "Stakeholder Management",
+        "Procurement"
+      ],
+      "expectedSkillRecall": 1,
+      "expectedSkillPrecision": 1,
+      "sectionPrecision": 1,
+      "sectionRecall": 1,
+      "employmentFields": {
+        "expectedRoles": 0,
+        "actualRoles": 0
+      },
+      "demonstratedPrecision": 1,
+      "sections": [
+        "Header",
+        "EDUCATION",
+        "PROJECTS",
+        "SKILLS"
+      ],
+      "score": 54,
+      "reorderScoreDelta": 0,
+      "durationMs": 7.654700000000048,
+      "reorderDimensionDeltas": [],
+      "mentionSkillScore": 10,
+      "evidencedSkillScore": 40,
+      "jobCoverage": 100
+    },
+    {
+      "domain": "finance",
+      "careerLevel": "experienced",
+      "fields": {
+        "name": true,
+        "email": true
+      },
+      "requiredSkills": [
+        "Financial Reporting",
+        "Budgeting",
+        "GAAP"
+      ],
+      "detectedSkills": [
+        "Financial Reporting",
+        "Budgeting",
+        "GAAP"
+      ],
+      "expectedSkillRecall": 1,
+      "expectedSkillPrecision": 1,
+      "sectionPrecision": 1,
+      "sectionRecall": 1,
+      "employmentFields": {
+        "expectedHeader": "Financial Analyst | Example Cooperative | 2018 - Present",
+        "actual": [
+          {
+            "company": "Example Cooperative",
+            "role": "Financial Analyst",
+            "startDate": "2018",
+            "endDate": "Present"
+          }
+        ]
+      },
+      "demonstratedPrecision": 1,
+      "sections": [
+        "Header",
+        "SUMMARY",
+        "WORK EXPERIENCE",
+        "EDUCATION",
+        "SKILLS"
+      ],
+      "score": 58,
+      "reorderScoreDelta": 0,
+      "durationMs": 6.514400000000023,
+      "reorderDimensionDeltas": [],
+      "mentionSkillScore": 15,
+      "evidencedSkillScore": 60,
+      "jobCoverage": 100
+    },
+    {
+      "domain": "marketing",
+      "careerLevel": "senior",
+      "fields": {
+        "name": true,
+        "email": true
+      },
+      "requiredSkills": [
+        "Content Marketing",
+        "Market Research"
+      ],
+      "detectedSkills": [
+        "Market Research",
+        "Content Marketing"
+      ],
+      "expectedSkillRecall": 1,
+      "expectedSkillPrecision": 1,
+      "sectionPrecision": 1,
+      "sectionRecall": 1,
+      "employmentFields": {
+        "expectedHeader": "Marketing Lead | Example Cooperative | 2012 - Present",
+        "actual": [
+          {
+            "company": "Example Cooperative",
+            "role": "Marketing Lead",
+            "startDate": "2012",
+            "endDate": "Present"
+          }
+        ]
+      },
+      "demonstratedPrecision": 1,
+      "sections": [
+        "Header",
+        "SUMMARY",
+        "WORK EXPERIENCE",
+        "EDUCATION",
+        "SKILLS"
+      ],
+      "score": 56,
+      "reorderScoreDelta": 0,
+      "durationMs": 2.785200000000259,
+      "reorderDimensionDeltas": [],
+      "mentionSkillScore": 10,
+      "evidencedSkillScore": 40,
+      "jobCoverage": 100
+    },
+    {
+      "domain": "healthcare",
+      "careerLevel": "switcher",
+      "fields": {
+        "name": true,
+        "email": true
+      },
+      "requiredSkills": [
+        "Patient Care",
+        "Clinical Documentation"
+      ],
+      "detectedSkills": [
+        "Patient Care",
+        "Clinical Documentation"
+      ],
+      "expectedSkillRecall": 1,
+      "expectedSkillPrecision": 1,
+      "sectionPrecision": 1,
+      "sectionRecall": 1,
+      "employmentFields": {
+        "expectedHeader": "Care Assistant | Example Clinic | 2019 - 2025",
+        "actual": [
+          {
+            "company": "Example Clinic",
+            "role": "Care Assistant",
+            "startDate": "2019",
+            "endDate": "2025"
+          }
+        ]
+      },
+      "demonstratedPrecision": 1,
+      "sections": [
+        "Header",
+        "SUMMARY",
+        "WORK EXPERIENCE",
+        "EDUCATION",
+        "SKILLS"
+      ],
+      "score": 53,
+      "reorderScoreDelta": 0,
+      "durationMs": 1.3033999999997832,
+      "reorderDimensionDeltas": [],
+      "mentionSkillScore": 10,
+      "evidencedSkillScore": 40,
+      "jobCoverage": 100
+    }
+  ]
+}

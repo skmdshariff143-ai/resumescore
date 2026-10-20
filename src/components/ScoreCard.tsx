@@ -61,8 +61,8 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
     setIsExporting(true);
     try {
       await generateExecutivePDF(score);
-    } catch (err) {
-      console.error('Failed to export PDF', err);
+    } catch {
+      console.error('Failed to export PDF report.');
     } finally {
       setIsExporting(false);
     }
@@ -162,7 +162,7 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
                   <p className="text-[11px] text-slate-400 leading-relaxed">{action.howToFix}</p>
                 </div>
 
-                <div className="text-[10px] text-slate-500 border-t border-slate-800/60 pt-2">
+                <div className="text-[10px] text-slate-400 border-t border-slate-800/60 pt-2">
                   <strong className="text-slate-400">Why: </strong>
                   {action.reason}
                 </div>
@@ -215,6 +215,7 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
                         </span>
                       </div>
                       <p className="text-[11px] text-slate-400 line-clamp-1">{dim.feedback}</p>
+                      <p className="text-[11px] text-slate-400">Evidence confidence: {dim.confidence ?? 'medium'} (heuristic)</p>
                     </div>
                   </div>
 
@@ -249,7 +250,7 @@ export function ScoreCard({ score, onOpenCoverLetter, onNavigateToTab }: ScoreCa
                               </span>
                             ))
                           ) : (
-                            <span className="text-slate-500 italic text-[11px]">No direct matches detected</span>
+                            <span className="text-slate-400 italic text-[11px]">No direct matches detected</span>
                           )}
                         </div>
                       </div>

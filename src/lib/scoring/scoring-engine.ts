@@ -1,6 +1,6 @@
 /**
  * 7-Pillar Transparent Scoring Engine:
- * 1. ATS Compatibility (15%)
+ * 1. ATS Readability Estimate (15%)
  * 2. Job Skill Match (25%)
  * 3. Experience Relevance (20%)
  * 4. Impact & Metrics (15%)
@@ -25,6 +25,7 @@ import { runATSChecks } from '../ats/ats-checker';
 import { analyzeBullet, evaluateResumeImpact } from '../impact/impact-evaluator';
 import { parseResume } from '../parsing/resume-parser';
 import { buildSkillMatrix } from '../matching/semantic-matcher';
+import { RUBRIC_WEIGHTS, type CareerLevel } from './rubric';
 
 function clamp(v: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, v));
@@ -44,30 +45,31 @@ function assignGrade(score: number): string {
 export function calculateResumeScore(
   resume: ResumeParsed,
   job?: JobParsed,
-  mode: AnalysisMode = 'general'
+  mode: AnalysisMode = 'general',
+  careerLevel: CareerLevel = 'experienced'
 ): ResumeScore {
   const isJobMatch = mode === 'job_match' && Boolean(job);
 
-  // 1. ATS Compatibility (15%)
+  // 1. ATS Readability Estimate (15%)
   const atsAnalysis = runATSChecks(resume);
   const atsScoreVal = atsAnalysis.score;
   const atsDimension: DimensionScore = {
     key: 'ats',
-    name: 'ATS Compatibility',
+    name: 'ATS Readability Estimate',
     score: atsScoreVal,
     weight: 0.15,
     contribution: Number((atsScoreVal * 0.15).toFixed(1)),
     icon: '🤖',
     color: 'text-indigo-400',
     feedback: atsAnalysis.summary,
-    reason: `${atsAnalysis.passedCount} of ${atsAnalysis.checks.length} ATS compliance checks passed.`,
+    reason: `${atsAnalysis.passedCount} of ${atsAnalysis.checks.length} readability checks passed.`,
     tips: atsAnalysis.checks.filter((c) => !c.passed).map((c) => c.fix).slice(0, 3),
     evidence: {
       detected: resume.sectionHeadersFound,
       expected: ['Work Experience', 'Education', 'Skills', 'Projects'],
       matched: resume.sectionHeadersFound,
       missing: atsAnalysis.checks.filter((c) => !c.passed && c.severity === 'critical').map((c) => c.name),
-      impactExplanation: 'ATS parsers strip complex styling to extract structured records. Compliance ensures text is not lost.',
+      impactExplanation: 'ATS parsers strip complex styling to extract structured records. These checks cannot certify compatibility with every ATS.',
       recommendedAction: atsAnalysis.checks.find((c) => !c.passed)?.fix || 'Maintain standard single-column text flow.',
     },
   };
@@ -95,7 +97,7 @@ export function calculateResumeScore(
           allMatched += 1;
           matchedSkillsList.push(item.skill);
         } else if (item.status === 'partial') {
-          allMatched += 0.6;
+          allMatched += item.evidenceLevel === 'mentioned' ? 0.3 : 0.6;
           matchedSkillsList.push(`${item.skill} (Partial)`);
         } else {
           missingRequiredList.push(item.skill);
@@ -106,16 +108,17 @@ export function calculateResumeScore(
 
   let skillScoreVal = 70;
   if (isJobMatch && allRequired > 0) {
-    skillScoreVal = clamp(Math.round((allMatched / allRequired) * 100), 15, 100);
+    skillScoreVal = clamp(Math.round((allMatched / allRequired) * 100), 0, 100);
   } else {
-    // General mode: reward breadth across categories
-    const categoriesWithSkills = Object.values(resume.skills).filter((s) => s.length > 0).length;
-    skillScoreVal = clamp(categoriesWithSkills * 12 + resume.allSkills.length * 2, 30, 95);
+    // Mention-only lists cannot earn more than 30. Reward practical evidence.
+    const items = Object.values(skillMatrix).flat();
+    const demonstrated = items.filter(item => item.evidenceLevel === 'demonstrated').length;
+    skillScoreVal = clamp(Math.min(30, items.length * 5) + demonstrated * 15, 0, 95);
   }
 
   const skillDimension: DimensionScore = {
     key: 'skill_match',
-    name: isJobMatch ? 'Job Skill Match' : 'Skill Breadth & Depth',
+    name: isJobMatch ? 'Job Skill Match' : 'Skill Evidence',
     score: skillScoreVal,
     weight: 0.25,
     contribution: Number((skillScoreVal * 0.25).toFixed(1)),
@@ -123,20 +126,20 @@ export function calculateResumeScore(
     color: 'text-cyan-400',
     feedback: isJobMatch
       ? `Matched ${Math.round(allMatched)} of ${allRequired} required core skill competencies.`
-      : `Identified ${resume.allSkills.length} skills across ${Object.values(resume.skills).filter((s) => s.length > 0).length} technical domains.`,
+      : `Identified ${resume.allSkills.length} skills across ${Object.values(resume.skills).filter((s) => s.length > 0).length} recognized categories.`,
     reason: isJobMatch
       ? `Evaluated against ${allRequired} target job requirements using layered semantic matching.`
-      : 'Evaluated against multi-disciplinary software engineering taxonomies.',
+      : 'Mentioned terms earn limited credit; practical action evidence earns additional credit. This heuristic does not verify proficiency.',
     tips: missingRequiredList.slice(0, 3).map((s) => `Add evidence for missing skill: ${s}`),
     evidence: {
       detected: resume.allSkills.slice(0, 10),
       expected: job?.requiredSkills?.slice(0, 10) || ['Core Languages', 'Frameworks', 'Databases', 'Cloud'],
       matched: matchedSkillsList.slice(0, 8),
       missing: missingRequiredList.slice(0, 6),
-      impactExplanation: 'Direct skill alignment represents the single heaviest weighting in initial recruiter and hiring manager filtering.',
+      impactExplanation: 'This editorial rubric gives partial credit to mentions and more credit to detected practical evidence; it does not measure proficiency.',
       recommendedAction: missingRequiredList.length > 0
         ? `Integrate genuine practical experience for "${missingRequiredList[0]}" into your work history.`
-        : 'Highlight advanced architecture or scaling accomplishments with your current skills.',
+        : 'Describe how you applied relevant skills in genuine work, projects or study.',
     },
   };
 
@@ -150,6 +153,11 @@ export function calculateResumeScore(
   if (totalExpBullets >= 8) expScoreVal += 20;
   else if (totalExpBullets >= 4) expScoreVal += 10;
   expScoreVal = clamp(expScoreVal, 20, 100);
+  if (careerLevel === 'student' || careerLevel === 'internship') {
+    const projectEvidence = resume.projects.filter(project => project.description.trim().length >= 30).length;
+    const educationEvidence = resume.education.filter(item => item.institution && item.degree).length;
+    expScoreVal = Math.max(expScoreVal, Math.min(100, projectEvidence * 30 + educationEvidence * 20));
+  }
 
   const expDimension: DimensionScore = {
     key: 'experience',
@@ -160,7 +168,7 @@ export function calculateResumeScore(
     icon: '💼',
     color: 'text-purple-400',
     feedback: `${expCount} career position(s) documented with ${totalExpBullets} detailed achievement bullets.`,
-    reason: 'Evaluates role progression, tenure, chronological structure, and responsibility depth.',
+    reason: 'Counts detected roles and bullets; student and internship profiles also receive project and education credit.',
     tips: [
       'Maintain 3-5 high-impact bullets per role.',
       'Ensure clear job titles and date ranges are visible.',
@@ -187,17 +195,17 @@ export function calculateResumeScore(
     icon: '🎯',
     color: 'text-emerald-400',
     feedback: `Found ${impactAnalysis.metricsCount} quantifiable metric(s) and ${impactAnalysis.actionVerbsCount} strong action verb(s).`,
-    reason: 'Quantified results prove tangible value to engineering and product teams.',
+    reason: 'Explicit outcomes help explain work; numbers alone do not prove value.',
     tips: [
-      'Add percentage improvements (e.g., "reduced latency by 35%").',
-      'Mention scale (e.g., "supporting 500k DAU").',
+      'Describe outcomes you can substantiate; include measurements only when known.',
+      'Describe scope accurately without inventing numerical results.',
     ],
     evidence: {
       detected: impactAnalysis.detectedMetrics,
       expected: ['Quantified outcomes', 'Scale metrics', 'Revenue/cost improvements'],
       matched: impactAnalysis.detectedMetrics,
       missing: impactAnalysis.metricsCount < 3 ? ['Add metrics to at least 3 bullet points'] : [],
-      impactExplanation: 'Resumes with numerical metrics receive 2.4x higher interview request rates.',
+      impactExplanation: 'Genuine measurements can clarify scope and outcomes. This score does not predict interview rates.',
       recommendedAction: 'Use the AI Bullet Rewrite copilot to inject measurable candidate placeholders.',
     },
   };
@@ -249,12 +257,12 @@ export function calculateResumeScore(
     contribution: Number((readScoreVal * 0.10).toFixed(1)),
     icon: '📐',
     color: 'text-sky-400',
-    feedback: `Resume word count is ${wordCount} words (ideal target: 400-800 words).`,
-    reason: 'Optimizes scannability for recruiters who spend an average of 7.4 seconds on initial review.',
+    feedback: `Resume word count is ${wordCount} words (editorial full-credit band: 350-900 words).`,
+    reason: 'Uses a documented word-count heuristic, not a measured recruiter reading-time model.',
     tips: ['Keep paragraphs concise and bullet-focused.'],
     evidence: {
       detected: [`${wordCount} words`, `Estimated ${resume.pageCountEstimate} page(s)`],
-      expected: ['400-800 words per page'],
+      expected: ['350-900 total words for this editorial rubric; shorter early-career resumes may be appropriate'],
       matched: [`${wordCount} words`],
       missing: [],
       impactExplanation: 'Clear visual hierarchy ensures key technical achievements are noticed immediately.',
@@ -313,6 +321,21 @@ export function calculateResumeScore(
     readDimension,
     profileDimension,
   ];
+  dimensions.forEach((dimension, index) => {
+    dimension.weight = RUBRIC_WEIGHTS[careerLevel][index];
+    dimension.contribution = Number((dimension.score * dimension.weight).toFixed(1));
+    dimension.confidence = resume.metadata.extractionQuality === 'degraded' ? 'low' : 'medium';
+  });
+  if (careerLevel === 'student' || careerLevel === 'internship') {
+    expDimension.name = 'Practical & Academic Evidence';
+    expDimension.reason = 'Projects and education can substitute for professional experience in this rubric.';
+    expDimension.evidence.detected = [
+      ...resume.experience.map(item => item.role),
+      ...resume.projects.map(item => item.name),
+      ...resume.education.map(item => item.degree),
+    ];
+    expDimension.evidence.recommendedAction = 'Describe your actual contribution to a project, internship, or academic assignment.';
+  }
 
   const overall = Math.round(dimensions.reduce((sum, d) => sum + d.contribution, 0));
   const grade = assignGrade(overall);
@@ -329,7 +352,6 @@ export function calculateResumeScore(
 
   if (missingRequiredList.length > 0) {
     // Adding 2 required skills improves skill dimension from X to X + (2/allRequired)*100
-    const potentialGain = Math.min(14, Math.max(5, Math.round((2 / Math.max(1, allRequired)) * 25)));
     topActions.push({
       id: 'action-skills',
       title: `Add evidence for missing required skill(s): ${missingRequiredList.slice(0, 2).join(', ')}`,
@@ -338,8 +360,8 @@ export function calculateResumeScore(
       reason: `Job requires ${missingRequiredList.slice(0, 2).join(', ')} which are currently missing from resume text.`,
       evidence: `Target job required list specifies ${missingRequiredList[0]}.`,
       howToFix: `If you possess genuine experience with ${missingRequiredList[0]}, add bullet points detailing its practical usage.`,
-      expectedScoreBoost: potentialGain,
-      expectedScoreBoostLabel: `+${potentialGain} pts (Skill Match)`,
+      expectedScoreBoost: 0,
+      expectedScoreBoostLabel: 'Re-analyze after editing; no guaranteed increase',
       confidence: 0.95,
     });
   }
@@ -353,8 +375,8 @@ export function calculateResumeScore(
       reason: `Only ${impactAnalysis.metricsCount} quantified metrics detected across work experience.`,
       evidence: 'Bullet points currently lack numerical outcomes (% latency, revenue, users, scale).',
       howToFix: 'Use the AI Rewrite copilot to apply the X-Y-Z formula and fill in your genuine metrics.',
-      expectedScoreBoost: 8,
-      expectedScoreBoostLabel: '+8 pts (Impact & Metrics)',
+      expectedScoreBoost: 0,
+      expectedScoreBoostLabel: 'Re-analyze after editing; no guaranteed increase',
       confidence: 0.92,
     });
   }
@@ -365,19 +387,19 @@ export function calculateResumeScore(
       id: 'action-ats',
       title: `Fix critical ATS issue: ${issue?.name || 'Standard Headings'}`,
       impact: 'Medium',
-      dimension: 'ATS Compatibility',
+      dimension: 'ATS Readability Estimate',
       reason: issue?.whyItMatters || 'Ensure clean machine readability across recruiting systems.',
       evidence: issue?.message || 'Missing standard structural headers.',
       howToFix: issue?.fix || 'Use standard section titles.',
-      expectedScoreBoost: 6,
-      expectedScoreBoostLabel: '+6 pts (ATS Compatibility)',
+      expectedScoreBoost: 0,
+      expectedScoreBoostLabel: 'Re-analyze after editing; no guaranteed increase',
       confidence: 0.95,
     });
   }
 
   // Top Strengths and Critical Issues
   const topStrengths: string[] = [];
-  if (atsScoreVal >= 85) topStrengths.push('Clean ATS-compliant layout with standard machine-readable section headings');
+  if (atsScoreVal >= 85) topStrengths.push('Detected readable text with standard machine-readable section headings');
   if (skillScoreVal >= 80) topStrengths.push(`Strong coverage of technical competencies (${resume.allSkills.length} skills identified)`);
   if (impactScoreVal >= 75) topStrengths.push(`Effective use of quantifiable results (${impactAnalysis.metricsCount} metrics detected)`);
   if (topStrengths.length === 0) topStrengths.push('Solid foundational structure ready for targeted metric enhancements');
@@ -421,6 +443,8 @@ export function calculateResumeScore(
     id: 'score-' + Date.now(),
     mode,
     overall,
+    careerLevel,
+    generalQualityScore: isJobMatch ? calculateResumeScore(resume, undefined, 'general', careerLevel).overall : overall,
     grade,
     topPriority,
     atsScore: atsScoreVal,

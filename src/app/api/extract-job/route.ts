@@ -1,62 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, createRateLimitResponse } from '@/lib/rate-limit';
+import { readRequestJSON, requestErrorResponse } from '@/lib/validation/request';
 import { z } from 'zod';
-import { parseJobDescription } from '@/lib/jobs/job-parser';
 
-const ExtractJobSchema = z.object({
-  url: z.string().url('Please enter a valid URL.'),
-});
-
+// No user URL is fetched until connection-pinned, restricted egress is available.
 export async function POST(req: NextRequest) {
+  const limit = checkRateLimit(req, { limit: 10, windowMs: 60_000, keyPrefix: 'extract-job' });
+  if (!limit.success) return createRateLimitResponse(limit);
   try {
-    const body = await req.json();
-    const validated = ExtractJobSchema.safeParse(body);
-
-    if (!validated.success) {
-      return NextResponse.json(
-        { error: 'Invalid URL supplied', details: validated.error.flatten() },
-        { status: 400 }
-      );
+    const result = z.object({ url: z.string().max(2048).url() }).strict().safeParse(await readRequestJSON(req));
+    if (!result.success) return NextResponse.json({ error: 'Invalid URL supplied.' }, { status: 400 });
+    const url = new URL(result.data.url);
+    if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) {
+      return NextResponse.json({ error: 'Use an HTTP or HTTPS job URL without credentials.' }, { status: 400 });
     }
-
-    const { url } = validated.data;
-
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        Accept: 'text/html,application/xhtml+xml',
-      },
-      signal: AbortSignal.timeout(8000),
-    });
-
-    if (!response.ok) {
-      return NextResponse.json(
-        { error: `Failed to fetch job page (HTTP ${response.status}). Please paste the job description directly.` },
-        { status: 422 }
-      );
-    }
-
-    const html = await response.text();
-    // Clean HTML tags and scripts
-    const textOnly = html
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-      .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    if (textOnly.length < 50) {
-      return NextResponse.json(
-        { error: 'Could not extract job text from the URL. Please copy and paste the job description directly.' },
-        { status: 422 }
-      );
-    }
-
-    const parsedJob = parseJobDescription(textOnly.slice(0, 8000));
-    return NextResponse.json({ success: true, data: parsedJob, rawText: textOnly.slice(0, 8000) });
-  } catch (err: unknown) {
-    return NextResponse.json(
-      { error: 'Could not retrieve job URL. Please paste the job text directly.', details: err instanceof Error ? err.message : 'Unknown error' },
-      { status: 500 }
-    );
-  }
+    return NextResponse.json({
+      error: 'URL import is unavailable. Copy and paste the job description to match your resume.',
+      code: 'URL_IMPORT_UNAVAILABLE',
+    }, { status: 503 });
+  } catch (error) { return requestErrorResponse(error); }
 }

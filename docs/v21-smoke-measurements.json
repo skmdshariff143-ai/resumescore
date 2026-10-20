@@ -1,0 +1,45 @@
+{
+  "environment": "Local Next production server; no external AI consent or provider call",
+  "results": [
+    {
+      "check": "homepage and security headers",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "check": "invalid JSON",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "check": "oversized JSON",
+      "status": 413,
+      "passed": true
+    },
+    {
+      "check": "cross-origin",
+      "status": 403,
+      "passed": true
+    },
+    {
+      "check": "invalid media type",
+      "status": 415,
+      "passed": true
+    },
+    {
+      "check": "unsafe URL protocol",
+      "status": 400,
+      "passed": true
+    },
+    {
+      "check": "URL import disabled",
+      "status": 503,
+      "passed": true
+    },
+    {
+      "check": "heuristic rewrite",
+      "status": 200,
+      "passed": true
+    }
+  ]
+}

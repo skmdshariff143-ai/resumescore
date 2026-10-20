@@ -24,7 +24,7 @@ export function StepIndicator({
 }: StepIndicatorProps) {
   return (
     <div className={`w-full py-2 ${className}`}>
-      <div className="flex items-center justify-between max-w-3xl mx-auto px-4">
+      <div className="flex items-center justify-between max-w-3xl mx-auto gap-1 sm:px-4">
         {steps.map((step, idx) => {
           const isDone = idx < currentStepIndex;
           const isCurrent = idx === currentStepIndex;
@@ -34,8 +34,16 @@ export function StepIndicator({
               {/* Step Node */}
               <div
                 onClick={() => onStepClick && idx <= currentStepIndex && onStepClick(idx)}
-                className={`flex flex-col items-center space-y-1.5 ${
-                  idx <= currentStepIndex ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+                role={onStepClick ? 'button' : undefined}
+                tabIndex={onStepClick && idx <= currentStepIndex ? 0 : undefined}
+                onKeyDown={event => {
+                  if (onStepClick && idx <= currentStepIndex && ['Enter', ' '].includes(event.key)) {
+                    event.preventDefault(); onStepClick(idx);
+                  }
+                }}
+                aria-current={isCurrent ? 'step' : undefined}
+                className={`flex min-w-0 flex-1 flex-col items-center space-y-1.5 ${
+                  idx <= currentStepIndex ? 'cursor-pointer' : 'cursor-default'
                 }`}
               >
                 <div
@@ -50,8 +58,8 @@ export function StepIndicator({
                   {isDone ? <Check className="w-4 h-4" /> : idx + 1}
                 </div>
                 <span
-                  className={`text-[11px] font-semibold text-center whitespace-nowrap ${
-                    isCurrent ? 'text-blue-300' : isDone ? 'text-slate-300' : 'text-slate-500'
+                  className={`text-[11px] font-semibold text-center break-words ${
+                    isCurrent ? 'text-blue-300' : isDone ? 'text-slate-300' : 'text-slate-400'
                   }`}
                 >
                   {step.label}
@@ -61,7 +69,7 @@ export function StepIndicator({
               {/* Connecting Line */}
               {idx < steps.length - 1 && (
                 <div
-                  className={`flex-1 h-0.5 mx-2 -mt-5 transition-colors ${
+                  className={`hidden sm:block flex-1 h-0.5 mx-2 -mt-5 transition-colors ${
                     idx < currentStepIndex ? 'bg-emerald-600' : 'bg-slate-800'
                   }`}
                 />

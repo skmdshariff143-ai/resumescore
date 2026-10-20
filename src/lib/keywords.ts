@@ -68,6 +68,11 @@ export const SKILL_CATEGORIES_MAP: Record<SkillCategory, readonly string[]> = {
     'Technical Writing', 'System Design', 'Architecture'
   ],
   domain_knowledge: [
+    'Financial Modeling', 'Financial Reporting', 'Budgeting', 'GAAP', 'Bookkeeping',
+    'Accounts Payable', 'Risk Assessment', 'Auditing', 'Procurement', 'Market Research',
+    'Content Marketing', 'Campaign Management', 'Social Media Marketing', 'Copywriting',
+    'Patient Care', 'Clinical Documentation', 'Infection Control', 'Vital Signs',
+    'Care Coordination', 'Mechanical Design', 'CAD', 'AutoCAD', 'SolidWorks',
     'FinTech', 'HealthTech', 'E-Commerce', 'SaaS', 'B2B', 'B2C', 'Distributed Systems',
     'Microservices', 'Event-Driven Architecture', 'High Availability', 'Fault Tolerance',
     'Payment Gateways', 'Stripe Integration', 'Real-Time Systems', 'WebSockets',
@@ -298,4 +303,3 @@ export function getSkillRegex(skill: string): RegExp {
   const escaped = norm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return new RegExp(`(?:^|[^a-zA-Z0-9])${escaped}(?:$|[^a-zA-Z0-9])`, 'i');
 }
-

@@ -18,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: 'npm'
 
       - name: Install dependencies
@@ -27,8 +27,20 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: TypeScript
+        run: npm run typecheck
+
       - name: Run Tests
         run: npm test
 
       - name: Run Production Build
         run: npm run build
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Browser workflows and accessibility
+        run: npm run test:e2e
+
+      - name: Production dependency audit
+        run: npm audit --omit=dev --audit-level=high

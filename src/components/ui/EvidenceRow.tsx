@@ -21,7 +21,7 @@ export function EvidenceRow({ match, className = '' }: EvidenceRowProps) {
       case 'partial':
         return {
           icon: <AlertCircle className="w-3.5 h-3.5 text-amber-400" />,
-          label: 'Ecosystem Familiarity',
+          label: match.evidenceLevel === 'mentioned' ? 'Mentioned; unproven' : 'Related evidence',
           bg: 'bg-amber-950/40 text-amber-300 border-amber-800/40',
         };
       case 'missing':

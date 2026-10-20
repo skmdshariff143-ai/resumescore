@@ -4,9 +4,10 @@ import React, { useState, useRef } from 'react';
 import { extractTextFromPDF, type PDFExtractionResult } from '@/lib/parsing/pdf-extractor';
 import { UploadCloud, AlertTriangle, Shield } from 'lucide-react';
 import { Button } from './ui/Button';
+import { MAX_FILE_BYTES, validateResumeFile } from '@/lib/parsing/file-validation';
 
 interface FileUploadProps {
-  onTextExtracted: (text: string, fileName: string) => void;
+  onTextExtracted: (text: string, fileName: string, diagnostics?: PDFExtractionResult) => void;
   isLoading?: boolean;
 }
 
@@ -16,24 +17,33 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
   const [extracting, setExtracting] = useState(false);
   const [diagnostics, setDiagnostics] = useState<PDFExtractionResult | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [warningMsg, setWarningMsg] = useState<string | null>(null);
   const [pastedText, setPastedText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const processFile = async (file: File) => {
     setErrorMsg(null);
+    setWarningMsg(null);
     setDiagnostics(null);
     setExtracting(true);
 
     try {
-      if (file.type === 'application/pdf' || file.name.endsWith('.pdf')) {
-        const buffer = await file.arrayBuffer();
+      if (file.size > MAX_FILE_BYTES) throw new Error('Choose a file up to 5 MB.');
+      const buffer = await file.arrayBuffer();
+      const kind = validateResumeFile(file.name, new Uint8Array(buffer));
+      if (kind === 'pdf') {
         const diag = await extractTextFromPDF(buffer);
         setDiagnostics(diag);
         if (diag.text.trim().length > 30) {
-          onTextExtracted(diag.text, file.name);
+          onTextExtracted(diag.text, file.name, diag);
         } else {
           setErrorMsg('The PDF could not be read as selectable text. It may contain scanned images. Try pasting your resume text below.');
         }
+      } else if (kind === 'docx') {
+        const { extractTextFromDOCX } = await import('@/lib/parsing/docx-extractor');
+        const text = await extractTextFromDOCX(new Uint8Array(buffer));
+        onTextExtracted(text, file.name);
+        setWarningMsg('Review DOCX text carefully. Headers, footers, images and text boxes may be omitted; table reading order may need correction.');
       } else {
         const text = await file.text();
         if (text.trim().length > 30) {
@@ -59,8 +69,8 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
   };
 
   const handlePasteSubmit = () => {
-    if (pastedText.trim().length < 30) {
-      setErrorMsg('Please paste at least 30 characters of resume content.');
+    if (pastedText.trim().length < 30 || pastedText.length > 60000) {
+      setErrorMsg('Please paste between 30 and 60,000 characters of resume content.');
       return;
     }
     setErrorMsg(null);
@@ -80,7 +90,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            Upload Resume (PDF / TXT)
+            Upload Resume (PDF / DOCX / TXT)
           </button>
           <button
             onClick={() => setTab('paste')}
@@ -127,7 +137,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
           <input
             ref={fileInputRef}
             type="file"
-            accept=".pdf,.txt"
+            accept=".pdf,.docx,.txt"
             aria-label="Upload Resume Document"
             className="hidden"
             onChange={(e) => {
@@ -143,13 +153,14 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
               <p className="text-sm font-bold text-slate-200">
                 {extracting ? 'Extracting text...' : 'Drag & drop your resume or browse'}
               </p>
-              <p className="text-xs text-slate-400 mt-0.5">Supports PDF and TXT (Max 10MB)</p>
+              <p className="text-xs text-slate-400 mt-0.5">PDF, DOCX or UTF-8 TXT · Up to 5 MB and 20 PDF pages</p>
             </div>
           </div>
         </div>
       ) : (
         <div className="space-y-3">
           <textarea
+            maxLength={60000}
             value={pastedText}
             onChange={(e) => setPastedText(e.target.value)}
             rows={7}
@@ -158,7 +169,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
             className="w-full bg-slate-950/80 border border-slate-700/80 rounded-xl p-3 text-xs text-slate-200 placeholder-slate-500 focus:border-indigo-500 focus:outline-none font-mono"
           />
           <Button variant="primary" size="md" onClick={handlePasteSubmit} isLoading={isLoading}>
-            Analyze Pasted Resume
+            Review Pasted Resume
           </Button>
         </div>
       )}
@@ -177,11 +188,12 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
       )}
 
       {errorMsg && (
-        <div className="bg-rose-950/40 border border-rose-800/40 rounded-xl p-3 text-xs text-rose-300 flex items-center">
+        <div role="alert" className="bg-rose-950/40 border border-rose-800/40 rounded-xl p-3 text-xs text-rose-300 flex items-center">
           <AlertTriangle className="w-4 h-4 mr-2 shrink-0" />
           <span>{errorMsg}</span>
         </div>
       )}
+      {warningMsg && <p role="status" className="text-sm text-amber-300">{warningMsg}</p>}
     </div>
   );
 }

@@ -32,6 +32,8 @@ export interface PDFExtractionResult {
  */
 export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promise<PDFExtractionResult> {
   const warnings: string[] = [];
+  let loadingTask: import('pdfjs-dist').PDFDocumentLoadingTask | undefined;
+  let timer: ReturnType<typeof setTimeout> | undefined;
 
   try {
     let pdfjs: typeof import('pdfjs-dist');
@@ -45,7 +47,7 @@ export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promis
     } else {
       pdfjs = await import('pdfjs-dist');
       if (!pdfjs.GlobalWorkerOptions.workerSrc) {
-        pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version || '4.10.38'}/build/pdf.worker.min.mjs`;
+        pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString();
       }
     }
 
@@ -54,13 +56,18 @@ export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promis
       ? new Uint8Array(data.buffer, data.byteOffset, data.byteLength)
       : new Uint8Array(data);
 
-    const loadingTask = pdfjs.getDocument({
+    loadingTask = pdfjs.getDocument({
       data: uint8Data,
       useSystemFonts: true,
     });
 
+    timer = setTimeout(() => { void loadingTask?.destroy(); }, 15000);
     const pdfDocument = await loadingTask.promise;
     const pageCount = pdfDocument.numPages;
+    if (pageCount > 20) {
+      await loadingTask.destroy();
+      throw new Error('PDFs are limited to 20 pages. Upload a shorter resume or paste text.');
+    }
     const pageTexts: string[] = [];
     let emptyPages = 0;
     let nonStandardCharCount = 0;
@@ -134,6 +141,10 @@ export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promis
     }
 
     const fullText = pageTexts.join('\n\n').trim();
+    if (fullText.length > 60000) {
+      await loadingTask.destroy();
+      throw new Error('Extracted text exceeds 60,000 characters.');
+    }
     const charCount = fullText.length;
     const words = fullText.split(/\s+/).filter(Boolean);
     const wordCount = words.length;
@@ -146,7 +157,7 @@ export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promis
     let isScanned = false;
     let extractionQuality: ExtractionQuality = 'excellent';
 
-    if (pageCount > 0 && charCount < 100) {
+    if (pageCount > 0 && charCount === 0) {
       isScanned = true;
       extractionQuality = 'failed';
       warnings.push(
@@ -172,7 +183,8 @@ export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promis
     }
 
     if (twoColumnDetected) {
-      warnings.push('Two-column layout detected. The reading flow has been ordered top-to-bottom and left-to-right for parsing.');
+      extractionQuality = 'degraded';
+      warnings.push('Potential columns detected. Extraction uses row order and may interleave columns. Review and correct the extracted text before analysis.');
     }
 
     const diagnostics: PDFExtractionDiagnostics = {
@@ -202,5 +214,8 @@ export async function extractTextFromPDF(data: ArrayBuffer | Uint8Array): Promis
       throw new Error('This PDF is password-protected. Please remove the password protection and try again.');
     }
     throw new Error(`Failed to parse PDF: ${message}. You can switch to Paste Mode to enter your resume text directly.`);
+  } finally {
+    clearTimeout(timer);
+    await loadingTask?.destroy();
   }
 }

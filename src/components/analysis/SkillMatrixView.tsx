@@ -99,7 +99,7 @@ export function SkillMatrixView({ matrix }: SkillMatrixViewProps) {
 
       {/* Search Filter */}
       <div className="relative">
-        <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
+        <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-400" />
         <input
           type="text"
           value={searchQuery}
@@ -112,7 +112,7 @@ export function SkillMatrixView({ matrix }: SkillMatrixViewProps) {
       {/* Evidence Rows Stream */}
       <div className="space-y-3">
         {filteredItems.length === 0 ? (
-          <div className="text-center py-8 text-xs text-slate-500">
+          <div className="text-center py-8 text-xs text-slate-400">
             No matching skills found for the selected filter.
           </div>
         ) : (

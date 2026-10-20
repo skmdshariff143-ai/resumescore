@@ -57,7 +57,7 @@ export default function LandingPage() {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
           <span className="uppercase text-slate-400">System v0.4.0</span>
-          <span className="text-slate-600">/</span>
+          <span className="text-slate-400">/</span>
           <span className="text-slate-200">Evidence-First Career Intelligence Workspace</span>
         </div>
 
@@ -145,7 +145,7 @@ export default function LandingPage() {
             <div className="space-y-3 relative z-10">
               <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 px-1">
                 <span>VERIFIED REQUIREMENT ALIGNMENT TRACE</span>
-                <span className="text-slate-500">3 of 14 displayed</span>
+                <span className="text-slate-400">3 of 14 displayed</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
@@ -215,7 +215,7 @@ export default function LandingPage() {
             </div>
 
             {/* Calibration Footer: Traceability & Integrity */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-[11px] font-mono text-slate-500 border-t border-slate-800/60 relative z-10">
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 text-[11px] font-mono text-slate-400 border-t border-slate-800/60 relative z-10">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                 <span>Audit Ref: #RS-84-EVAL</span>
@@ -336,7 +336,7 @@ export default function LandingPage() {
 
             {/* Mini-Visual: 6-Layer Taxonomy Hierarchy Stepper */}
             <div className="bg-slate-950/90 border border-slate-800/90 rounded-xl p-3 space-y-1.5 font-mono text-[10px]">
-              <div className="text-slate-500 uppercase tracking-wider pb-1 border-b border-slate-800/80">
+              <div className="text-slate-400 uppercase tracking-wider pb-1 border-b border-slate-800/80">
                 Resolution Layers
               </div>
               <div className="space-y-1">
@@ -365,7 +365,7 @@ export default function LandingPage() {
                 </div>
                 <div>
                   <span className="text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-wider block">
-                    PARSER COMPLIANCE
+                    PARSER READABILITY
                   </span>
                   <h3 className="text-sm sm:text-base font-bold text-slate-100">
                     8-Factor ATS Parsing Audit
@@ -379,7 +379,7 @@ export default function LandingPage() {
 
             {/* Mini-Visual: Diagnostic Checklist */}
             <div className="bg-slate-950/90 border border-slate-800/90 rounded-xl p-3 space-y-1.5 font-mono text-[10px]">
-              <div className="text-slate-500 uppercase tracking-wider pb-1 border-b border-slate-800/80">
+              <div className="text-slate-400 uppercase tracking-wider pb-1 border-b border-slate-800/80">
                 Machine Parser Checks
               </div>
               <div className="space-y-1 text-slate-300">
@@ -427,8 +427,8 @@ export default function LandingPage() {
                 <span className="text-emerald-400 font-bold">Excellent Tier</span>
               </div>
               <div className="grid grid-cols-4 gap-1 text-center">
-                <div className="bg-slate-900 py-1 rounded text-slate-500">Weak</div>
-                <div className="bg-slate-900 py-1 rounded text-slate-500">Developing</div>
+                <div className="bg-slate-900 py-1 rounded text-slate-400">Weak</div>
+                <div className="bg-slate-900 py-1 rounded text-slate-400">Developing</div>
                 <div className="bg-slate-900 py-1 rounded text-slate-400">Strong</div>
                 <div className="bg-emerald-950 border border-emerald-700/50 py-1 rounded text-emerald-400 font-bold">
                   Excellent
@@ -488,7 +488,7 @@ export default function LandingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-5 gap-3.5">
           {[
             { step: '01', title: 'Upload', desc: 'Secure client-side PDF/text ingestion with encoding diagnostics.' },
-            { step: '02', title: 'Analyze', desc: '7-pillar deterministic scoring and ATS compliance checks.' },
+            { step: '02', title: 'Analyze', desc: '7-pillar deterministic scoring and ATS readability estimates.' },
             { step: '03', title: 'Match', desc: '6-layer semantic evaluation against target role requirements.' },
             { step: '04', title: 'Improve', desc: 'Anti-hallucination bullet rewrites and skill gap recommendations.' },
             { step: '05', title: 'Apply', desc: 'Executive PDF summary export and targeted cover letter creation.' },
@@ -497,7 +497,7 @@ export default function LandingPage() {
               key={item.step}
               className="bg-slate-950/60 border border-slate-800/80 hover:border-slate-700 rounded-2xl p-5 space-y-2 relative overflow-hidden transition-all group"
             >
-              <span className="text-xl font-black font-mono text-slate-600 group-hover:text-blue-400/80 transition-colors block">
+              <span className="text-xl font-black font-mono text-slate-400 group-hover:text-blue-400/80 transition-colors block">
                 {item.step}
               </span>
               <h4 className="text-sm font-bold text-slate-100">{item.title}</h4>
@@ -523,7 +523,7 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
           <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-800 space-y-1">
-            <span className="text-[10px] uppercase font-mono font-semibold text-slate-500">1. Requirement</span>
+            <span className="text-[10px] uppercase font-mono font-semibold text-slate-400">1. Requirement</span>
             <div className="text-xs font-bold text-slate-200">&ldquo;FastAPI & Python backend experience&rdquo;</div>
           </div>
 
@@ -557,7 +557,7 @@ export default function LandingPage() {
             Before & After Bullet Optimization
           </h2>
           <p className="text-xs text-slate-400">
-            We preserve verified facts while prompting you for genuine metrics. No AI-manufactured statistics.
+            We preserve supplied facts while prompting you for genuine metrics. No AI-manufactured statistics.
           </p>
         </div>
 
@@ -586,7 +586,7 @@ export default function LandingPage() {
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-400 bg-rose-950/60 px-2 py-0.5 rounded border border-rose-800/40">
                   Weak Original Bullet
                 </span>
-                <span className="text-[10px] text-slate-500 font-mono">Lacks quantifiable impact</span>
+                <span className="text-[10px] text-slate-400 font-mono">Lacks quantifiable impact</span>
               </div>
               <p className="text-xs sm:text-sm text-slate-300 font-serif italic">
                 &ldquo;{beforeAfterExamples[activeBeforeAfter].weak}&rdquo;
@@ -611,7 +611,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-800 pt-4 text-xs">
             <div className="flex items-center space-x-2">
               <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-800 shrink-0">
-                Verified Facts
+                Supplied Facts
               </span>
               <span className="text-slate-300 text-[11px]">
                 {beforeAfterExamples[activeBeforeAfter].verifiedTechs.join(', ')}
@@ -659,10 +659,10 @@ export default function LandingPage() {
           <div className="space-y-2">
             <h4 className="text-xs font-bold text-slate-200 flex items-center">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 mr-2 shrink-0" />
-              No LLM Training on Resumes
+              Optional External AI
             </h4>
             <p className="text-[11px] text-slate-400 leading-relaxed">
-              All scoring is evaluated via deterministic rules and isolated prompts with strict anti-injection guardrails.
+              Browser scoring sends no resume text to AI providers. External AI requires consent; provider retention and training policies depend on the configured account.
             </p>
           </div>
 

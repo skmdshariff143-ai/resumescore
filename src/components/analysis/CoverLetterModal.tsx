@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { ResumeParsed, JobParsed, CoverLetterResponse } from '@/types';
 import { Zap, X, Copy, Check, RefreshCw } from 'lucide-react';
 import { Button } from '../ui/Button';
@@ -17,41 +17,60 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
   const [generating, setGenerating] = useState(false);
   const [coverLetter, setCoverLetter] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [aiConsent, setAIConsent] = useState(false);
+  const [error, setError] = useState('');
+  const [generationSource, setGenerationSource] = useState('');
+  const [approved, setApproved] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement | null;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
+      if (e.key === 'Tab') {
+        const elements = dialogRef.current?.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), textarea:not(:disabled), [tabindex="0"]');
+        if (!elements?.length) return;
+        const first = elements[0], last = elements[elements.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
     if (isOpen) {
       window.addEventListener('keydown', handleKeyDown);
+      dialogRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
     }
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => { window.removeEventListener('keydown', handleKeyDown); if (isOpen) previousFocus?.focus(); };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   const handleGenerate = async () => {
     setGenerating(true);
+    setApproved(false);
+    setError('');
     try {
       const res = await fetch('/api/ai/cover-letter', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-ai-consent': String(aiConsent) },
         body: JSON.stringify({
           resume,
           job,
           tone,
         }),
+        signal: AbortSignal.timeout(30000),
       });
       const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || 'Generation failed.');
       if (data.success && data.data) {
         const cl = data.data as CoverLetterResponse;
         const formatted = `${cl.salutation}\n\n${cl.bodyParagraphs.join('\n\n')}\n\n${cl.closing}\n${cl.candidateName}`;
         setCoverLetter(formatted);
+        setGenerationSource(data.isLLMGenerated ? 'AI-generated draft. Verify every claim before use.' : 'Heuristic draft generated on the ResumeScore server.');
       }
     } catch (err) {
-      console.error('Failed to generate cover letter', err);
+      setError(err instanceof Error ? err.message : 'Generation failed. Please try again.');
     } finally {
       setGenerating(false);
     }
@@ -67,6 +86,7 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
 
   return (
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-labelledby="cover-letter-title"
@@ -84,7 +104,7 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
             <div>
               <h3 id="cover-letter-title" className="text-base font-bold text-slate-100">Fact-Grounded Cover Letter Copilot</h3>
               <p className="text-xs text-slate-400">
-                Grounds claims on {resume.allSkills.length} verified resume skills and {resume.experience.length} work history entries.
+                Uses {resume.allSkills.length} detected skills and {resume.experience.length} work history entries. These claims are not independently verified.
               </p>
             </div>
           </div>
@@ -98,6 +118,10 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
         </div>
 
         {/* Tone Selector */}
+        <p className="text-sm text-slate-300">Generating a letter sends resume and job text to the ResumeScore server, including when analysis was browser-only.</p>
+        <label className="flex items-start gap-3 text-sm"><input type="checkbox" disabled checked={aiConsent} onChange={event => setAIConsent(event.target.checked)} />Paid external AI is disabled in this release. This feature produces a server-based heuristic draft.</label>
+        {error && <p role="alert" className="text-red-300">{error}</p>}
+        {generationSource && <p role="status" className="text-slate-300">{generationSource}</p>}
         <div className="space-y-2">
           <span className="text-xs font-semibold text-slate-300">Select Writing Tone:</span>
           <div className="flex flex-wrap gap-2">
@@ -135,11 +159,16 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
         {coverLetter && (
           <div className="space-y-4">
             <textarea
+              aria-label="Generated cover letter draft"
               readOnly
               value={coverLetter}
               rows={12}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-xs text-slate-200 leading-relaxed font-sans focus:outline-none"
             />
+            <label className="flex gap-2 text-sm">
+              <input type="checkbox" checked={approved} onChange={event => setApproved(event.target.checked)} />
+              I reviewed this draft and confirm its claims before copying.
+            </label>
 
             <div className="flex items-center justify-between">
               <Button
@@ -156,6 +185,7 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
                 variant="primary"
                 size="sm"
                 onClick={handleCopy}
+                disabled={!approved}
                 icon={copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               >
                 {copied ? 'Copied to Clipboard' : 'Copy Cover Letter'}

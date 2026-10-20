@@ -1,0 +1,58 @@
+[
+  {
+    "screen": "homepage",
+    "violations": []
+  },
+  {
+    "screen": "job-input",
+    "violations": []
+  },
+  {
+    "screen": "extraction-review",
+    "violations": []
+  },
+  {
+    "screen": "results",
+    "violations": []
+  },
+  {
+    "screen": "cover-letter-dialog",
+    "violations": []
+  },
+  {
+    "screen": "cover-letter-result",
+    "violations": []
+  },
+  {
+    "screen": "Semantic Skill Matrix",
+    "violations": []
+  },
+  {
+    "screen": "ATS Readability Estimate",
+    "violations": []
+  },
+  {
+    "screen": "Bullet Copilot",
+    "violations": []
+  },
+  {
+    "screen": "Qualitative Critique",
+    "violations": []
+  },
+  {
+    "screen": "Edit & Export Resume",
+    "violations": []
+  },
+  {
+    "screen": "rewrite-review",
+    "violations": []
+  },
+  {
+    "screen": "history",
+    "violations": []
+  },
+  {
+    "screen": "privacy",
+    "violations": []
+  }
+]

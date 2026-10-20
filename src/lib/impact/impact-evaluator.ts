@@ -72,21 +72,10 @@ export function analyzeBullet(bullet: string, index: number): BulletAnalysis {
   score = Math.max(20, Math.min(100, score));
   const strength = classifyBulletStrength(score);
 
-  // Generate 3 anti-hallucination rewrite variants
-  const verbToUse = actionVerb
-    ? actionVerb.charAt(0).toUpperCase() + actionVerb.slice(1)
-    : 'Engineered';
-
-  const techClause = technologies.length > 0 ? ` utilizing ${technologies.slice(0, 3).join(', ')}` : '';
-
-  // Clean core description
-  const cleanDesc = trimmed
-    .replace(/^\s*[•\-*▪►◦‣⁃]\s*/, '')
-    .replace(/^(responsible for|worked on|helped with|assisted in)\s+/i, '');
-
-  const xyzFormula = `${verbToUse} ${cleanDesc}${techClause}, resulting in [Add genuine metric: e.g. 25% efficiency gain or $X cost savings].`;
-  const metricsDriven = `Accelerated performance by [Add genuine metric: e.g. 35%] by ${verbToUse.toLowerCase()}ing ${cleanDesc}${techClause}.`;
-  const leadership = `Spearheaded the initiative to ${cleanDesc}${techClause}, aligning with cross-functional teams to deliver [Add measurable outcome].`;
+  // Templates must not invent responsibilities or outcomes.
+  const xyzFormula = trimmed;
+  const metricsDriven = trimmed;
+  const leadership = trimmed;
 
   return {
     id: `bullet-${index}`,
@@ -108,10 +97,10 @@ export function analyzeBullet(bullet: string, index: number): BulletAnalysis {
       leadership,
     },
     rewriteReason: hasQuantifiableMetric
-      ? 'Strengthened phrasing and syntax while maintaining verified metric.'
-      : 'Added structured X-Y-Z outcome framework with a candidate-supplied metric placeholder.',
+      ? 'Original wording and reported metrics preserved; review for clarity.'
+      : 'Original facts preserved. Add a measurable outcome only if it is verifiable.',
     rewriteType: hasQuantifiableMetric ? 'improved_existing' : 'needs_candidate_info',
-    placeholdersNeeded: hasQuantifiableMetric ? [] : ['[Add genuine metric: e.g. 25% efficiency gain]'],
+    placeholdersNeeded: hasQuantifiableMetric ? [] : ['Add a verified outcome only if available.'],
   };
 }
 

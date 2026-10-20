@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://resumescore-phi.vercel.app'),
+  alternates: { canonical: '/' },
   title: "ResumeScore — AI Resume & Job Match Intelligence",
   description:
     "Match your resume to the job before you apply. Transparent 7-pillar deterministic scoring, layered semantic matching, and anti-hallucination bullet rewrites.",
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
     description:
       "See exactly what your resume is missing before you apply. Evidence-based scoring and match analysis.",
     type: "website",
-    url: "https://resumescore.vercel.app",
+    url: "https://resumescore-phi.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
@@ -48,8 +50,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-slate-950 text-slate-200 antialiased">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:block focus:p-4">Skip to main content</a>
         <Navbar />
-        <main className="relative z-10">{children}</main>
+        <main id="main-content" className="relative z-10">{children}</main>
         <Footer />
       </body>
     </html>

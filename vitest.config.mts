@@ -5,6 +5,9 @@ export default defineConfig({
   test: {
     globals: false,
     environment: 'node',
+    exclude: ['e2e/**', 'node_modules/**', '.next/**'],
+    pool: 'threads',
+    maxWorkers: 1,
   },
   resolve: {
     alias: {

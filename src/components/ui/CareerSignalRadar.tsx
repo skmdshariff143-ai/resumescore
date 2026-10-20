@@ -155,7 +155,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
                     style={{ width: `${vec.score}%` }}
                   />
                 </div>
-                <div className="text-[9px] font-mono text-slate-500 text-right">
+                <div className="text-[9px] font-mono text-slate-400 text-right">
                   {isSelected ? '▲ Close details' : '▼ View details'}
                 </div>
               </button>

@@ -111,7 +111,7 @@ function extractName(text: string): { name: string; confidence: number } {
     if (matchSectionHeader(line).matched) continue;
 
     const words = line.split(/\s+/).filter(Boolean);
-    if (words.length >= 2 && words.length <= 4 && /^[a-zA-Z\s.'-]+$/.test(line) && line.length < 45) {
+    if (words.length >= 2 && words.length <= 4 && /^[\p{L}\p{M}\s.'’-]+$/u.test(line) && line.length < 45) {
       const confidence = i === 0 ? 0.95 : i === 1 ? 0.88 : 0.75;
       return { name: line.trim(), confidence };
     }
@@ -250,7 +250,7 @@ export function parseExperienceSection(expText: string): ExperienceItem[] {
   const dateRangePattern = /(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(?:\d{1,2}\/)?(\d{4})\s*[-–—to\s]+\s*(?:(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+)?(?:\d{1,2}\/)?(\d{4}|present|current)?/i;
 
   const isRoleTitle = (str: string): boolean => {
-    return /\b(engineer|developer|architect|lead|manager|analyst|specialist|consultant|sre|designer|director|vp|head|intern|fellow|scientist|officer|administrator|programmer|technician|representative)\b/i.test(str);
+    return /\b(engineer|developer|architect|lead|manager|analyst|specialist|consultant|sre|designer|director|vp|head|intern|fellow|scientist|officer|administrator|programmer|technician|representative|assistant|nurse|physician|teacher|accountant|therapist|pharmacist)\b/i.test(str);
   };
 
   const isCompanyIndicator = (str: string): boolean => {
@@ -535,7 +535,8 @@ export function parseResume(rawText: string, fileName: string = 'resume.txt'): R
     name: nameInfo.name,
     email: trimmed.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/)?.[0],
     phone: trimmed.match(/(?:\+?\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}/)?.[0],
-    location: extractLocation(trimmed),
+    // Do not treat a reordered comma-separated skills list as a location.
+    location: extractLocation(sections.find(section => section.type === 'header')?.content || ''),
     linkedin: linksInfo.linkedin,
     github: linksInfo.github,
     portfolio: linksInfo.portfolio,
@@ -569,7 +570,7 @@ export function parseResume(rawText: string, fileName: string = 'resume.txt'): R
   return {
     metadata: {
       fileName,
-      fileType: fileName.endsWith('.pdf') ? 'pdf' : 'txt',
+      fileType: /\.pdf$/i.test(fileName) ? 'pdf' : /\.docx$/i.test(fileName) ? 'docx' : 'txt',
       extractedCharCount: trimmed.length,
       wordCount,
       pageCountEstimate,

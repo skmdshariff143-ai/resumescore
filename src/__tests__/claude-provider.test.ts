@@ -68,18 +68,18 @@ describe('AI Provider Architecture & Claude Integration', () => {
     expect(parsed.atsRisks[0].severity).toBe('warning');
   });
 
-  it('captures and re-throws the real error when Claude API fails', async () => {
+  it('sanitizes the error when Claude API fails', async () => {
     // Instantiate with dummy key so network/auth call fails
     const claudeProvider = new ClaudeAIProvider('invalid-key');
     const resume = parseResume('John Doe\njohn@example.com\n\nEXPERIENCE\nDeveloper at Tech Co\n• Built backend APIs in Node.js', 'resume.txt');
 
     // Should reject with descriptive error rather than silently masking failure
     await expect(claudeProvider.rewriteBullet('Built backend APIs in Node.js', ['Node.js'])).rejects.toThrow(
-      /Claude AI API failure/
+      /AI provider unavailable/
     );
 
     await expect(claudeProvider.generateCritique(resume)).rejects.toThrow(
-      /Claude AI API failure/
+      /AI provider unavailable/
     );
   });
 });

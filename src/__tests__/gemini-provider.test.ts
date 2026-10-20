@@ -91,7 +91,7 @@ describe('AI Provider Architecture & Gemini Integration', () => {
     expect(parsed.atsRisks[0].severity).toBe('warning');
   });
 
-  it('captures and re-throws the real error when Gemini API fails', async () => {
+  it('sanitizes the error when Gemini API fails', async () => {
     const geminiProvider = new GeminiAIProvider('invalid-gemini-key');
     const resume = parseResume(
       'John Doe\njohn@example.com\n\nEXPERIENCE\nDeveloper at Tech Co\n• Built backend APIs in Node.js',
@@ -99,11 +99,11 @@ describe('AI Provider Architecture & Gemini Integration', () => {
     );
 
     await expect(geminiProvider.rewriteBullet('Built backend APIs in Node.js', ['Node.js'])).rejects.toThrow(
-      /Gemini AI API failure/
+      /AI provider unavailable/
     );
 
     await expect(geminiProvider.generateCritique(resume)).rejects.toThrow(
-      /Gemini AI API failure/
+      /AI provider unavailable/
     );
   });
 });

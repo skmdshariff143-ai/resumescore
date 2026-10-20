@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { VersionComparison } from '@/components/dashboard/VersionComparison';
 import { JobMatchesTracker } from '@/components/dashboard/JobMatchesTracker';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -23,6 +24,7 @@ import {
 import { Button } from '@/components/ui/Button';
 
 export default function HistoryPage() {
+  const router = useRouter();
   const [history, setHistory] = useState<ScanHistory[]>(() => {
     if (typeof window !== 'undefined') return getScanHistory();
     return [];
@@ -143,7 +145,7 @@ export default function HistoryPage() {
             title="No Resume Scans Found"
             description="Upload and analyze your resume to begin tracking your career signal progress."
             actionLabel="Start First Analysis"
-            onAction={() => window.location.href = '/analyze'}
+            onAction={() => router.push('/analyze')}
           />
         ) : (
           <div className="space-y-3">
@@ -160,10 +162,12 @@ export default function HistoryPage() {
                 </div>
 
                 <div className="flex items-center space-x-3">
+                  {item.resumeText && <button className="border border-slate-600 rounded px-3 py-2 text-sm" onClick={() => router.push(`/analyze?history=${encodeURIComponent(item.id)}`)}>Reopen</button>}
                   <span className="text-xs font-bold text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-800/40 font-mono">
                     Score: {item.overallScore}/100 ({item.grade})
                   </span>
                   <button
+                    aria-label={`Delete ${item.fileName} analysis`}
                     onClick={() => handleDeleteScan(item.id)}
                     className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition-colors cursor-pointer"
                   >

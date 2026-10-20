@@ -14,11 +14,8 @@
 }
 
 /* ===== Base Styles ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Tailwind Preflight supplies the reset in its base layer. An unlayered
+   universal margin/padding reset would override every spacing utility. */
 
 html {
   scroll-behavior: smooth;
@@ -82,6 +79,15 @@ main, #__next {
 
 /* ===== Focus Styles ===== */
 *:focus-visible {
-  outline: 2px solid var(--accent-indigo);
+  outline: 2px solid var(--accent-cobalt);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

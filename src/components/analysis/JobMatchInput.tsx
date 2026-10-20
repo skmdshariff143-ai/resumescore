@@ -53,6 +53,8 @@ export function JobMatchInput({ onJobSubmit, isLoading }: JobMatchInputProps) {
         </div>
 
         <textarea
+          aria-label="Target job description"
+          maxLength={60000}
           value={jobText}
           onChange={(e) => setJobText(e.target.value)}
           rows={6}
@@ -69,7 +71,7 @@ export function JobMatchInput({ onJobSubmit, isLoading }: JobMatchInputProps) {
         isLoading={isLoading}
         icon={<Target className="w-4 h-4" />}
       >
-        Evaluate Job Match Alignment
+        Use this job description
       </Button>
     </div>
   );

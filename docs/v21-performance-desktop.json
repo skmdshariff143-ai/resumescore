@@ -1,0 +1,10 @@
+{
+  "environment": "Local production build, Edge Chromium, no network/CPU throttling; single sample",
+  "analysisUIElapsedMs": 339.44139999999607,
+  "docxDownloadElapsedMs": 319.7532000000065,
+  "domContentLoadedMs": 520.6999999880791,
+  "loadMs": 786.5,
+  "javascriptTransferBytes": 219528,
+  "usedJSHeapBytes": 7745354,
+  "resourceCount": 24
+}
