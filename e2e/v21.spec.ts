@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './access-fixture';
 import AxeBuilder from '@axe-core/playwright';
 import { writeFile } from 'node:fs/promises';
 import { Document, Packer, Paragraph, Table, TableRow, TableCell, TextRun } from 'docx';
@@ -7,15 +7,19 @@ import { printableResumeHTML, splitResumeBlocks } from '../src/lib/export/resume
 const bullet = 'Developed an inventory application using Python and SQL.';
 const resume = `Alex Example\nalex@example.com\nSUMMARY\nGraduate interested in analysis.\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nInventory application\n${bullet}\nSKILLS\nPython, SQL`;
 
-test('compiled release rejects paid AI activation even when consent is supplied', async ({ request }) => {
-  const response = await request.post('/api/ai/rewrite', {
-    headers: { 'x-ai-consent': 'true' }, data: { bullet: 'Assisted with inventory records.' },
+test('compiled release rejects paid AI activation even when consent is supplied', async ({ page }) => {
+  await page.goto('/analyze');
+  const result = await page.evaluate(async () => {
+    const response = await fetch('/api/ai/rewrite', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'x-ai-consent': 'true' },
+      body: JSON.stringify({ bullet: 'Assisted with inventory records.' }),
+    });
+    return { status: response.status, body: await response.json() };
   });
-  expect(response.status()).toBe(200);
-  const result = await response.json();
-  expect(result.isLLMGenerated).toBe(false);
-  expect(['heuristic-paid-ai-disabled', 'heuristic-provider-unconfigured']).toContain(result.providerStatus);
-  expect(result.data.xyzFormula).toBe('Assisted with inventory records.');
+  expect(result.status).toBe(200);
+  expect(result.body.isLLMGenerated).toBe(false);
+  expect(['heuristic-paid-ai-disabled', 'heuristic-provider-unconfigured']).toContain(result.body.providerStatus);
+  expect(result.body.data.xyzFormula).toBe('Assisted with inventory records.');
 });
 
 test('paste input preserves Unicode and offers correction before scoring', async ({ page }) => {

@@ -8,7 +8,7 @@ export default defineConfig({
   workers: 1,
   timeout: 45_000,
   reporter: [['list'], ['json', { outputFile: 'test-results/browser-results.json' }]],
-  use: { baseURL: remoteURL || 'http://localhost:3100', channel: process.env.PLAYWRIGHT_CHANNEL, storageState: process.env.PLAYWRIGHT_STORAGE_STATE || undefined, trace: remoteURL ? 'off' : 'retain-on-failure' },
+  use: { serviceWorkers: 'block', baseURL: remoteURL || 'http://localhost:3100', channel: process.env.PLAYWRIGHT_CHANNEL, storageState: process.env.PLAYWRIGHT_STORAGE_STATE || undefined, trace: remoteURL ? 'off' : 'retain-on-failure' },
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'] } },
     { name: 'mobile', use: { ...devices['iPhone 13'], defaultBrowserType: 'chromium' } },

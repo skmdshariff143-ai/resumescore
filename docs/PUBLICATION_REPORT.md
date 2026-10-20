@@ -18,3 +18,10 @@ Paid AI is disabled at build level by next.config.ts, independently of Vercel en
 The user authorized committing, pushing the feature branch, creating a PR to main, and deploying a Vercel Preview. This checkpoint precedes those operations; actual commit/PR/deployment identifiers and remote verification results will be added to the PR and publication evidence after validation.
 
 Production remains gated by the P1 issues documented in V2_1_RELEASE_READINESS.md: independent scoring calibration and broader extraction evaluation, plus five high development-only dependency advisories. Paid-AI operational/live validation is also pending and activation remains locked off. No merge or production deployment may proceed while these gates remain unresolved. A passing preview alone does not waive them.
+
+## Initial publication
+Application commit a44367e1ae950fb6e8b41e9274d73ec37d23f6f3 was pushed successfully to origin/feat/resumescore-v2. Draft PR: https://github.com/skmdshariff143-ai/resumescore/pull/1 . GitHub CI passed: https://github.com/skmdshariff143-ai/resumescore/actions/runs/39388429775 .
+
+Vercel Git integration produced a READY Preview for that exact commit at https://resumescore-pleuc9219-shaik-mahammad-shariff-s-projects.vercel.app (dpl_MMaye3qQpK6zsQ1vGTqKAxGqemhL), with a 46-second build. Existing production was not changed.
+
+The preview is protected. CLI project authentication successfully returned the application using a short-lived development OIDC token. The test harness forwards that token only in Node-side fetches to the exact preview origin, disables authenticated redirects and remote traces, and never stores credentials in Git. A local two-test smoke of the fixture passed; lint and TypeScript passed. Full remote workflow validation follows on the next harness commit.

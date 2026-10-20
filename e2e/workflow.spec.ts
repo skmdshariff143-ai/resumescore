@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './access-fixture';
 import AxeBuilder from '@axe-core/playwright';
 import { printableResumeHTML, splitResumeBlocks } from '../src/lib/export/resume-document';
 import { readFile } from 'node:fs/promises';
