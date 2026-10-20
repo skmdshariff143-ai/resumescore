@@ -19,7 +19,9 @@ export const test = base.extend({
           await route.fulfill({ response });
         } catch {
           // Raw fetch exceptions may include credential-bearing request headers.
-          await route.abort('failed');
+          // Navigation/teardown can finish the browser route while fetch is pending.
+          // Suppress only that cancellation; an active failed request still aborts.
+          try { await route.abort('failed'); } catch { /* Route already handled or context closed. */ }
         }
       });
     }

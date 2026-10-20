@@ -25,3 +25,15 @@ Application commit a44367e1ae950fb6e8b41e9274d73ec37d23f6f3 was pushed successfu
 Vercel Git integration produced a READY Preview for that exact commit at https://resumescore-pleuc9219-shaik-mahammad-shariff-s-projects.vercel.app (dpl_MMaye3qQpK6zsQ1vGTqKAxGqemhL), with a 46-second build. Existing production was not changed.
 
 The preview is protected. CLI project authentication successfully returned the application using a short-lived development OIDC token. The test harness forwards that token only in Node-side fetches to the exact preview origin, disables authenticated redirects and remote traces, and never stores credentials in Git. A local two-test smoke of the fixture passed; lint and TypeScript passed. Full remote workflow validation follows on the next harness commit.
+
+## Remote verification and final release decision
+
+Harness commit 829f81ff46f128a1c07e645f51cf365a81f1e06b produced READY Preview https://resumescore-4quonjthl-shaik-mahammad-shariff-s-projects.vercel.app (dpl_EN9iMzvc9sdmKwbDFvyfMAuWgoyP). Hosted CI passed: https://github.com/skmdshariff143-ai/resumescore/actions/runs/39389372530 .
+
+Two complete authenticated browser runs each passed 28/30 tests, with different failures. First: mobile legacy-history request cancellation in the authentication harness and a five-second job-match assertion. Repeat: desktop heuristic response exceeded five seconds, and long-PDF re-upload timed out waiting for the input. These are unresolved remote reliability findings; no all-green preview result is claimed. Both runs exercised real homepage, uploads, local analysis, job matching, history deletion, TXT/DOCX/PDF export and heuristic API paths. Desktop/mobile consent=true requests confirmed paid AI remains disabled. Raw aggregate evidence is in publication-preview-summary.json; credentials/traces are excluded.
+
+The final test-only changes tolerate already-cancelled authentication routes and allow fifteen-second remote assertions. ESLint, TypeScript and whitespace validation passed after these changes; a full passing remote run of this final harness is not claimed. Application source is unchanged from a44367e. The remote mobile accessibility journey completed 14 audited states with zero automated violations on the repeat; desktop repeat stopped before completion. This does not establish manual screen-reader conformance.
+
+A point-in-time deployment runtime query returned zero error/fatal records over its preceding 30-minute window; this is not continuous monitoring. Production alias was rechecked: READY on unchanged commit 79a373c8acc3d234c04e21010598ef9f93764bcf, deployment dpl_5NimgXZ6W7XqK3Kypy5S1Eug1FS6.
+
+**Decision: publish the feature branch and evidence, keep PR #1 draft and unmerged, and do not deploy/promote production.** Preview reliability findings and the existing P1 evaluation/dependency gates remain. No purchase, production configuration change, merge or production deployment was performed.

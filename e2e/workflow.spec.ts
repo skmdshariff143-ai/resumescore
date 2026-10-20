@@ -121,5 +121,5 @@ test('pasted job requirements produce a separate match score', async ({ page }) 
   await page.getByRole('button', { name: 'Use this job description' }).click();
   await page.locator('input[type=file]').setInputFiles({ name: 'resume.txt', mimeType: 'text/plain', buffer: Buffer.from(resume) });
   await page.getByRole('button', { name: 'Analyze reviewed text' }).click();
-  await expect(page.getByText(/General resume quality:/)).toContainText('Job terminology alignment:');
+  await expect(page.getByText(/General resume quality:/)).toContainText('Job terminology alignment:', { timeout: 15_000 });
 });

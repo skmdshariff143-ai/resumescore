@@ -7,6 +7,7 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 45_000,
+  expect: { timeout: remoteURL ? 15_000 : 5_000 },
   reporter: [['list'], ['json', { outputFile: 'test-results/browser-results.json' }]],
   use: { serviceWorkers: 'block', baseURL: remoteURL || 'http://localhost:3100', channel: process.env.PLAYWRIGHT_CHANNEL, storageState: process.env.PLAYWRIGHT_STORAGE_STATE || undefined, trace: remoteURL ? 'off' : 'retain-on-failure' },
   projects: [
