@@ -139,7 +139,7 @@ export function CritiquePanel({ critique, onNavigateToTab }: CritiquePanelProps)
           {critique.sections.map((sec, idx) => (
             <div
               key={idx}
-              className="bg-surface border border-line rounded-xl p-4 space-y-2 hover:border-line transition-colors"
+              className="bg-surface border border-line rounded-xl p-4 space-y-2 hover:border-line "
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-ink">{sec.name}</span>
@@ -178,7 +178,7 @@ export function CritiquePanel({ critique, onNavigateToTab }: CritiquePanelProps)
                 {onNavigateToTab && (
                   <button
                     onClick={() => onNavigateToTab('ats')}
-                    className="self-start sm:self-center text-xs font-bold text-brand hover:text-brand flex items-center transition-colors cursor-pointer shrink-0"
+                    className="self-start sm:self-center text-xs font-bold text-brand hover:text-brand flex items-center  cursor-pointer shrink-0"
                   >
                     <span>View ATS Check</span>
                     <ArrowRight className="w-3 h-3 ml-1" />

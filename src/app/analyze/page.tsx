@@ -199,7 +199,7 @@ function AnalyzeContent() {
               setMode('general');
               setScore(null);
             }}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-transform cursor-pointer ${
               mode === 'general'
                 ? 'bg-brand text-white shadow-panel  border border-blue-500/40'
                 : 'text-muted hover:text-ink hover:bg-surface'
@@ -209,7 +209,7 @@ function AnalyzeContent() {
           </button>
           <button
             disabled={loading} aria-pressed={mode === 'job_match'} onClick={() => { invalidate(); setMode('job_match'); }}
-            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center cursor-pointer ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-transform flex items-center cursor-pointer ${
               mode === 'job_match'
                 ? 'bg-brand text-white shadow-panel  border border-blue-500/40'
                 : 'text-muted hover:text-ink hover:bg-surface'
@@ -291,7 +291,7 @@ function AnalyzeContent() {
                 key={tab.key}
                 aria-pressed={activeTab === tab.key}
                 onClick={() => setActiveTab(tab.key as AnalyzeTab)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-transform cursor-pointer whitespace-nowrap ${
                   activeTab === tab.key
                     ? 'bg-brand text-white shadow-panel  border border-blue-500/40'
                     : 'text-muted hover:text-ink hover:bg-surface border border-transparent'

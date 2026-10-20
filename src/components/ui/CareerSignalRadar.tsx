@@ -137,7 +137,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
               <button
                 key={vec.id}
                 onClick={() => setActiveVector(isSelected ? null : vec.id)}
-                className={`text-left border rounded-xl p-3 min-w-[145px] space-y-1.5 transition-all cursor-pointer ${
+                className={`text-left border rounded-xl p-3 min-w-[145px] space-y-1.5 transition-transform cursor-pointer ${
                   isSelected
                     ? 'bg-surface border-blue-500 shadow-panel '
                     : 'bg-surface border-line hover:border-line'
@@ -152,7 +152,7 @@ export function CareerSignalRadar({ score, onNavigateToTab, className = '' }: Ca
                 </div>
                 <div className="w-full bg-surface rounded-full h-1.5 overflow-hidden">
                   <div
-                    className={`h-full ${vec.barBg} rounded-full transition-all duration-500`}
+                    className={`h-full ${vec.barBg} rounded-full transition-transform duration-500`}
                     style={{ width: `${vec.score ?? 0}%` }}
                   />
                 </div>

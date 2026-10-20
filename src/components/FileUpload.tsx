@@ -90,7 +90,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
             disabled={extracting || isLoading}
             aria-pressed={tab === 'upload'}
             onClick={() => setTab('upload')}
-            className={`min-h-11 px-3.5 py-2 rounded-lg text-sm font-bold transition-all cursor-pointer ${
+            className={`min-h-11 px-3.5 py-2 rounded-lg text-sm font-bold transition-transform cursor-pointer ${
               tab === 'upload'
                 ? 'bg-brand text-white shadow-panel '
                 : 'text-muted hover:text-ink'
@@ -102,7 +102,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
             disabled={extracting || isLoading}
             aria-pressed={tab === 'paste'}
             onClick={() => setTab('paste')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-transform cursor-pointer ${
               tab === 'paste'
                 ? 'bg-brand text-white shadow-panel '
                 : 'text-muted hover:text-ink'
@@ -138,7 +138,7 @@ export function FileUpload({ onTextExtracted, isLoading }: FileUploadProps) {
               fileInputRef.current?.click();
             }
           }}
-          className={`border-2 border-dashed rounded-xl p-5 sm:p-8 text-center cursor-pointer transition-all focus-visible:outline-2 focus-visible:outline-indigo-500 ${
+          className={`border-2 border-dashed rounded-xl p-5 sm:p-8 text-center cursor-pointer transition-transform focus-visible:outline-2 focus-visible:outline-indigo-500 ${
             dragOver
               ? 'border-indigo-500 bg-brand-soft shadow-panel '
               : 'border-line hover:border-line bg-surface hover:bg-surface'

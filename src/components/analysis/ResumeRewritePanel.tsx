@@ -81,7 +81,7 @@ export function ResumeRewritePanel({ bulletAnalyses }: ResumeRewritePanelProps) 
 
               <button
                 onClick={() => handleCopy(bullet.rewritten || '', idx)}
-                className="px-3 py-1 rounded-lg bg-surface hover:bg-subtle border border-line text-xs text-body font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-3 py-1 rounded-lg bg-surface hover:bg-subtle border border-line text-xs text-body font-semibold flex items-center gap-1.5  cursor-pointer"
               >
                 {copiedIdx === idx ? (
                   <>

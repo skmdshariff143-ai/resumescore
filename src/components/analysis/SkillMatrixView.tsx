@@ -53,7 +53,7 @@ export function SkillMatrixView({ matrix }: SkillMatrixViewProps) {
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => setFilterStatus('all')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-transform cursor-pointer ${
               filterStatus === 'all'
                 ? 'bg-brand text-white shadow-sm'
                 : 'bg-surface text-muted hover:text-ink'
@@ -63,7 +63,7 @@ export function SkillMatrixView({ matrix }: SkillMatrixViewProps) {
           </button>
           <button
             onClick={() => setFilterStatus('matched')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-transform flex items-center gap-1 cursor-pointer ${
               filterStatus === 'matched'
                 ? 'bg-emerald-600 text-white shadow-sm'
                 : 'bg-subtle text-success border border-line'
@@ -74,7 +74,7 @@ export function SkillMatrixView({ matrix }: SkillMatrixViewProps) {
           </button>
           <button
             onClick={() => setFilterStatus('partial')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-transform flex items-center gap-1 cursor-pointer ${
               filterStatus === 'partial'
                 ? 'bg-amber-600 text-white shadow-sm'
                 : 'bg-subtle text-warning border border-line'
@@ -85,7 +85,7 @@ export function SkillMatrixView({ matrix }: SkillMatrixViewProps) {
           </button>
           <button
             onClick={() => setFilterStatus('missing')}
-            className={`px-3 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+            className={`px-3 py-1 rounded-lg text-xs font-bold transition-transform flex items-center gap-1 cursor-pointer ${
               filterStatus === 'missing'
                 ? 'bg-rose-600 text-white shadow-sm'
                 : 'bg-subtle text-danger border border-line'

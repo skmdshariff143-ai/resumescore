@@ -36,7 +36,7 @@
   .panel { min-width:0; background:var(--color-surface); border:1px solid var(--color-line); border-radius:var(--radius-panel); padding:clamp(1rem,3vw,1.75rem); box-shadow:var(--shadow-panel); }
   .eyebrow { font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--color-brand); }
   .section-title { font-size:clamp(1.6rem,3vw,2.25rem); font-weight:700; letter-spacing:-.035em; }
-  .action { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; min-height:44px; padding:.7rem 1rem; border:1px solid var(--color-line); border-radius:.65rem; background:var(--color-surface); color:var(--color-ink); font-size:.875rem; font-weight:600; text-align:center; transition:background var(--motion-fast); }
+  .action { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; min-height:44px; padding:.7rem 1rem; border:1px solid var(--color-line); border-radius:.65rem; background:var(--color-surface); color:var(--color-ink); font-size:.875rem; font-weight:600; text-align:center; transition:transform var(--motion-fast); }
   .action:hover { background:var(--color-subtle); }
   .action-primary { background:var(--color-brand); border-color:var(--color-brand); color:#fff; }
   .action-primary:hover { background:#1944b0; }

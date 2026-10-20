@@ -44,7 +44,7 @@ export function ResumeReviewEditor({ resume }: ResumeReviewEditorProps) {
           <button
             key={tab.key}
             onClick={() => setActiveSection(tab.key)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-transform cursor-pointer ${
               activeSection === tab.key
                 ? 'bg-brand text-white shadow-panel '
                 : 'bg-surface text-muted hover:text-ink'

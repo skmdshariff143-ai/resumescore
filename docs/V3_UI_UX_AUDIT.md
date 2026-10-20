@@ -16,6 +16,7 @@ Fresh production-mode screenshots: `.vercel/v3-baseline/{home,analyze,history,pr
 | P2 | Crowded navigation and result tabs | Small type, long labels, technical branding; horizontal tab strip. | Responsive navigation with Escape dismissal; wrapped result controls with selected state. |
 | P2 | Silent clipboard/export failures | Clipboard promise ignored; report failure only logged. | Actionable status/error feedback; async DOCX loading state. |
 | P1 | Populated-history tablet overflow; `dashboard/VersionComparison.tsx` | Stress coverage reproduced 1859px document width at a 768px viewport. A comparison header retained automatic flex minimum width; conflicting wrap utilities prevented long filenames from shrinking. | Explicit minimum width zero and a single anywhere-wrap rule; all ten widths and saved-job deletion pass after correction. |
+| P1 | Transient contrast during state changes | Hosted Linux CI at `b6db459` detected 3.33:1 / 3.55:1 intermediate contrast on result tabs during simultaneous foreground/background color fades. Windows endpoint-state checks passed, so local results alone were insufficient. | Remove color fades across controls; retain transform-only transitions and the original axe assertions. Revalidate hosted CI and Preview. |
 
 No page overflow was reproduced in the initial 375px home/analyzer baseline. The earlier universal reset problem was already fixed in V2; it was not reintroduced. V3 retains Tailwind Preflight layering and fixes actual flex wrapping/minimum sizing rather than clipping page overflow.
 

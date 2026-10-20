@@ -44,7 +44,7 @@ export function SkillBadge({ item, className = '' }: SkillBadgeProps) {
   return (
     <div
       title={style.title}
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-semibold transition-colors cursor-help ${style.bg} ${className}`}
+      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-xs font-semibold  cursor-help ${style.bg} ${className}`}
     >
       {style.icon}
       <span>{item.skill}</span>

@@ -19,6 +19,14 @@ Commands: `npm test`; `npm run lint`; `npm run typecheck`; `npm run build`; `npm
 
 Local evidence: `.vercel/v3-local` (41/44), `.vercel/v3-final-local` (44/46), `.vercel/v3-regression-local` (10/10). They are separate retained iterations, not retries reported as one pass.
 
+## First hosted candidate
+
+Implementation commit `b6db45904c84e5bc3a245ba539ccca5ea7560a82`: protected Preview passed **46/46**, 393.8 seconds, zero failed/skipped/flaky cases, one recovered bounded navigation GET transport retry. However, [hosted CI](https://github.com/skmdshariff143-ai/resumescore/actions/runs/39421317552) passed only **44/46 browser cases**: both journey audits detected transient low contrast while tab colors animated. Lint, types, 148 unit/integration tests and build passed; the subsequent production-audit step was skipped because browser validation failed. This candidate did not satisfy the hosted release gate.
+
+The correction removes foreground/background fades from controls, preserving immediate selected-state colors and transform-only interaction motion. Assertions, contrast thresholds and retry policy are unchanged. A corrected build and accessibility journey run are required before publishing the correction; final hosted/Preview evidence follows below once observed.
+
+Correction validation: `npm run build` and `npm run lint` passed. `PLAYWRIGHT_CHANNEL=msedge` with `& .\tools\test-local-windows.ps1 -TestFiles e2e/v21.spec.ts`: **14/14 passed**, 2.7 minutes; both 14-state axe/keyboard journeys reported zero violations. Evidence: `.vercel/v3-contrast-local`.
+
 ## Regression scope
 
 Upload/extraction/correction for TXT/DOCX/PDF, image/corrupt-file failures, pasted Unicode, all six profiles, separate job matching, unsupported AI claims, approval, editing/reordering/undo/reset, comparison, local history save/delete/reopen, legacy deletion, exports and server failure recovery. New regressions check result invalidation for text/profile/mode/job changes, job-draft preservation, focus, mobile navigation, sample controls, mobile preview draft continuity, populated history and ten-width layout invariants.

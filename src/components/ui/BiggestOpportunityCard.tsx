@@ -53,7 +53,7 @@ export function BiggestOpportunityCard({
         {onTakeAction && (
           <button
             onClick={onTakeAction}
-            className="shrink-0 px-4 py-2.5 rounded-xl bg-brand hover:bg-brand text-white text-xs font-bold flex items-center shadow-panel  transition-all cursor-pointer"
+            className="shrink-0 px-4 py-2.5 rounded-xl bg-brand hover:bg-brand text-white text-xs font-bold flex items-center shadow-panel  transition-transform cursor-pointer"
           >
             <span>Address Opportunity</span>
             <ArrowRight className="w-3.5 h-3.5 ml-1.5" />

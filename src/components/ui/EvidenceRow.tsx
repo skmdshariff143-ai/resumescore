@@ -43,7 +43,7 @@ export function EvidenceRow({ match, className = '' }: EvidenceRowProps) {
 
   return (
     <div
-      className={`bg-surface border border-line hover:border-line rounded-xl p-4 space-y-2.5 transition-colors ${className}`}
+      className={`bg-surface border border-line hover:border-line rounded-xl p-4 space-y-2.5  ${className}`}
     >
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div className="flex flex-wrap items-center gap-2">

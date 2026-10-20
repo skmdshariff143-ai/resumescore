@@ -47,7 +47,7 @@ export function StepIndicator({
                 }`}
               >
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-transform ${
                     isDone
                       ? 'bg-emerald-600 text-white shadow-panel '
                       : isCurrent
@@ -69,7 +69,7 @@ export function StepIndicator({
               {/* Connecting Line */}
               {idx < steps.length - 1 && (
                 <div
-                  className={`hidden sm:block flex-1 h-0.5 mx-2 -mt-5 transition-colors ${
+                  className={`hidden sm:block flex-1 h-0.5 mx-2 -mt-5  ${
                     idx < currentStepIndex ? 'bg-emerald-600' : 'bg-subtle'
                   }`}
                 />

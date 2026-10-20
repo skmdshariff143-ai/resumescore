@@ -47,7 +47,7 @@ export function JobMatchInput({ onJobSubmit, isLoading, onJobChange, initialText
             <button
               key={idx}
               disabled={isLoading} onClick={() => { setJobText(preset.desc); onJobChange?.(preset.desc); }}
-              className="px-2.5 py-1 rounded-lg bg-surface border border-line hover:border-line text-xs text-body transition-colors cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-surface border border-line hover:border-line text-xs text-body  cursor-pointer"
             >
               {preset.title}
             </button>

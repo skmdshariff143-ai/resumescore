@@ -13,7 +13,7 @@ interface RecommendationCardProps {
 export function RecommendationCard({ action, onApply, className = '' }: RecommendationCardProps) {
   return (
     <div
-      className={`bg-surface border border-line hover:border-line rounded-xl p-4 flex flex-col justify-between space-y-3 transition-colors ${className}`}
+      className={`bg-surface border border-line hover:border-line rounded-xl p-4 flex flex-col justify-between space-y-3  ${className}`}
     >
       <div className="space-y-2">
         <div className="flex items-center justify-between">

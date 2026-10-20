@@ -111,7 +111,7 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
           <button
             onClick={onClose}
             aria-label="Close dialog"
-            className="p-1.5 rounded-lg text-muted hover:text-ink hover:bg-subtle transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-muted hover:text-ink hover:bg-subtle  cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -129,7 +129,7 @@ export function CoverLetterModal({ isOpen, onClose, resume, job }: CoverLetterMo
               <button
                 key={t}
                 onClick={() => setTone(t)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-transform cursor-pointer ${
                   tone === t
                     ? 'bg-brand text-white shadow-panel '
                     : 'bg-surface text-muted hover:text-ink border border-line'

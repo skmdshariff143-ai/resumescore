@@ -58,7 +58,7 @@ export function JobMatchesTracker({ jobs, onDeleteJob }: JobMatchesTrackerProps)
                 <button
                   aria-label={`Delete saved job ${job.role}`}
                   onClick={() => onDeleteJob(job.id)}
-                  className="p-1.5 rounded-lg text-muted hover:text-danger hover:bg-subtle transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-muted hover:text-danger hover:bg-subtle  cursor-pointer"
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>

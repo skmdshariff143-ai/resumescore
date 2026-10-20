@@ -19,6 +19,8 @@ Light is the sole supported theme in this candidate. Canvas `#f7f9fc`, surface w
 
 4px base / 8px major spacing rhythm; 72rem maximum content container, 48rem reading container. Hero 40px at smallest sizes, 48–56px at larger widths. Body 16px, secondary content 14px, metadata 12px. Responsive breakpoints follow Tailwind 640/768/1024/1280px. Strong focus outline, reduced-motion override, no page overflow masking. Wide comparison tables retain a bounded scroll region.
 
+Control state colors change instantly. Only transform transitions are retained: animating foreground and background together produced insufficient intermediate contrast in the faster Linux CI audit, even when both endpoint colors passed. The fix removes the unsafe fades rather than delaying or weakening accessibility assertions.
+
 ## Review
 
 Applied the Vercel React best-practices checklist: no new dependency, independent analysis imports remain parallel and lazy; SSR history hydration protection retained; event-driven input invalidation and stale-response checks; semantic controls and explicit approval preserved. No claim of full manual screen-reader certification.
