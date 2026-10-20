@@ -1,0 +1,36 @@
+{
+  "scope": "Current tracked blobs plus all feature-only historical blobs; known credential patterns and local secret-value comparison. No secret contents printed.",
+  "uniqueBlobsScanned": 244,
+  "findings": [],
+  "startingSnapshotPaths": 116,
+  "missingSnapshotPaths": [],
+  "ancestors": [
+    {
+      "commit": "a44367e",
+      "present": true
+    },
+    {
+      "commit": "829f81f",
+      "present": true
+    },
+    {
+      "commit": "ca88735",
+      "present": true
+    },
+    {
+      "commit": "49c578c",
+      "present": true
+    },
+    {
+      "commit": "f384f10",
+      "present": true
+    },
+    {
+      "commit": "368d7fb",
+      "present": true
+    }
+  ],
+  "deletedPathsAgainstMain": [],
+  "limitations": "Not a general certification of absence of every possible secret/PII. Synthetic fixtures and screenshots reviewed separately.",
+  "scannedCommit": "554ff34c708c4fe9a7be1c709b6ee633e82ebc28"
+}

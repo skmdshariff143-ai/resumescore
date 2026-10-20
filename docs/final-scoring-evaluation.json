@@ -836,8 +836,8 @@
     }
   ],
   "limitations": "Source-span checks validate label integrity, not license/consent or reviewer independence. Metrics do not certify fairness, ATS compatibility, factuality or hiring outcomes. Empty denominators are null. Owner must verify provenance and pre-registered holdout acceptance thresholds.",
-  "actualEngineCommit": "ab51d103aa1c783301a5be454dd3bde21bd904da",
-  "trackedEngineInputsModified": true,
+  "actualEngineCommit": "554ff34c708c4fe9a7be1c709b6ee633e82ebc28",
+  "trackedEngineInputsModified": false,
   "engineRevisionMatches": false,
   "engineSourceSha256": "e60ca66e383a2af355d03d5685967e2411f10ba625e9aab31c30b61d1b76cf5b",
   "datasetSha256": "020f39339d4e6270f11aaefc0535ea1511ad331513b88836cefac379070c6714"

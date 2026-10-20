@@ -1,0 +1,195 @@
+{
+  "preview": "https://resumescore-6p89a9yhw-shaik-mahammad-shariff-s-projects.vercel.app",
+  "harnessCommit": "554ff34c708c4fe9a7be1c709b6ee633e82ebc28",
+  "environment": "Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one bounded asset/navigation GET transport retry; no API retries",
+  "requestedRuns": 2,
+  "completedRuns": 2,
+  "runs": [
+    {
+      "run": 1,
+      "code": 0,
+      "stats": {
+        "startTime": "2026-10-20T11:17:21.089Z",
+        "duration": 259186.157,
+        "expected": 36,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "networkEvents": [
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/0k46l0-jsw7tw.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/2dr8g3or-7w4-.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/2c_2b2prcozy6.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/1elh346mtc98q.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/21hz_j5jgzba8.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/1ku74z3bk4o7s.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/3jpg9tvd1_kvv.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/1oy_spoh0nit8.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/0k46l0-jsw7tw.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/1oy_spoh0nit8.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/21hz_j5jgzba8.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/1ku74z3bk4o7s.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/3jpg9tvd1_kvv.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/2c_2b2prcozy6.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/1elh346mtc98q.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/2dr8g3or-7w4-.js"
+        }
+      ],
+      "browserHealth": {
+        "checks": 36,
+        "uncaught": [],
+        "consoleErrors": [
+          {
+            "test": "server failures are visible and recoverable",
+            "project": "desktop",
+            "uncaught": [],
+            "consoleErrors": [
+              {
+                "kind": "resource",
+                "path": "/api/analyze"
+              }
+            ]
+          },
+          {
+            "test": "server failures are visible and recoverable",
+            "project": "mobile",
+            "uncaught": [],
+            "consoleErrors": [
+              {
+                "kind": "resource",
+                "path": "/api/analyze"
+              }
+            ]
+          }
+        ]
+      },
+      "accessibility": [
+        {
+          "project": "desktop",
+          "states": 14,
+          "violations": 0
+        },
+        {
+          "project": "mobile",
+          "states": 14,
+          "violations": 0
+        }
+      ]
+    },
+    {
+      "run": 2,
+      "code": 0,
+      "stats": {
+        "startTime": "2026-10-20T11:21:41.227Z",
+        "duration": 207416.536,
+        "expected": 36,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "networkEvents": [],
+      "browserHealth": {
+        "checks": 36,
+        "uncaught": [],
+        "consoleErrors": [
+          {
+            "test": "server failures are visible and recoverable",
+            "project": "desktop",
+            "uncaught": [],
+            "consoleErrors": [
+              {
+                "kind": "resource",
+                "path": "/api/analyze"
+              }
+            ]
+          },
+          {
+            "test": "server failures are visible and recoverable",
+            "project": "mobile",
+            "uncaught": [],
+            "consoleErrors": [
+              {
+                "kind": "resource",
+                "path": "/api/analyze"
+              }
+            ]
+          }
+        ]
+      },
+      "accessibility": [
+        {
+          "project": "desktop",
+          "states": 14,
+          "violations": 0
+        },
+        {
+          "project": "mobile",
+          "states": 14,
+          "violations": 0
+        }
+      ]
+    }
+  ],
+  "passed": true,
+  "deployment": "dpl_HZ75tCZkUPae598VB3vrGdVD28U3",
+  "ci": {
+    "conclusion": "success",
+    "url": "https://github.com/skmdshariff143-ai/resumescore/actions/runs/39413803766"
+  },
+  "limitations": "Synthetic fixtures and Chromium emulation, no independent calibration or visual cross-reader certification. Connection recoveries are separate from test retries. Paid AI disabled. Temporary Windows system-wake request used; no saved power-policy change."
+}

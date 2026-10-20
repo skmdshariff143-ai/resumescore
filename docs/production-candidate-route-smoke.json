@@ -1,0 +1,104 @@
+{
+  "preview": "https://resumescore-6p89a9yhw-shaik-mahammad-shariff-s-projects.vercel.app",
+  "results": [
+    {
+      "name": "GET /",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "Security headers",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "GET /analyze",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "GET /history",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "GET /privacy",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "GET /robots.txt",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "GET /sitemap.xml",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "GET /favicon.ico",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "Server deterministic analysis",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "API no-store",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "Server job matching",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "Paid disabled: rewrite",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "Paid disabled: critique",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "Paid disabled: cover-letter",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "Invalid JSON rejected",
+      "pass": true,
+      "status": 400
+    },
+    {
+      "name": "Cross-origin rejected",
+      "pass": true,
+      "status": 403
+    },
+    {
+      "name": "Oversized payload rejected",
+      "pass": true,
+      "status": 413
+    },
+    {
+      "name": "Job URL no-fetch containment",
+      "pass": true,
+      "status": 503
+    },
+    {
+      "name": "Unsafe protocol rejected",
+      "pass": true,
+      "status": 400
+    }
+  ],
+  "passed": true,
+  "note": "Synthetic data only. Native Node requests use origin-scoped short-lived OIDC and manual redirects; no secrets or resume response contents saved.",
+  "commit": "554ff34c708c4fe9a7be1c709b6ee633e82ebc28",
+  "deployment": "dpl_HZ75tCZkUPae598VB3vrGdVD28U3"
+}
