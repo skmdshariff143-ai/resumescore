@@ -126,7 +126,7 @@
     font-size: 0.875rem;
     font-weight: 600;
     text-align: center;
-    transition: background-color var(--motion-fast) ease, border-color var(--motion-fast) ease, transform var(--motion-fast) ease;
+    transition: transform var(--motion-fast);
   }
   .action:hover {
     background: var(--color-subtle);
