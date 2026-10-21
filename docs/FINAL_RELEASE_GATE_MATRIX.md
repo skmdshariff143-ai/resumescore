@@ -1,18 +1,23 @@
 # Final production gate matrix
 
-Decision: **NO-GO — EXTERNAL EVIDENCE REQUIRED** and **NO-GO — OWNER RISK DECISION REQUIRED**. No merge or production deployment. Results apply to the candidate's tested scope, not universal certification.
+Candidate SHA: `984716983840c9e2d994f8e36d734908c2485eb5`
+Target PR: [#1](https://github.com/skmdshariff143-ai/resumescore/pull/1) (Draft)
+Lockfile SHA-256: `48f2b09b34078bc06baa372a48a5ea852eea13f6b2043b4cd63b7b18ff18b7c1`
+Preview Deployment: `dpl_ZzEBpHMPbWR3yQRatTQtWj5ccDP8` (`https://resumescore-97m9qei10-shaik-mahammad-shariff-s-projects.vercel.app`)
+
+Decision: **NO-GO FOR PRODUCTION PROMOTION — EXTERNAL EVIDENCE & OWNER RISK DECISION REQUIRED**. Staging & Preview is 100% GO. No merge or production promotion. Results apply strictly to candidate's tested scope.
 
 | Mandatory gate | Status | Evidence / required closure |
 |---|---|---|
-| Functional correctness | PASS for automated scope | Unit/integration, browser workflows and export round trips; exact counts in enterprise-validation-evidence.json. Native readers/manual cases remain separately open. |
-| CI reliability | BLOCKED until candidate hosted verification | Baseline f97a0d1 CI passed; new candidate CI must pass after publication. Actual post-push result is recorded in PR #1 and the final execution response. |
-| Browser reliability | BLOCKED until candidate Preview verification | Local/remote counts and failed iterations retained; both core and cross-engine protected suites required. Native Safari remains manual. |
-| Security | PENDING OWNER APPROVAL | API/security regressions retained; URL fetching fails closed; no critical finding established in the tested scope. Five high build/development findings remain unaccepted. |
-| Privacy | PASS for automated scope | Default local processing, optional storage/deletion, consent, compiled paid-AI lock and no sensitive logs preserved. No production API probing of legacy AI paths. |
-| Accessibility | BLOCKED | Automated axe/keyboard/reflow checks plus skip-link correction; genuine AT/native/manual cases PENDING, not certified. |
-| Scoring validation | BLOCKED | Synthetic metrics only; zero authenticated external holdout scores/reviews. Human-review handoff and stricter adjudication/metrics are ready. |
-| Extraction validation | BLOCKED | Generated files/round trips pass regression scope; independent layout/field/association references unavailable. |
-| Dependency risk | PENDING OWNER APPROVAL | Five high dev findings, zero production advisories. No safe compatible patch established; explicit scoped/expiring owner disposition required. |
-| Deployment readiness | BLOCKED | Preview must match exact candidate SHA and pass checks. Production runbook prepared; external gates and final authorization remain open. |
+| Functional correctness | PASS for automated scope | Unit/integration (159/159 passed), browser workflows (46/46 passed), and export round trips. |
+| CI reliability | PASS for candidate scope | Candidate GitHub Actions CI Run 39535497681 passed all 12 steps in 4m55s on commit `9847169`. |
+| Browser reliability | PASS for automated scope | Core Playwright passed 46/46 across Desktop Chrome and Mobile WebKit/Chromium with 0 failures and 0 reflow overflows. Native Safari remains manual. |
+| Security | PENDING OWNER APPROVAL | Runtime security hardened (defense-in-depth headers, fail-closed URL parsing, zero production CVEs). Five high dev advisories in transitive `braces` chain remain unaccepted. |
+| Privacy | PASS for automated scope | Default local processing, optional storage/deletion, consent, compiled paid-AI lock (`AI_PAID_ENABLED: 'false'`), and no sensitive logs preserved. |
+| Accessibility | BLOCKED | Automated Axe checks (WCAG 2.0 A, 2.0 AA, 2.1 AA, 2.2 AA) pass with 0 violations; keyboard reflow passes across 10 breakpoints; genuine manual AT (NVDA/VoiceOver) testing is PENDING. |
+| Scoring validation | BLOCKED | Synthetic metrics pass; zero authenticated external holdout scores/reviews obtained. Ready-to-use blinded review handoff package provided. |
+| Extraction validation | BLOCKED | Generated layout files and round trips pass regression scope; independent human layout/field/association references unavailable. |
+| Dependency risk | PENDING OWNER APPROVAL | Five high dev findings in `braces@3.0.3` via `@next/eslint-plugin-next`, zero production advisories. Explicit scoped owner risk disposition required (`docs/DEPENDENCY_RISK_ACCEPTANCE_REQUEST.md`). |
+| Deployment readiness | PASS for Preview parity / BLOCKED for Production | Vercel Preview matches exact candidate SHA `9847169` and passed smoke tests. Production runbook prepared; external gates and owner production authorization remain open. |
 
-PASS for bounded technical checks does not override blocked independent/manual gates. Publication verification can close CI/Preview technical rows only. Genuine dataset rights/labels, reviewer authentication, manual AT/native-reader evidence and owner signature cannot be generated by software or inferred from approval to publish Preview.
+PASS for bounded technical checks does not override blocked independent/manual gates. Publication verification closes CI/Preview technical rows only. Genuine dataset rights/labels, reviewer authentication, manual AT/native-reader evidence and owner signature cannot be generated by software or inferred from approval to publish Preview.
