@@ -19,6 +19,10 @@ export const metadata: Metadata = {
     "career copilot",
   ],
   authors: [{ name: "ResumeScore" }],
+  icons: {
+    icon: '/favicon.ico',
+  },
+  manifest: '/manifest.webmanifest',
   openGraph: {
     title: "ResumeScore — AI Resume & Job Match Intelligence",
     description:

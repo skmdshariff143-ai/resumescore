@@ -36,6 +36,7 @@ export function Footer() {
               <Link className="hover:text-brand transition-colors" href="/analyze?mode=job_match">Job Match Analysis</Link>
               <Link className="hover:text-brand transition-colors" href="/history">History & Dashboard</Link>
               <Link className="hover:text-brand transition-colors" href="/privacy">Privacy & Choices</Link>
+              <Link className="hover:text-brand transition-colors" href="/terms">Terms of Service</Link>
             </nav>
           </div>
 
