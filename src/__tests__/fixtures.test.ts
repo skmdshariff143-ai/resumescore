@@ -64,8 +64,11 @@ Master of Science in Computer Engineering | University of Texas at Austin | 2012
     expect(parsed.experience[0].achievements.length).toBeGreaterThanOrEqual(2);
 
     const score = calculateResumeScore(parsed, undefined, 'general');
-    expect(score.overall).toBeGreaterThanOrEqual(80);
-    expect(score.grade).toMatch(/A|B\+/);
+    // An uncalibrated fixture must not mandate an arbitrary hiring-quality grade.
+    // The evidenced version should outperform the same document with its action bullets removed.
+    const withoutEvidence = parseResume(staffResume.split('\n').filter(line => !line.startsWith('•')).join('\n'));
+    expect(score.overall).toBeGreaterThan(calculateResumeScore(withoutEvidence).overall);
+    expect(score.dimensions.find(d => d.key === 'skill_match')!.score).toBeGreaterThan(30);
   });
 
   it('correctly compares job match requirements between Senior Role and Candidate', () => {

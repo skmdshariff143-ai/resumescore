@@ -1,56 +1,104 @@
-'use client';
-
-import React from 'react';
 import Link from 'next/link';
-import { Activity, Lock } from 'lucide-react';
+import { FileText, LockKeyhole, ExternalLink, ShieldCheck, Sparkles, Code2 } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-[#05070B] border-t border-white/[0.08] py-12 mt-20 text-xs text-slate-500 font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-1.5 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start space-x-2 text-slate-200 font-black text-sm">
-              <Activity className="w-4 h-4 text-indigo-400" />
-              <span>ResumeScore</span>
-              <span className="text-[10px] font-mono text-indigo-400 font-semibold px-2 py-0.5 rounded bg-indigo-950/60 border border-indigo-800/40">
-                Career Intelligence SaaS
+    <footer className="mt-20 border-t border-line bg-surface">
+      <div className="page-shell space-y-10 py-12">
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Brand Info */}
+          <div className="space-y-3 sm:col-span-2 lg:col-span-1">
+            <Link href="/" className="flex items-center gap-2 font-bold text-ink text-base">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-white">
+                <FileText size={16} />
+              </span>
+              ResumeScore
+            </Link>
+            <p className="text-sm text-muted leading-relaxed">
+              Transparent, evidence-based resume scoring and job match intelligence. Designed to help you apply with verified confidence.
+            </p>
+            <div className="flex items-center gap-3 pt-1 text-xs text-muted">
+              <span className="inline-flex items-center gap-1 text-success font-medium">
+                <ShieldCheck size={14} /> 100% Client-Side Default
+              </span>
+              <span>•</span>
+              <span className="inline-flex items-center gap-1 font-medium">
+                <Sparkles size={14} className="text-brand" /> No Commercial AI Leaks
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 max-w-md">
-              Deterministic 7-pillar career signal architecture, 6-layer semantic skill matching, and anti-hallucination bullet optimization.
-            </p>
           </div>
 
-          <div className="flex items-center space-x-6 text-xs text-slate-400">
-            <Link href="/" className="hover:text-slate-200 transition-colors">
-              Platform
-            </Link>
-            <Link href="/analyze" className="hover:text-slate-200 transition-colors">
-              Analyze
-            </Link>
-            <Link href="/history" className="hover:text-slate-200 transition-colors">
-              History
-            </Link>
+          {/* Navigation */}
+          <div className="space-y-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-ink">Navigation</p>
+            <nav aria-label="Footer navigation" className="flex flex-col space-y-2 text-sm text-body">
+              <Link className="hover:text-brand transition-colors" href="/analyze">Analyze Resume</Link>
+              <Link className="hover:text-brand transition-colors" href="/analyze?mode=job_match">Job Match Analysis</Link>
+              <Link className="hover:text-brand transition-colors" href="/history">History & Dashboard</Link>
+              <Link className="hover:text-brand transition-colors" href="/privacy">Privacy & Choices</Link>
+            </nav>
+          </div>
+
+          {/* Methodology */}
+          <div className="space-y-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-ink">Methodology</p>
+            <ul className="space-y-2 text-sm text-muted">
+              <li>Deterministic 7-Pillar Scoring</li>
+              <li>Layered Semantic Skill Extraction</li>
+              <li>Anti-Hallucination Bullet Revisions</li>
+              <li>Standard ATS Readability Metrics</li>
+              <li>DOCX & Selectable PDF Export</li>
+            </ul>
+          </div>
+
+          {/* Transparency & Open Source */}
+          <div className="space-y-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-ink">Trust & Code</p>
+            <ul className="space-y-2 text-sm text-body">
+              <li>
+                <a
+                  href="https://github.com/skmdshariff143-ai/resumescore"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-body hover:text-brand transition-colors"
+                >
+                  <Code2 size={15} /> Source Code on GitHub <ExternalLink size={12} className="text-muted" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/skmdshariff143-ai/resumescore/issues"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-body hover:text-brand transition-colors"
+                >
+                  Report an Issue <ExternalLink size={12} className="text-muted" />
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/llms.txt"
+                  target="_blank"
+                  className="inline-flex items-center gap-1.5 text-body hover:text-brand transition-colors"
+                >
+                  llms.txt (LLM Documentation)
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Trust & Architecture Statement */}
-        <div className="bg-[#080B14] border border-white/[0.06] rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
-          <div className="flex items-center space-x-2">
-            <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>
-              <strong className="text-slate-200">Zero-Data Selling: </strong>
-              All document extraction runs in your browser environment. Your resume is never used to train public LLMs. Optional AI analysis features use zero-retention APIs.
-            </span>
-          </div>
-          <div className="font-mono text-[10px] text-slate-500 shrink-0">
-            Next.js 16 • Turbopack • React 19
-          </div>
+        {/* Legal & Operational Disclaimer */}
+        <div className="flex items-start gap-3 rounded-xl bg-subtle p-4 text-xs sm:text-sm text-muted">
+          <LockKeyhole size={18} className="mt-0.5 shrink-0 text-brand" />
+          <p className="leading-relaxed">
+            Browser-only analysis by default. History is optional. Paid AI is disabled. Scores are guidance, not hiring predictions or ATS certification. No resume text is uploaded to server databases.
+          </p>
         </div>
 
-        <div className="text-center text-[10px] text-slate-600">
-          © {new Date().getFullYear()} ResumeScore Inc. Evidence-backed career intelligence.
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-line pt-6 text-xs text-muted">
+          <p>© {new Date().getFullYear()} ResumeScore. Built for your next step.</p>
+          <p className="text-right">Private • Deterministic • Open Source</p>
         </div>
       </div>
     </footer>

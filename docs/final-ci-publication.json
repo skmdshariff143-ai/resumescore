@@ -1,0 +1,246 @@
+{
+  "recordedAt": "2026-10-20T13:15:36.159Z",
+  "implementationSha": "d3ba841ffe74b4fe8a1416cdcae3dc55dd379b43",
+  "ci": {
+    "url": "https://github.com/skmdshariff143-ai/resumescore/actions/runs/39428089489",
+    "conclusion": "success",
+    "sha": "d3ba841ffe74b4fe8a1416cdcae3dc55dd379b43",
+    "unitTests": 148,
+    "browserTests": 46,
+    "annotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/skmdshariff143-ai/resumescore/blob/d3ba841ffe74b4fe8a1416cdcae3dc55dd379b43/.github",
+        "start_line": 1,
+        "start_column": null,
+        "end_line": 1,
+        "end_column": null,
+        "annotation_level": "notice",
+        "title": "",
+        "message": "\"The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748\"",
+        "raw_details": ""
+      }
+    ]
+  },
+  "preview": {
+    "id": "dpl_455mYK1qDi6Lg3aYg5E33iQSuyBi",
+    "url": "resumescore-pg2q0f0ue-shaik-mahammad-shariff-s-projects.vercel.app",
+    "state": "READY",
+    "target": null,
+    "sha": "d3ba841ffe74b4fe8a1416cdcae3dc55dd379b43"
+  },
+  "remoteBrowser": {
+    "preview": "https://resumescore-pg2q0f0ue-shaik-mahammad-shariff-s-projects.vercel.app",
+    "harnessCommit": "d3ba841ffe74b4fe8a1416cdcae3dc55dd379b43",
+    "environment": "Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one bounded asset/navigation GET transport retry; no API retries",
+    "requestedRuns": 1,
+    "completedRuns": 1,
+    "runs": [
+      {
+        "run": 1,
+        "code": 0,
+        "stats": {
+          "startTime": "2026-10-20T13:10:50.749Z",
+          "duration": 223681.522,
+          "expected": 46,
+          "skipped": 0,
+          "unexpected": 0,
+          "flaky": 0
+        },
+        "networkEvents": []
+      }
+    ],
+    "passed": true
+  },
+  "accessibility": [
+    {
+      "project": "desktop",
+      "screens": 14,
+      "violations": 0
+    },
+    {
+      "project": "mobile",
+      "screens": 14,
+      "violations": 0
+    }
+  ],
+  "screenshots": 204,
+  "browserHealth": {
+    "cases": 46,
+    "uncaught": 0,
+    "consoleErrors": [
+      {
+        "kind": "resource",
+        "path": "/api/analyze"
+      },
+      {
+        "kind": "resource",
+        "path": "/api/analyze"
+      }
+    ]
+  },
+  "api": {
+    "preview": "https://resumescore-pg2q0f0ue-shaik-mahammad-shariff-s-projects.vercel.app",
+    "results": [
+      {
+        "name": "GET /",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Security headers",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /analyze",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /history",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /privacy",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /robots.txt",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /sitemap.xml",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "GET /favicon.ico",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Server deterministic analysis",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "API no-store",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Server job matching",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: rewrite",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: critique",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Paid disabled: cover-letter",
+        "pass": true,
+        "status": 200
+      },
+      {
+        "name": "Invalid JSON rejected",
+        "pass": true,
+        "status": 400
+      },
+      {
+        "name": "Cross-origin rejected",
+        "pass": true,
+        "status": 403
+      },
+      {
+        "name": "Oversized payload rejected",
+        "pass": true,
+        "status": 413
+      },
+      {
+        "name": "Job URL no-fetch containment",
+        "pass": true,
+        "status": 503
+      },
+      {
+        "name": "Unsafe protocol rejected",
+        "pass": true,
+        "status": 400
+      }
+    ],
+    "passed": true,
+    "note": "Synthetic data only. Native Node requests use origin-scoped short-lived OIDC and manual redirects; no secrets or resume response contents saved."
+  },
+  "runtime": {
+    "type": "summary",
+    "recordsReturned": 0,
+    "timeRange": {
+      "start": "2026-10-20T12:45:02.184Z",
+      "end": "2026-10-20T13:15:02.184Z"
+    },
+    "pagination": {
+      "hasMore": false,
+      "next": null
+    },
+    "excludedIntervals": []
+  },
+  "protection": {
+    "status": 302,
+    "redirectOrigin": "https://vercel.com",
+    "redirectPath": "/sso-api",
+    "protected": true
+  },
+  "security": {
+    "scope": "Current tracked blobs plus all feature-only historical blobs; known credential patterns and local secret-value comparison. No secret contents printed.",
+    "uniqueBlobsScanned": 322,
+    "findings": [],
+    "startingSnapshotPaths": 116,
+    "missingSnapshotPaths": [],
+    "ancestors": [
+      {
+        "commit": "a44367e",
+        "present": true
+      },
+      {
+        "commit": "829f81f",
+        "present": true
+      },
+      {
+        "commit": "ca88735",
+        "present": true
+      },
+      {
+        "commit": "49c578c",
+        "present": true
+      },
+      {
+        "commit": "f384f10",
+        "present": true
+      },
+      {
+        "commit": "368d7fb",
+        "present": true
+      }
+    ],
+    "deletedPathsAgainstMain": [],
+    "limitations": "Not a general certification of absence of every possible secret/PII. Synthetic fixtures and screenshots reviewed separately."
+  },
+  "production": {
+    "url": "https://resumescore-phi.vercel.app/",
+    "deployment": "dpl_5NimgXZ6W7XqK3Kypy5S1Eug1FS6",
+    "sha": "79a373c8acc3d234c04e21010598ef9f93764bcf",
+    "changed": false
+  },
+  "decision": "NO-GO; independent labels and dependency-risk disposition missing; manual assistive/cross-browser verification pending",
+  "publicationScope": "Following evidence publication changes documentation only. Its exact hosted CI and protected Preview smoke results are recorded in PR #1 and the final execution response."
+}

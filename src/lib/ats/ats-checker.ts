@@ -152,7 +152,7 @@ export function runATSChecks(resume: ResumeParsed): ATSAnalysis {
 
   const summary =
     criticalIssues === 0 && warnings === 0
-      ? 'Your resume structure and formatting meet all standard ATS parsing guidelines.'
+      ? 'The implemented text-readability checks passed. Compatibility with individual ATS products is not verified.'
       : `Found ${criticalIssues} critical issue(s) and ${warnings} warning(s) that may hinder ATS parsing.`;
 
   return {

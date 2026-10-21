@@ -1,0 +1,56 @@
+{
+  "preview": "https://resumescore-dutv24ojg-shaik-mahammad-shariff-s-projects.vercel.app",
+  "harnessCommit": "49c578c9cb68b3da2d070ee4074a578beef2b0d0",
+  "environment": "Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one immutable-asset transport retry",
+  "runs": [
+    {
+      "run": 1,
+      "code": 0,
+      "stats": {
+        "startTime": "2026-10-20T08:33:40.511Z",
+        "duration": 125916.387,
+        "expected": 32,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "networkEvents": [
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/2c_2b2prcozy6.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/0k46l0-jsw7tw.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/1elh346mtc98q.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/turbopack-1cvbnb3nlabgn.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/13s5udshxynw9.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/24ne5m_72iamq.js"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/3jpg9tvd1_kvv.js"
+        }
+      ]
+    }
+  ],
+  "passed": false,
+  "requestedRuns": 3,
+  "completedRuns": 1,
+  "incompleteRun": {
+    "run": 2,
+    "outcome": "Failed navigating to /history with net::ERR_FAILED; stopped during mobile checks before completion to correct transport"
+  }
+}

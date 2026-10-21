@@ -34,16 +34,16 @@ export function ConfidenceBadge({ level, confidence, className = '' }: Confidenc
 
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full border ${
+      className={`inline-flex items-center gap-1 text-xs font-sans font-semibold px-2 py-0.5 rounded-full border ${
         isHigh
-          ? 'bg-emerald-950/40 text-emerald-300 border-emerald-800/40'
-          : 'bg-amber-950/40 text-amber-300 border-amber-800/40'
+          ? 'bg-subtle text-success border-line'
+          : 'bg-subtle text-warning border-line'
       } ${className}`}
     >
       {isHigh ? (
-        <ShieldCheck className="w-3 h-3 text-emerald-400" />
+        <ShieldCheck className="w-3 h-3 text-success" />
       ) : (
-        <AlertTriangle className="w-3 h-3 text-amber-400" />
+        <AlertTriangle className="w-3 h-3 text-warning" />
       )}
       <span>{getLevelLabel(level)}</span>
       {confidence !== undefined && (

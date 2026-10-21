@@ -1,0 +1,113 @@
+{
+  "provenance": "Author-engineered synthetic expectations; not human-reviewed calibration",
+  "independentCalibration": "pending",
+  "fixtureSource": "src/__tests__/fixtures/domain-resumes.json",
+  "fieldMatches": 36,
+  "fieldLabels": 36,
+  "skillPrecision": 1,
+  "skillRecall": 1,
+  "results": [
+    {
+      "sector": "engineering",
+      "profile": "student",
+      "fields": {
+        "name": true,
+        "email": true,
+        "degree": true,
+        "institution": true,
+        "projectName": true,
+        "projectDescription": true
+      },
+      "truePositive": 2,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "demonstrated": 2,
+      "score": 53
+    },
+    {
+      "sector": "data",
+      "profile": "internship",
+      "fields": {
+        "name": true,
+        "email": true,
+        "degree": true,
+        "institution": true,
+        "projectName": true,
+        "projectDescription": true
+      },
+      "truePositive": 2,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "demonstrated": 2,
+      "score": 53
+    },
+    {
+      "sector": "business",
+      "profile": "entry",
+      "fields": {
+        "name": true,
+        "email": true,
+        "degree": true,
+        "institution": true,
+        "projectName": true,
+        "projectDescription": true
+      },
+      "truePositive": 2,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "demonstrated": 2,
+      "score": 51
+    },
+    {
+      "sector": "finance",
+      "profile": "experienced",
+      "fields": {
+        "name": true,
+        "email": true,
+        "degree": true,
+        "institution": true,
+        "projectName": true,
+        "projectDescription": true
+      },
+      "truePositive": 3,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "demonstrated": 3,
+      "score": 56
+    },
+    {
+      "sector": "marketing",
+      "profile": "senior",
+      "fields": {
+        "name": true,
+        "email": true,
+        "degree": true,
+        "institution": true,
+        "projectName": true,
+        "projectDescription": true
+      },
+      "truePositive": 2,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "demonstrated": 2,
+      "score": 62
+    },
+    {
+      "sector": "healthcare",
+      "profile": "switcher",
+      "fields": {
+        "name": true,
+        "email": true,
+        "degree": true,
+        "institution": true,
+        "projectName": true,
+        "projectDescription": true
+      },
+      "truePositive": 2,
+      "falsePositive": 0,
+      "falseNegative": 0,
+      "demonstrated": 2,
+      "score": 49
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "testedCommit": "829f81ff46f128a1c07e645f51cf365a81f1e06b",
+  "previewUrl": "https://resumescore-4quonjthl-shaik-mahammad-shariff-s-projects.vercel.app",
+  "deploymentId": "dpl_EN9iMzvc9sdmKwbDFvyfMAuWgoyP",
+  "firstRun": {
+    "passed": 28,
+    "failures": [
+      "Mobile legacy-history route cancellation",
+      "Mobile job-match results exceeded five-second assertion"
+    ],
+    "failed": 2
+  },
+  "repeatRun": {
+    "startTime": "2026-10-20T07:57:00.086Z",
+    "duration": 171047.33200000002,
+    "expected": 28,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  },
+  "repeatFailures": [
+    "Desktop heuristic rewrite exceeded five-second assertion",
+    "Desktop long-PDF re-upload timed out waiting for file input"
+  ],
+  "paidAI": "Both desktop and mobile consent=true requests returned deterministic output",
+  "runtimeErrors": {
+    "window": "30 minutes ending 2026-10-20T07:54:39Z",
+    "limitation": "Point-in-time query; does not prove absence of all errors",
+    "recordsReturned": 0
+  },
+  "production": "Unchanged: READY on 79a373c8acc3d234c04e21010598ef9f93764bcf",
+  "decision": "Do not merge or promote: preview suite not consistently passing and existing P1 gates remain"
+}

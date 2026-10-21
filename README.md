@@ -1,212 +1,112 @@
-# 📄 ResumeScore — Resume Intelligence & Job Match Platform
+> Publication release policy: `next.config.ts` forces `AI_PAID_ENABLED=false` in compiled builds regardless of remote environment values. Paid AI controls are disabled and labeled in the UI. Removing this lock requires a separately reviewed release.
 
-<p align="center">
-  <strong>Analyze your resume across 7 evidence-based dimensions. Match against real job descriptions. Get actionable improvement recommendations.</strong>
-</p>
+# ResumeScore
 
----
+ResumeScore helps candidates review resume text, understand heuristic quality and job-alignment scores, edit their documents, and export improved versions. It does not predict hiring outcomes, certify ATS compatibility, or independently verify qualifications.
 
-## 🏆 Project Badges
+**V3 status: light-first UI and workflow candidate for protected Preview. Production remains NO-GO pending independent validation and dependency risk resolution/owner acceptance. Paid AI is disabled.** See [V3 design system](docs/V3_DESIGN_SYSTEM.md), [functional QA](docs/V3_FUNCTIONAL_QA.md), [visual QA](docs/V3_VISUAL_QA.md) and [Preview readiness](docs/V3_DEPLOYMENT_READINESS.md). Earlier V2/V2.1/V2.2 reports are historical evidence; their independent-validation release gates still apply.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
-[![Tests](https://img.shields.io/badge/Tests-35%20passing-brightgreen)](src/__tests__/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+## Features
 
----
+- PDF, DOCX, UTF-8 TXT and pasted text, with extraction review before scoring.
+- Browser-only deterministic analysis by default; optional server processing.
+- Six career-level weight profiles, evidence explanations and separate general-quality/job-alignment scores.
+- Required/preferred/optional job terminology, with reduced credit for unsupported mentions.
+- ATS readability estimates with explicit limitations.
+- Local section editing, reordering, undo/reset, original-text comparison and live preview.
+- TXT and DOCX downloads; PDF through browser print. Review pagination before sharing.
+- Optional Claude/Gemini critique and cover-letter drafts, with external-processing consent. Heuristic functionality works without provider keys.
+- Opt-in local history, JSON export, deletion and reopening saved resume text.
 
-## ✨ Features
+![V3 homepage with clearly labeled fictional sample](docs/screenshots/v3/home-desktop.png)
 
-### Deterministic Analysis (always available, no API key needed)
+## Architecture and stack
 
-- **📊 7-Dimension Scoring** — ATS Compatibility (15%), Skill Match (25%), Experience (20%), Impact & Metrics (15%), Projects (10%), Readability (10%), Profile (5%)
-- **🎯 Job Description Matching** — Paste a job posting to see required/preferred/bonus skill alignment with 6-layer semantic matching (exact → alias → taxonomy → context → evidence)
-- **🤖 ATS Compliance Audit** — 8-factor machine-readability checks with severity levels and specific fix steps
-- **🔫 Bullet Impact Analysis** — Action verb detection, quantifiable metric presence, X-Y-Z formula assessment
-- **📄 PDF & Text Support** — Client-side PDF text extraction via Mozilla PDF.js, or paste raw text
-- **📈 Score History** — Track improvements over time, compare versions side-by-side, export JSON backups
-- **🔒 Local-First Privacy** — All scoring and parsing runs on your deployment's server. No data is sent to third-party services in this mode
+Next.js 16.4.2, React 19, TypeScript, Tailwind 4, PDF.js, Zod, zip.js, docx, Vitest, Playwright and axe. Server AI providers use the Anthropic and Google GenAI SDKs. No database or account service is required.
 
-### AI-Enhanced Analysis (optional, supports Claude and Gemini)
+Browser extraction → review → shared deterministic parser/scorer → evidence dashboard → local section editor/export. Optional server/AI paths are explained before use. See [architecture](docs/ARCHITECTURE.md) and [scoring methodology](docs/SCORING_METHODOLOGY.md).
 
-- **✍️ LLM Bullet Rewrites** — AI-powered rewrite suggestions with qualitative feedback (Google X-Y-Z formula, metrics-driven, leadership) beyond template substitution
-- **📝 AI Cover Letter Generation** — Contextual, fact-grounded cover letters tailored to your resume and target role
-- **🔍 Resume Critique** — Per-section qualitative feedback on clarity, tone, specificity, and ATS risks
+## Local development
 
-ResumeScore supports multi-provider LLM integration with automatic selection:
-1. **Anthropic Claude** (via `ANTHROPIC_API_KEY`)
-2. **Google Gemini** (via `GEMINI_API_KEY` or `GOOGLE_API_KEY`, using `@google/genai`)
-3. **Deterministic Heuristic** (if no API keys configured — 100% offline fallback)
+Use Node.js 22 or newer with npm:
 
-> **Privacy note:** When an external AI key (`ANTHROPIC_API_KEY` or `GEMINI_API_KEY`) is configured, untrusted resume/job text is isolated in strict XML tags and sent to the configured provider API solely for the requested generation. When keys are absent, all features operate offline via deterministic heuristic algorithms and zero data leaves your machine.
-
----
-
-## 🚀 Tech Stack
-
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 16** | React framework with App Router (Turbopack) |
-| **TypeScript 5** | Type-safe development with strict mode |
-| **Tailwind CSS 4** | Utility-first styling |
-| **pdfjs-dist** | Client-side PDF text extraction |
-| **Zod** | Runtime schema validation for API requests/responses |
-| **Vitest** | Fast unit & integration testing |
-| **Anthropic SDK** | Optional LLM integration (Claude) |
-| **Google GenAI SDK** | Optional LLM integration (Gemini via `@google/genai`) |
-
----
-
-## 📐 Scoring Dimensions
-
-| Dimension | Weight | What It Checks |
-|-----------|--------|----------------|
-| 🤖 ATS Compatibility | 15% | Standard section headings, contact completeness, single-column layout, parseable formatting |
-| ⚡ Skill Match | 25% | 6-layer semantic matching against job requirements (exact, normalized, alias, taxonomy, context, evidence) |
-| 💼 Experience Relevance | 20% | Role seniority, title matching, career trajectory, tenure patterns |
-| 🎯 Impact & Metrics | 15% | Quantified achievements, action verbs, X-Y-Z formula compliance |
-| 📁 Projects & Portfolio | 10% | Technical complexity, live links, technology stack verification |
-| 📐 Structure & Readability | 10% | Bullet density, section ordering, cognitive load |
-| 👤 Profile & Contact | 5% | Professional email, LinkedIn, GitHub, phone presence |
-
-The overall score is the **weighted sum** of dimension scores — mathematically deterministic and reproducible.
-
----
-
-## 🛠️ Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm 9+
-
-### Installation
-
-```bash
-git clone https://github.com/skmdshariff143-ai/resumescore.git
-cd resumescore
-npm install
-```
-
-### Configuration
-
-```bash
-cp .env.example .env.local
-```
-
-**No environment variables are required** for the core deterministic analysis. To enable AI-enhanced features, add your Anthropic or Gemini API key:
-
-```bash
-# Option A: Anthropic Claude
-ANTHROPIC_API_KEY=sk-ant-...
-
-# Option B: Google Gemini
-GEMINI_API_KEY=AIzaSy...
-```
-
-### Development
-
-```bash
+```sh
+npm ci
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open http://localhost:3000. No provider key is required for deterministic functionality.
 
-### Testing
+Optional server-only configuration in `.env.local`:
 
-```bash
-npm test           # Run all tests (unit & provider suites)
-npm run lint       # ESLint
-npm run build      # Production build
+```dotenv
+ANTHROPIC_API_KEY=your-key
+# Or:
+GEMINI_API_KEY=your-key
+# GOOGLE_API_KEY is accepted as a Gemini fallback.
+# GEMINI_MODEL can select the configured Gemini model.
 ```
 
----
+Never prefix provider keys with `NEXT_PUBLIC_`. Provider selection is Anthropic, then Gemini, then heuristic. Model availability and provider billing/retention must be verified for the deployment; this change did not perform successful live provider calls. Explicit consent is required before external processing even if keys are present.
 
-## 📁 Project Structure
+## Security and privacy
 
-```
-src/
-├── app/                          # Next.js App Router pages
-│   ├── layout.tsx                # Root layout
-│   ├── page.tsx                  # Landing page
-│   ├── analyze/page.tsx          # Resume analyzer workspace
-│   ├── history/page.tsx          # Score history & version comparison
-│   └── api/                      # Server-side API routes
-│       ├── analyze/route.ts      # Resume scoring endpoint
-│       ├── extract-job/route.ts  # Job URL scraper
-│       └── ai/
-│           ├── rewrite/route.ts  # Bullet rewrite endpoint
-│           ├── cover-letter/route.ts
-│           └── critique/route.ts # LLM resume critique
-├── components/                   # React components
-│   ├── Navbar.tsx
-│   ├── Footer.tsx
-│   ├── FileUpload.tsx            # PDF/TXT drag-and-drop
-│   ├── ScoreCard.tsx             # 7-dimension results
-│   ├── analysis/                 # Analysis sub-views
-│   │   ├── ATSScoreCard.tsx
-│   │   ├── SkillMatrixView.tsx
-│   │   ├── ResumeRewritePanel.tsx
-│   │   ├── ResumeReviewEditor.tsx
-│   │   ├── CoverLetterModal.tsx
-│   │   ├── CritiquePanel.tsx
-│   │   └── JobMatchInput.tsx
-│   ├── dashboard/
-│   │   ├── VersionComparison.tsx
-│   │   └── JobMatchesTracker.tsx
-│   └── ui/                       # Design system primitives
-├── lib/                          # Core logic
-│   ├── ai/
-│   │   ├── provider.ts           # AIProvider interface & factory
-│   │   ├── claude-provider.ts    # Anthropic Claude integration
-│   │   └── gemini-provider.ts    # Google Gemini integration (@google/genai)
-│   ├── ats/ats-checker.ts        # ATS compliance checks
-│   ├── impact/impact-evaluator.ts
-│   ├── jobs/job-parser.ts        # Job description parser
-│   ├── matching/semantic-matcher.ts
-│   ├── parsing/
-│   │   ├── pdf-extractor.ts      # PDF.js text extraction
-│   │   └── resume-parser.ts      # Structured resume parser
-│   ├── scoring/scoring-engine.ts # 7-dimension scoring engine
-│   ├── storage/history-store.ts  # localStorage with migration
-│   └── keywords.ts              # Skill taxonomies (300+ terms)
-├── types/index.ts                # TypeScript interfaces
-└── __tests__/                    # Vitest test suites (10 files, 40+ tests)
+Browser-only analysis sends no resume or job text to application APIs. Server analysis does transmit text to ResumeScore. Cover-letter generation is server-based and discloses this separately. External AI requires opt-in; provider retention depends on the configured account. XML prompt delimiters and JSON schemas do not guarantee injection resistance or factual accuracy.
+
+History saving defaults off. Enabled history stores full text in this browser until deletion. Export/delete controls are on History. The application does not intentionally persist server request bodies or log raw provider errors. Hosting metadata retention requires operational review.
+
+API requests have byte, string, collection, nesting, origin and read-time limits. General endpoint throttling remains process-local. Paid AI additionally requires a shared atomic Redis budget; missing configuration or storage failure disables paid calls. Arbitrary job URL import is disabled until restricted egress can be configured; paste the job description instead. See [security and privacy](docs/SECURITY_AND_PRIVACY.md).
+
+## Verification
+
+```sh
+npm run typecheck
+npm run lint
+npm test
+npm run evaluate:release
+npm run build
+npx playwright install chromium firefox webkit
+npm run test:e2e
+npm run test:cross-browser
+npm audit --omit=dev
 ```
 
----
+Windows with Edge already installed:
 
-## 🔒 Privacy Architecture
+```powershell
+$env:PLAYWRIGHT_CHANNEL='msedge'
+npm run test:e2e
+```
 
-| Mode | Data flow | Third-party calls |
-|------|-----------|-------------------|
-| **Default (no API key)** | Browser → your server → browser | None (100% offline heuristic) |
-| **AI-enhanced (Anthropic)** | Browser → your server → Anthropic API → your server → browser | Anthropic only, for rewrites/critique/cover letters |
-| **AI-enhanced (Gemini)** | Browser → your server → Google Gemini API → your server → browser | Google GenAI only, for rewrites/critique/cover letters |
+For unattended Windows runs interrupted by Modern Standby, use `& .\tools\test-local-windows.ps1` with the same environment. It requests temporary system wakefulness during the suite and releases it on exit; it does not change saved power settings or screen locking. `-Preview` invokes the existing remote-suite runner instead; use it only through authenticated Vercel `env run` with the intended `BASE_URL`.
 
-PDF text extraction always runs client-side via Mozilla PDF.js. The 7-pillar deterministic scoring engine always runs on your server. Only the optional LLM features (bullet rewrites, cover letters, resume critique) query an external AI provider when an API key is configured.
+Vitest uses one thread to avoid the observed Windows sandbox temporary-file issue. The older `npm run verify:e2e` command is an API smoke script, not the browser E2E suite. See [cross-browser validation](docs/CROSS_BROWSER_VALIDATION.md) and [test report](docs/TEST_REPORT.md) for scope and limitations. CI runs Chromium, Firefox and WebKit checks; selectable PDF automation is Chromium-only. Native Safari, screen-reader speech and native print/Office validation remain manual gates.
 
----
+## Deployment
 
-## 📜 Recent Changes & Milestone History
+Existing production: https://resumescore-phi.vercel.app/
 
-The project has completed four core architectural phases. Full details are recorded in [CHANGELOG.md](CHANGELOG.md):
+The feature branch is published to GitHub and protected Vercel Previews. PR #1 remains draft; main and the existing production deployment retain the original release. Address the [final release gates](docs/FINAL_RELEASE_GATE_MATRIX.md) before requesting final production approval. No paid AI activation, production environment change or domain change is included.
 
-1. **Phase 1 (v0.1.0) — Infrastructure, Tests & CI**: 7-pillar deterministic scoring engine, 6-layer semantic matching, comprehensive Vitest suite, and GitHub Actions CI.
-2. **Phase 2 (v0.2.0) — Anthropic Claude Provider**: Claude AI provider (`@anthropic-ai/sdk`), qualitative critique endpoint (`/api/ai/critique`), and `CritiquePanel.tsx`.
-3. **Phase 3 (v0.3.0) — Top Priority & Real PDF Extraction**: Mozilla PDF.js client-side parser, `topPriority` actionable recommendation derivation, and E2E verification tooling (`tools/verify-e2e.js`).
-4. **Phase 4 (v0.4.0) — Google Gemini AI Provider**: Google GenAI (`@google/genai`) integration, multi-provider hierarchy (Anthropic > Gemini > Heuristic), XML prompt isolation, and live LLM validation.
+## Limitations and roadmap
 
----
+- Scoring remains an editorial, predominantly technical rubric; no independent calibration or hiring-outcome validation exists.
+- DOCX extracts main document paragraphs, including nested text-box paragraphs once. Headers/footers and images are not extracted; geometric text-box/table order needs review. No OCR.
+- PDF print pagination and DOCX layout need manual review across Word, LibreOffice and browsers.
+- AI drafts require fact checking; semantic factuality is not guaranteed.
+- The Redis budget adapter requires configured infrastructure and live multi-instance validation before paid AI activation. Heuristic fallback remains available.
+- Accessibility automation is scoped and does not certify WCAG compliance or replace screen-reader testing.
+- Broader domain taxonomies, independently reviewed extraction/matching benchmarks, calibrated candidate profiles and per-role evaluation remain future work.
 
-## 📄 License
+## V2 changes
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+Security containment, consent and local analysis; bounded file/API processing; truthful heuristic outputs; career rubrics; evidence-aware matching; editing/export; history opt-in; privacy documentation; accessibility fixes; security dependency updates and browser tests. The [audit](docs/RESUMESCORE_V2_AUDIT.md) records original findings, and [implementation status](docs/IMPLEMENTATION_STATUS.md) distinguishes finished, partial and unverified work.
 
----
+## V2.1 hardening
 
-## 👤 Author
+Source-provenance rewrite checks and explicit approval, shared fail-closed AI budgets, conservative provider fallback, evidence-based skill limits, negation handling, PDF worker cleanup, export links and broader journey tests. See [AI controls](docs/AI_COST_CONTROLS.md), [factuality evaluation](docs/AI_FACTUALITY_EVALUATION.md), and [baseline](docs/V2_1_BASELINE.md). Configure from `.env.example`; a provider key alone never enables paid calls.
+## V2.2 preview candidate
 
-**Shaikh Mohammed Shariff**
-GitHub: [@skmdshariff143-ai](https://github.com/skmdshariff143-ai)
+V2.2 adds evidence-based version comparison, job-gap review, structured section selection and fixes for skill matching, project parsing and score display. Paid AI remains disabled. See [implementation](docs/V2_2_IMPLEMENTATION.md), [benchmarks](docs/V2_2_BENCHMARKS.md), [test evidence](docs/V2_2_TEST_REPORT.md) and [release gates](docs/V2_2_RELEASE_READINESS.md). PR #1 remains draft; production promotion is not authorized.
+
+Final hardening fixes duplicate nested-DOCX text, bounds CI permissions/execution and adds an [offline review package](evaluation/README.md). The package measures private, source-labeled datasets without exporting candidate text or claiming that synthetic expectations are independent validation. See [scoring](docs/FINAL_SCORING_VALIDATION.md), [extraction](docs/FINAL_EXTRACTION_VALIDATION.md) and [dependency resolution](docs/DEPENDENCY_SECURITY_RESOLUTION.md).

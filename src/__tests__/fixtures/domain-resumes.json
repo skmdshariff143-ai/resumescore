@@ -1,0 +1,8 @@
+[
+  { "domain": "engineering", "text": "Designed mechanical components using AutoCAD and SolidWorks.", "skills": ["AutoCAD", "SolidWorks"] },
+  { "domain": "data", "text": "Analyzed inventory trends using Python and SQL.", "skills": ["Python", "SQL"] },
+  { "domain": "business", "text": "Managed procurement schedules and stakeholder management activities.", "skills": ["Procurement", "Stakeholder Management"] },
+  { "domain": "finance", "text": "Prepared financial reporting and budgeting reports using GAAP.", "skills": ["Financial Reporting", "Budgeting", "GAAP"] },
+  { "domain": "marketing", "text": "Delivered content marketing and market research for a community campaign.", "skills": ["Content Marketing", "Market Research"] },
+  { "domain": "healthcare", "text": "Supported patient care and clinical documentation under supervision.", "skills": ["Patient Care", "Clinical Documentation"] }
+]

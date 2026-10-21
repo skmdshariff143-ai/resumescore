@@ -48,14 +48,14 @@ export function analyzeBullet(bullet: string, index: number): BulletAnalysis {
     score += 25;
   } else {
     issues.push('Does not start with a strong action verb.');
-    suggestions.push('Begin with a high-impact verb (e.g. "Architected", "Engineered", "Optimized").');
+    suggestions.push('Begin with an accurate action, such as "Prepared", "Supported", "Analyzed" or "Built".');
   }
 
   if (hasQuantifiableMetric) {
     score += 30;
   } else {
     issues.push('Lacks measurable data or quantifiable impact.');
-    suggestions.push('Add a specific metric (e.g., latency reduction %, user scale, or time saved).');
+    suggestions.push('Describe a substantiated outcome; add measurements only if known. Do not invent numbers.');
   }
 
   if (technologies.length > 0) {
@@ -72,21 +72,10 @@ export function analyzeBullet(bullet: string, index: number): BulletAnalysis {
   score = Math.max(20, Math.min(100, score));
   const strength = classifyBulletStrength(score);
 
-  // Generate 3 anti-hallucination rewrite variants
-  const verbToUse = actionVerb
-    ? actionVerb.charAt(0).toUpperCase() + actionVerb.slice(1)
-    : 'Engineered';
-
-  const techClause = technologies.length > 0 ? ` utilizing ${technologies.slice(0, 3).join(', ')}` : '';
-
-  // Clean core description
-  const cleanDesc = trimmed
-    .replace(/^\s*[•\-*▪►◦‣⁃]\s*/, '')
-    .replace(/^(responsible for|worked on|helped with|assisted in)\s+/i, '');
-
-  const xyzFormula = `${verbToUse} ${cleanDesc}${techClause}, resulting in [Add genuine metric: e.g. 25% efficiency gain or $X cost savings].`;
-  const metricsDriven = `Accelerated performance by [Add genuine metric: e.g. 35%] by ${verbToUse.toLowerCase()}ing ${cleanDesc}${techClause}.`;
-  const leadership = `Spearheaded the initiative to ${cleanDesc}${techClause}, aligning with cross-functional teams to deliver [Add measurable outcome].`;
+  // Templates must not invent responsibilities or outcomes.
+  const xyzFormula = trimmed;
+  const metricsDriven = trimmed;
+  const leadership = trimmed;
 
   return {
     id: `bullet-${index}`,
@@ -97,8 +86,8 @@ export function analyzeBullet(bullet: string, index: number): BulletAnalysis {
     technologies,
     hasQuantifiableMetric,
     metricFound,
-    taskComplexity: technologies.length >= 2 ? 'high' : 'medium',
-    ownershipLevel: actionVerb && ['led', 'spearheaded', 'orchestrated', 'architected'].includes(actionVerb) ? 'lead' : 'individual',
+    // Tool counts do not establish task complexity, and action verbs do not establish leadership.
+    ownershipLevel: /\b(led|managed)\s+(?:a\s+|the\s+)?team\b/i.test(trimmed) ? 'lead' : 'unspecified',
     issues,
     suggestions,
     rewritten: xyzFormula,
@@ -108,10 +97,10 @@ export function analyzeBullet(bullet: string, index: number): BulletAnalysis {
       leadership,
     },
     rewriteReason: hasQuantifiableMetric
-      ? 'Strengthened phrasing and syntax while maintaining verified metric.'
-      : 'Added structured X-Y-Z outcome framework with a candidate-supplied metric placeholder.',
+      ? 'Original wording and reported metrics preserved; review for clarity.'
+      : 'Original facts preserved. Add a measurable outcome only if it is verifiable.',
     rewriteType: hasQuantifiableMetric ? 'improved_existing' : 'needs_candidate_info',
-    placeholdersNeeded: hasQuantifiableMetric ? [] : ['[Add genuine metric: e.g. 25% efficiency gain]'],
+    placeholdersNeeded: hasQuantifiableMetric ? [] : ['Add a verified outcome only if available.'],
   };
 }
 
@@ -120,6 +109,7 @@ export function evaluateResumeImpact(resume: ResumeParsed): ImpactAnalysis {
   for (const exp of resume.experience) {
     allBullets.push(...exp.bullets);
   }
+  allBullets.push(...resume.projects.map(project => project.description).filter(Boolean));
 
   const analyzed = allBullets.map((b, i) => analyzeBullet(b, i));
   const metricsCount = analyzed.filter((a) => a.hasQuantifiableMetric).length;
@@ -139,8 +129,8 @@ export function evaluateResumeImpact(resume: ResumeParsed): ImpactAnalysis {
     .slice(0, 4)
     .map((a) => ({
       bullet: a.original,
-      suggestedMetricType: 'Efficiency / Performance / Scale',
-      exampleMetric: 'Reduced processing latency by [X]% or supported [Y] active users',
+      suggestedMetricType: 'A substantiated outcome or scope',
+      exampleMetric: 'Describe what changed as a result of your work; include a measurement only if known.',
     }));
 
   const detectedMetrics: string[] = [];

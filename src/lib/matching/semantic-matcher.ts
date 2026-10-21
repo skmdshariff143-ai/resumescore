@@ -142,6 +142,7 @@ export function matchSingleSkill(
           confidence: rel.partialConfidence,
           matchLevel: 'level_4_taxonomy',
           taxonomyRelationship: rel.relationship,
+          aliasMatched: matchedSpecific,
           evidenceQuote: evidence,
           evidence: evidence || `Candidate demonstrates "${matchedSpecific}", which ${rel.relationship}.`,
           reasoning: `Related experience: "${matchedSpecific}" ${rel.relationship}, providing strong foundational familiarity for "${targetSkill}".`,
@@ -223,7 +224,7 @@ export function buildSkillMatrix(
   processList(bonusSkills, 'bonus');
 
   // If no job requirements were supplied (General Mode), populate from candidate's detected skills
-  if (requiredSkills.length === 0 && preferredSkills.length === 0) {
+  if (requiredSkills.length === 0 && preferredSkills.length === 0 && bonusSkills.length === 0) {
     for (const [cat, skills] of Object.entries(resumeSkills)) {
       const category = cat as SkillCategory;
       for (const skill of skills) {
@@ -238,12 +239,30 @@ export function buildSkillMatrix(
             matchLevel: 'level_1_exact',
             evidenceQuote: evidence,
             evidence: evidence || `Identified in candidate skills inventory.`,
-            reasoning: `Verified competence in ${skill}.`,
+            reasoning: `Term detected: ${skill}. This does not independently verify proficiency.`,
           });
         }
       }
     }
   }
 
+  for (const items of Object.values(matrix)) {
+    for (const item of items) {
+      if (item.status === 'missing') { item.evidenceLevel = 'missing'; continue; }
+      const terms = [item.skill, item.aliasMatched].filter((term): term is string => Boolean(term));
+      const practicalLine = resumeText.split(/\r?\n/).find(line =>
+        terms.some(term => getSkillRegex(term).test(line)) &&
+        /\b(architected|re-engineered|engineered|spearheaded|built|developed|implemented|designed|analyzed|managed|prepared|delivered|created|maintained|supported|treated|assisted|researched|led|reduced|improved|optimized|tested|audited)\b/i.test(line) &&
+        !/\b(no|not|never|without|learning|plan to|want to|hope to)\b/i.test(line) &&
+        !/^\s*(skills|requirements|technologies)\s*:/i.test(line));
+      item.evidenceLevel = practicalLine ? (item.taxonomyRelationship ? 'transferable' : 'demonstrated') : 'mentioned';
+      if (practicalLine) item.evidenceQuote = practicalLine.trim();
+      if (item.evidenceLevel === 'mentioned') {
+        item.status = 'partial';
+        item.confidence = Math.min(item.confidence, 0.5);
+        item.reasoning = 'Term mentioned, but no practical action was detected on the same line. Add genuine project or experience evidence if available.';
+      }
+    }
+  }
   return matrix;
 }

@@ -1,0 +1,345 @@
+{
+  "kind": "synthetic regression only; not independent calibration",
+  "sourceEngineBaseline": "2bef33d5a430d85bf7250eda2b2e11945a01c9a3",
+  "environment": "Windows Node 24, concurrent browser QA; timings not a controlled performance comparison",
+  "documents": {
+    "pdf": [
+      {
+        "layout": "single",
+        "durationMs": 1350.7576999999997,
+        "characters": 440,
+        "pages": 1,
+        "detectedColumns": false,
+        "quality": "excellent",
+        "name": true,
+        "email": true
+      },
+      {
+        "layout": "columns",
+        "durationMs": 17.69290000000001,
+        "characters": 610,
+        "pages": 1,
+        "detectedColumns": true,
+        "quality": "degraded",
+        "name": true,
+        "email": true
+      },
+      {
+        "layout": "table",
+        "durationMs": 11.785300000000461,
+        "characters": 610,
+        "pages": 1,
+        "detectedColumns": true,
+        "quality": "degraded",
+        "name": true,
+        "email": true
+      },
+      {
+        "layout": "multipage",
+        "durationMs": 16.009299999999712,
+        "characters": 463,
+        "pages": 2,
+        "detectedColumns": false,
+        "quality": "degraded",
+        "name": true,
+        "email": true
+      },
+      {
+        "layout": "empty",
+        "durationMs": 8.214899999999943,
+        "characters": 0,
+        "pages": 1,
+        "detectedColumns": false,
+        "quality": "failed",
+        "name": false,
+        "email": false
+      },
+      {
+        "layout": "image-only",
+        "durationMs": 11.958400000000438,
+        "characters": 0,
+        "pages": 1,
+        "detectedColumns": false,
+        "quality": "failed",
+        "name": false,
+        "email": false
+      }
+    ],
+    "docx": [
+      {
+        "repetitions": 1,
+        "bytes": 9829,
+        "durationMs": 179.35699999999997,
+        "preservedOccurrences": 1
+      },
+      {
+        "repetitions": 100,
+        "bytes": 13451,
+        "durationMs": 88.8064000000004,
+        "preservedOccurrences": 100
+      }
+    ],
+    "protectedRejected": true,
+    "corruptRejected": true,
+    "limits": "DOCX ZIP/XML inspection; no Word/LibreOffice interoperability claim"
+  },
+  "scoring": {
+    "labels": "engineered synthetic; independent calibration pending",
+    "results": [
+      {
+        "domain": "engineering",
+        "careerLevel": "student",
+        "fields": {
+          "name": true,
+          "email": true
+        },
+        "requiredSkills": [
+          "AutoCAD",
+          "SolidWorks"
+        ],
+        "detectedSkills": [
+          "AutoCAD",
+          "SolidWorks"
+        ],
+        "expectedSkillRecall": 1,
+        "expectedSkillPrecision": 1,
+        "sectionPrecision": 1,
+        "sectionRecall": 1,
+        "employmentFields": {
+          "expectedRoles": 0,
+          "actualRoles": 0
+        },
+        "demonstratedPrecision": 1,
+        "sections": [
+          "Header",
+          "EDUCATION",
+          "PROJECTS",
+          "SKILLS"
+        ],
+        "score": 53,
+        "reorderScoreDelta": 0,
+        "durationMs": 117.32220000000007,
+        "reorderDimensionDeltas": [],
+        "mentionSkillScore": 10,
+        "evidencedSkillScore": 40,
+        "jobCoverage": 80
+      },
+      {
+        "domain": "data",
+        "careerLevel": "internship",
+        "fields": {
+          "name": true,
+          "email": true
+        },
+        "requiredSkills": [
+          "Python",
+          "SQL"
+        ],
+        "detectedSkills": [
+          "Python",
+          "SQL"
+        ],
+        "expectedSkillRecall": 1,
+        "expectedSkillPrecision": 1,
+        "sectionPrecision": 1,
+        "sectionRecall": 1,
+        "employmentFields": {
+          "expectedRoles": 0,
+          "actualRoles": 0
+        },
+        "demonstratedPrecision": 1,
+        "sections": [
+          "Header",
+          "EDUCATION",
+          "PROJECTS",
+          "SKILLS"
+        ],
+        "score": 53,
+        "reorderScoreDelta": 0,
+        "durationMs": 10.41650000000027,
+        "reorderDimensionDeltas": [],
+        "mentionSkillScore": 10,
+        "evidencedSkillScore": 40,
+        "jobCoverage": 80
+      },
+      {
+        "domain": "business",
+        "careerLevel": "entry",
+        "fields": {
+          "name": true,
+          "email": true
+        },
+        "requiredSkills": [
+          "Procurement",
+          "Stakeholder Management"
+        ],
+        "detectedSkills": [
+          "Stakeholder Management",
+          "Procurement"
+        ],
+        "expectedSkillRecall": 1,
+        "expectedSkillPrecision": 1,
+        "sectionPrecision": 1,
+        "sectionRecall": 1,
+        "employmentFields": {
+          "expectedRoles": 0,
+          "actualRoles": 0
+        },
+        "demonstratedPrecision": 1,
+        "sections": [
+          "Header",
+          "EDUCATION",
+          "PROJECTS",
+          "SKILLS"
+        ],
+        "score": 51,
+        "reorderScoreDelta": 0,
+        "durationMs": 6.993799999999737,
+        "reorderDimensionDeltas": [],
+        "mentionSkillScore": 10,
+        "evidencedSkillScore": 40,
+        "jobCoverage": 80
+      },
+      {
+        "domain": "finance",
+        "careerLevel": "experienced",
+        "fields": {
+          "name": true,
+          "email": true
+        },
+        "requiredSkills": [
+          "Financial Reporting",
+          "Budgeting",
+          "GAAP"
+        ],
+        "detectedSkills": [
+          "Financial Reporting",
+          "Budgeting",
+          "GAAP"
+        ],
+        "expectedSkillRecall": 1,
+        "expectedSkillPrecision": 1,
+        "sectionPrecision": 1,
+        "sectionRecall": 1,
+        "employmentFields": {
+          "expectedHeader": "Financial Analyst | Example Cooperative | 2018 - Present",
+          "actual": [
+            {
+              "company": "Example Cooperative",
+              "role": "Financial Analyst",
+              "startDate": "2018",
+              "endDate": "Present"
+            }
+          ]
+        },
+        "demonstratedPrecision": 1,
+        "sections": [
+          "Header",
+          "SUMMARY",
+          "WORK EXPERIENCE",
+          "EDUCATION",
+          "SKILLS"
+        ],
+        "score": 58,
+        "reorderScoreDelta": 0,
+        "durationMs": 9.161399999999958,
+        "reorderDimensionDeltas": [],
+        "mentionSkillScore": 15,
+        "evidencedSkillScore": 60,
+        "jobCoverage": 86
+      },
+      {
+        "domain": "marketing",
+        "careerLevel": "senior",
+        "fields": {
+          "name": true,
+          "email": true
+        },
+        "requiredSkills": [
+          "Content Marketing",
+          "Market Research"
+        ],
+        "detectedSkills": [
+          "Market Research",
+          "Content Marketing"
+        ],
+        "expectedSkillRecall": 1,
+        "expectedSkillPrecision": 1,
+        "sectionPrecision": 1,
+        "sectionRecall": 1,
+        "employmentFields": {
+          "expectedHeader": "Marketing Lead | Example Cooperative | 2012 - Present",
+          "actual": [
+            {
+              "company": "Example Cooperative",
+              "role": "Marketing Lead",
+              "startDate": "2012",
+              "endDate": "Present"
+            }
+          ]
+        },
+        "demonstratedPrecision": 1,
+        "sections": [
+          "Header",
+          "SUMMARY",
+          "WORK EXPERIENCE",
+          "EDUCATION",
+          "SKILLS"
+        ],
+        "score": 56,
+        "reorderScoreDelta": 0,
+        "durationMs": 4.817199999999957,
+        "reorderDimensionDeltas": [],
+        "mentionSkillScore": 10,
+        "evidencedSkillScore": 40,
+        "jobCoverage": 80
+      },
+      {
+        "domain": "healthcare",
+        "careerLevel": "switcher",
+        "fields": {
+          "name": true,
+          "email": true
+        },
+        "requiredSkills": [
+          "Patient Care",
+          "Clinical Documentation"
+        ],
+        "detectedSkills": [
+          "Patient Care",
+          "Clinical Documentation"
+        ],
+        "expectedSkillRecall": 1,
+        "expectedSkillPrecision": 1,
+        "sectionPrecision": 1,
+        "sectionRecall": 1,
+        "employmentFields": {
+          "expectedHeader": "Care Assistant | Example Clinic | 2019 - 2025",
+          "actual": [
+            {
+              "company": "Example Clinic",
+              "role": "Care Assistant",
+              "startDate": "2019",
+              "endDate": "2025"
+            }
+          ]
+        },
+        "demonstratedPrecision": 1,
+        "sections": [
+          "Header",
+          "SUMMARY",
+          "WORK EXPERIENCE",
+          "EDUCATION",
+          "SKILLS"
+        ],
+        "score": 53,
+        "reorderScoreDelta": 0,
+        "durationMs": 2.7672999999999774,
+        "reorderDimensionDeltas": [],
+        "mentionSkillScore": 10,
+        "evidencedSkillScore": 40,
+        "jobCoverage": 80
+      }
+    ]
+  }
+}

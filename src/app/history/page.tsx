@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useSyncExternalStore } from 'react';
+import { useRouter } from 'next/navigation';
 import { VersionComparison } from '@/components/dashboard/VersionComparison';
 import { JobMatchesTracker } from '@/components/dashboard/JobMatchesTracker';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -22,7 +23,15 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 export default function HistoryPage() {
+  const router = useRouter();
+  // Browser storage is unavailable during prerendering. Keep the hydration render
+  // identical to the server before showing the locally initialized history.
+  const hydrated = useSyncExternalStore(subscribeToHydration, clientSnapshot, serverSnapshot);
   const [history, setHistory] = useState<ScanHistory[]>(() => {
     if (typeof window !== 'undefined') return getScanHistory();
     return [];
@@ -58,6 +67,7 @@ export default function HistoryPage() {
     a.href = url;
     a.download = `ResumeScore_Data_Export_${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   const scoreDelta =
@@ -65,17 +75,21 @@ export default function HistoryPage() {
       ? history[0].overallScore - history[history.length - 1].overallScore
       : 0;
 
+  if (!hydrated) {
+    return <div role="status" className="max-w-7xl mx-auto px-4 py-8 text-body">Loading saved history…</div>;
+  }
+
   return (
-    <div className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 font-sans">
+    <div className="page-shell space-y-8">
       {/* Header & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-5">
         <div>
-          <h1 className="text-xl font-bold text-slate-100 flex items-center">
-            <Activity className="w-5 h-5 mr-2 text-blue-400" />
-            Career Command Center & Timeline History
+          <h1 className="text-xl font-bold text-ink flex items-center">
+            <Activity className="w-5 h-5 mr-2 text-brand" />
+            Your saved work
           </h1>
-          <p className="text-xs text-slate-400 mt-0.5">
-            Track iteration trajectory, score deltas, and saved job requirements.
+          <p className="text-sm text-muted mt-0.5 [overflow-wrap:anywhere]">
+            Revisit analyses you chose to save on this browser. Export or delete them at any time.
           </p>
         </div>
 
@@ -101,27 +115,27 @@ export default function HistoryPage() {
 
       {/* Trajectory Banner */}
       {history.length >= 2 && (
-        <div className="bg-gradient-to-r from-blue-950/30 via-slate-900/90 to-slate-950 border border-blue-800/40 rounded-2xl p-5 shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-surface border border-line rounded-2xl p-5 shadow-panel flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-400 bg-blue-950 px-2 py-0.5 rounded border border-blue-800/60">
+              <span className="text-xs font-sans font-bold uppercase tracking-wider text-brand bg-brand-soft px-2 py-0.5 rounded border border-line">
                 Career Trajectory
               </span>
-              <span className="text-xs font-mono font-bold text-emerald-400">
-                {scoreDelta >= 0 ? `+${scoreDelta} pts improvement` : `${scoreDelta} pts delta`}
+              <span className="text-xs font-sans font-bold text-success">
+                {scoreDelta >= 0 ? `+${scoreDelta} pts change` : `${scoreDelta} pts delta`}
               </span>
             </div>
-            <h3 className="text-sm font-bold text-slate-100">
-              Your resume performance improved across {history.length} iterations.
+            <h3 className="text-sm font-bold text-ink">
+              Compare your {history.length} saved analyses. Different jobs and career profiles may use different rubrics.
             </h3>
           </div>
 
-          <div className="flex items-center space-x-3 font-mono text-xs text-slate-300">
-            <span className="bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
+          <div className="flex items-center space-x-3 font-sans text-xs text-body">
+            <span className="bg-surface px-3 py-1.5 rounded-lg border border-line">
               Initial: {history[history.length - 1].overallScore}
             </span>
-            <ArrowRight className="w-4 h-4 text-blue-400" />
-            <span className="bg-blue-950/60 px-3 py-1.5 rounded-lg border border-blue-800/60 font-bold text-emerald-400">
+            <ArrowRight className="w-4 h-4 text-brand" />
+            <span className="bg-brand-soft px-3 py-1.5 rounded-lg border border-line font-bold text-success">
               Latest: {history[0].overallScore}
             </span>
           </div>
@@ -129,43 +143,45 @@ export default function HistoryPage() {
       )}
 
       {/* Version Comparison Component */}
-      <VersionComparison history={history} />
+      {history.length >= 2 && <VersionComparison history={history} />}
 
       {/* Saved Jobs Tracker */}
-      <JobMatchesTracker jobs={savedJobs} onDeleteJob={handleDeleteJob} />
+      {savedJobs.length > 0 && <JobMatchesTracker jobs={savedJobs} onDeleteJob={handleDeleteJob} />}
 
       {/* History Log */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-        <h3 className="text-sm font-bold text-slate-100">All Past Resume Scans ({history.length})</h3>
+      <div className="bg-surface border border-line rounded-2xl p-6 shadow-panel space-y-4">
+        <h3 className="text-sm font-bold text-ink">All Past Resume Scans ({history.length})</h3>
         {history.length === 0 ? (
           <EmptyState
             icon={<FileText className="w-6 h-6" />}
             title="No Resume Scans Found"
-            description="Upload and analyze your resume to begin tracking your career signal progress."
+            description="Nothing is saved automatically. Analyze a resume and enable optional history to keep it on this browser."
             actionLabel="Start First Analysis"
-            onAction={() => window.location.href = '/analyze'}
+            onAction={() => router.push('/analyze')}
           />
         ) : (
           <div className="space-y-3">
             {history.map((item) => (
               <div
                 key={item.id}
-                className="bg-slate-950/60 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                className="bg-surface border border-line rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
               >
-                <div>
-                  <div className="text-xs font-bold text-slate-200">{item.fileName}</div>
-                  <div className="text-[11px] text-slate-400">
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-ink [overflow-wrap:anywhere]">{item.fileName}</div>
+                  <div className="text-xs text-muted">
                     {new Date(item.analyzedAt).toLocaleString()} • {item.mode === 'job_match' ? 'Job Match Mode' : 'General Review'}
                   </div>
                 </div>
 
-                <div className="flex items-center space-x-3">
-                  <span className="text-xs font-bold text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-lg border border-emerald-800/40 font-mono">
+                <div className="flex flex-wrap items-center gap-3">
+                  {item.resumeText && <button className="border border-line rounded px-3 py-2 text-sm" onClick={() => router.push(`/analyze?history=${encodeURIComponent(item.id)}`)}>Reopen</button>}
+                  <span className="text-xs font-bold text-success bg-subtle px-2.5 py-1 rounded-lg border border-line font-sans">
                     Score: {item.overallScore}/100 ({item.grade})
                   </span>
                   <button
+                    aria-label={`Delete ${item.fileName} analysis`}
                     onClick={() => handleDeleteScan(item.id)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-slate-800 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-muted hover:text-danger hover:bg-subtle  cursor-pointer"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

@@ -34,8 +34,8 @@ function safeGetItem<T>(key: string, fallback: T): T {
       if (!raw) return fallback;
       return JSON.parse(raw) as T;
     }
-  } catch (err) {
-    console.warn(`Failed to parse storage key "${key}", returning fallback.`, err);
+  } catch {
+    console.warn('Stored data could not be read.');
     return fallback;
   }
 }
@@ -63,8 +63,8 @@ function safeSetItem<T>(key: string, value: T): boolean {
           }
           return true;
         }
-      } catch (innerErr) {
-        console.error('Failed recovery from quota exhaustion', innerErr);
+      } catch {
+        console.error('Storage quota recovery failed.');
       }
     }
     return false;
@@ -92,7 +92,11 @@ export function getScanHistory(): ScanHistory[] {
       resumeText: (item.resumeText as string) || '',
       versionNumber: idx + 1,
     }));
-    safeSetItem(STORAGE_KEYS.HISTORY_V2, migrated);
+    if (safeSetItem(STORAGE_KEYS.HISTORY_V2, migrated)) {
+      // Prevent deleted V2 entries from being restored from the old storage key.
+      if (isLocalStorageAvailable()) localStorage.removeItem(STORAGE_KEYS.LEGACY_HISTORY);
+      delete memoryStore[STORAGE_KEYS.LEGACY_HISTORY];
+    }
     return migrated;
   }
 
@@ -141,8 +145,8 @@ export function clearAllLocalData(): void {
     delete memoryStore[STORAGE_KEYS.SAVED_JOBS_V2];
     delete memoryStore[STORAGE_KEYS.RESUME_VERSIONS_V2];
     delete memoryStore[STORAGE_KEYS.LEGACY_HISTORY];
-  } catch (err) {
-    console.error('Failed to clear local data', err);
+  } catch {
+    console.error('Local data deletion failed.');
   }
 }
 

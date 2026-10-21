@@ -106,7 +106,7 @@ FinTech High-Frequency Trading Engine | 02/2022 - 04/2024
       for (let i = 0; i < weakBullets.length; i++) {
         const analysis = analyzeBullet(weakBullets[i], i);
         expect(analysis.strength).toMatch(/Weak|Developing/);
-        expect(analysis.rewritten).toMatch(/\[Add genuine metric/i);
+        expect(analysis.rewritten).toBe(weakBullets[i]);
         expect(analysis.rewritten).not.toMatch(/\b(?:42%|50%|\$100k|100,000)\b/);
       }
     });

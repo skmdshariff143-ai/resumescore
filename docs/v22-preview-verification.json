@@ -1,0 +1,117 @@
+{
+  "preview": "https://resumescore-m1ghxn576-shaik-mahammad-shariff-s-projects.vercel.app",
+  "harnessCommit": "f384f10bccc4ebaa9968a65f7f677863a586ab08",
+  "environment": "Protected Preview; origin-scoped short-lived OIDC; zero test retries; at most one bounded asset/navigation GET transport retry; no API retries",
+  "requestedRuns": 3,
+  "completedRuns": 3,
+  "runs": [
+    {
+      "run": 1,
+      "code": 0,
+      "stats": {
+        "startTime": "2026-10-20T08:41:02.776Z",
+        "duration": 130690.214,
+        "expected": 32,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "networkEvents": []
+    },
+    {
+      "run": 2,
+      "code": 0,
+      "stats": {
+        "startTime": "2026-10-20T08:43:14.211Z",
+        "duration": 145836.331,
+        "expected": 32,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "networkEvents": [
+        {
+          "kind": "ECONNRESET",
+          "path": "/.well-known/vercel/jwe"
+        },
+        {
+          "kind": "ECONNRESET",
+          "path": "/favicon.ico"
+        },
+        {
+          "kind": "asset-transport-retry",
+          "path": "/_next/static/immutable/chunks/0kwoexs4wvu0u.js"
+        }
+      ]
+    },
+    {
+      "run": 3,
+      "code": 0,
+      "stats": {
+        "startTime": "2026-10-20T08:45:40.745Z",
+        "duration": 129988.227,
+        "expected": 32,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "networkEvents": []
+    }
+  ],
+  "passed": true,
+  "deploymentId": "dpl_ELZcByiGwgrvpfxqUfvvSERskp4F",
+  "applicationCommit": "49c578c9cb68b3da2d070ee4074a578beef2b0d0",
+  "ci": "https://github.com/skmdshariff143-ai/resumescore/actions/runs/39395095245",
+  "accessibility": [
+    {
+      "run": 1,
+      "project": "desktop",
+      "states": 14,
+      "violations": 0
+    },
+    {
+      "run": 1,
+      "project": "mobile",
+      "states": 14,
+      "violations": 0
+    },
+    {
+      "run": 2,
+      "project": "desktop",
+      "states": 14,
+      "violations": 0
+    },
+    {
+      "run": 2,
+      "project": "mobile",
+      "states": 14,
+      "violations": 0
+    },
+    {
+      "run": 3,
+      "project": "desktop",
+      "states": 14,
+      "violations": 0
+    },
+    {
+      "run": 3,
+      "project": "mobile",
+      "states": 14,
+      "violations": 0
+    }
+  ],
+  "runtimeSummary": {
+    "type": "summary",
+    "recordsReturned": 0,
+    "timeRange": {
+      "start": "2026-10-20T08:18:27.546Z",
+      "end": "2026-10-20T08:48:27.546Z"
+    },
+    "pagination": {
+      "hasMore": false,
+      "next": null
+    },
+    "excludedIntervals": []
+  },
+  "limitations": "Bounded GET bridge recovery; auxiliary favicon/JWE resets recorded. Automated fixtures are not proof of all network or accessibility behavior. Paid AI disabled; no live provider evaluation."
+}

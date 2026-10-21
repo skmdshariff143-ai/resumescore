@@ -1,0 +1,777 @@
+{
+  "version": 1,
+  "id": "engineered-six-sector",
+  "engineCommit": "ab51d103aa1c783301a5be454dd3bde21bd904da",
+  "rubricVersion": "quality-v1",
+  "reviewers": [],
+  "records": [
+    {
+      "id": "synthetic-1",
+      "careerLevel": "student",
+      "sector": "engineering",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nDesigned mechanical components using AutoCAD and SolidWorks.\nSKILLS\nAutoCAD, SolidWorks",
+      "jobText": "Required: AutoCAD, SolidWorks",
+      "annotationScope": "all-supported-fields",
+      "labels": [
+        {
+          "field": "name",
+          "value": "Alex Example",
+          "quote": "Alex Example",
+          "start": 0,
+          "end": 12,
+          "source": "resume"
+        },
+        {
+          "field": "email",
+          "value": "alex@example.com",
+          "quote": "alex@example.com",
+          "start": 13,
+          "end": 29,
+          "source": "resume"
+        },
+        {
+          "field": "degree",
+          "value": "Bachelor of Science",
+          "quote": "Bachelor of Science",
+          "start": 40,
+          "end": 59,
+          "source": "resume"
+        },
+        {
+          "field": "institution",
+          "value": "Example University",
+          "quote": "Example University",
+          "start": 62,
+          "end": 80,
+          "source": "resume"
+        },
+        {
+          "field": "projectName",
+          "value": "Community research",
+          "quote": "Community research",
+          "start": 97,
+          "end": 115,
+          "source": "resume"
+        },
+        {
+          "field": "projectDescription",
+          "value": "Designed mechanical components using AutoCAD and SolidWorks.",
+          "quote": "Designed mechanical components using AutoCAD and SolidWorks.",
+          "start": 116,
+          "end": 176,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "EDUCATION",
+          "quote": "EDUCATION",
+          "start": 30,
+          "end": 39,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "PROJECTS",
+          "quote": "PROJECTS",
+          "start": 88,
+          "end": 96,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "SKILLS",
+          "quote": "SKILLS",
+          "start": 177,
+          "end": 183,
+          "source": "resume"
+        },
+        {
+          "field": "skill",
+          "value": "AutoCAD",
+          "quote": "AutoCAD",
+          "start": 153,
+          "end": 160,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "skill",
+          "value": "SolidWorks",
+          "quote": "SolidWorks",
+          "start": 165,
+          "end": 175,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "AutoCAD",
+          "quote": "AutoCAD",
+          "start": 10,
+          "end": 17,
+          "source": "job",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "SolidWorks",
+          "quote": "SolidWorks",
+          "start": 19,
+          "end": 29,
+          "source": "job",
+          "evidence": "demonstrated"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "id": "synthetic-2",
+      "careerLevel": "internship",
+      "sector": "data",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nAnalyzed inventory trends using Python and SQL.\nSKILLS\nPython, SQL",
+      "jobText": "Required: Python, SQL",
+      "annotationScope": "all-supported-fields",
+      "labels": [
+        {
+          "field": "name",
+          "value": "Alex Example",
+          "quote": "Alex Example",
+          "start": 0,
+          "end": 12,
+          "source": "resume"
+        },
+        {
+          "field": "email",
+          "value": "alex@example.com",
+          "quote": "alex@example.com",
+          "start": 13,
+          "end": 29,
+          "source": "resume"
+        },
+        {
+          "field": "degree",
+          "value": "Bachelor of Science",
+          "quote": "Bachelor of Science",
+          "start": 40,
+          "end": 59,
+          "source": "resume"
+        },
+        {
+          "field": "institution",
+          "value": "Example University",
+          "quote": "Example University",
+          "start": 62,
+          "end": 80,
+          "source": "resume"
+        },
+        {
+          "field": "projectName",
+          "value": "Community research",
+          "quote": "Community research",
+          "start": 97,
+          "end": 115,
+          "source": "resume"
+        },
+        {
+          "field": "projectDescription",
+          "value": "Analyzed inventory trends using Python and SQL.",
+          "quote": "Analyzed inventory trends using Python and SQL.",
+          "start": 116,
+          "end": 163,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "EDUCATION",
+          "quote": "EDUCATION",
+          "start": 30,
+          "end": 39,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "PROJECTS",
+          "quote": "PROJECTS",
+          "start": 88,
+          "end": 96,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "SKILLS",
+          "quote": "SKILLS",
+          "start": 164,
+          "end": 170,
+          "source": "resume"
+        },
+        {
+          "field": "skill",
+          "value": "Python",
+          "quote": "Python",
+          "start": 148,
+          "end": 154,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "skill",
+          "value": "SQL",
+          "quote": "SQL",
+          "start": 159,
+          "end": 162,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Python",
+          "quote": "Python",
+          "start": 10,
+          "end": 16,
+          "source": "job",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "SQL",
+          "quote": "SQL",
+          "start": 18,
+          "end": 21,
+          "source": "job",
+          "evidence": "demonstrated"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "id": "synthetic-3",
+      "careerLevel": "entry",
+      "sector": "business",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nManaged procurement schedules and stakeholder management activities.\nSKILLS\nProcurement, Stakeholder Management",
+      "jobText": "Required: Procurement, Stakeholder Management",
+      "annotationScope": "all-supported-fields",
+      "labels": [
+        {
+          "field": "name",
+          "value": "Alex Example",
+          "quote": "Alex Example",
+          "start": 0,
+          "end": 12,
+          "source": "resume"
+        },
+        {
+          "field": "email",
+          "value": "alex@example.com",
+          "quote": "alex@example.com",
+          "start": 13,
+          "end": 29,
+          "source": "resume"
+        },
+        {
+          "field": "degree",
+          "value": "Bachelor of Science",
+          "quote": "Bachelor of Science",
+          "start": 40,
+          "end": 59,
+          "source": "resume"
+        },
+        {
+          "field": "institution",
+          "value": "Example University",
+          "quote": "Example University",
+          "start": 62,
+          "end": 80,
+          "source": "resume"
+        },
+        {
+          "field": "projectName",
+          "value": "Community research",
+          "quote": "Community research",
+          "start": 97,
+          "end": 115,
+          "source": "resume"
+        },
+        {
+          "field": "projectDescription",
+          "value": "Managed procurement schedules and stakeholder management activities.",
+          "quote": "Managed procurement schedules and stakeholder management activities.",
+          "start": 116,
+          "end": 184,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "EDUCATION",
+          "quote": "EDUCATION",
+          "start": 30,
+          "end": 39,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "PROJECTS",
+          "quote": "PROJECTS",
+          "start": 88,
+          "end": 96,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "SKILLS",
+          "quote": "SKILLS",
+          "start": 185,
+          "end": 191,
+          "source": "resume"
+        },
+        {
+          "field": "skill",
+          "value": "Procurement",
+          "quote": "Procurement",
+          "start": 192,
+          "end": 203,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "skill",
+          "value": "Stakeholder Management",
+          "quote": "Stakeholder Management",
+          "start": 205,
+          "end": 227,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Procurement",
+          "quote": "Procurement",
+          "start": 10,
+          "end": 21,
+          "source": "job",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Stakeholder Management",
+          "quote": "Stakeholder Management",
+          "start": 23,
+          "end": 45,
+          "source": "job",
+          "evidence": "demonstrated"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "id": "synthetic-4",
+      "careerLevel": "experienced",
+      "sector": "finance",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nPrepared financial reporting and budgeting reports using GAAP.\nSKILLS\nFinancial Reporting, Budgeting, GAAP",
+      "jobText": "Required: Financial Reporting, Budgeting, GAAP",
+      "annotationScope": "all-supported-fields",
+      "labels": [
+        {
+          "field": "name",
+          "value": "Alex Example",
+          "quote": "Alex Example",
+          "start": 0,
+          "end": 12,
+          "source": "resume"
+        },
+        {
+          "field": "email",
+          "value": "alex@example.com",
+          "quote": "alex@example.com",
+          "start": 13,
+          "end": 29,
+          "source": "resume"
+        },
+        {
+          "field": "degree",
+          "value": "Bachelor of Science",
+          "quote": "Bachelor of Science",
+          "start": 40,
+          "end": 59,
+          "source": "resume"
+        },
+        {
+          "field": "institution",
+          "value": "Example University",
+          "quote": "Example University",
+          "start": 62,
+          "end": 80,
+          "source": "resume"
+        },
+        {
+          "field": "projectName",
+          "value": "Community research",
+          "quote": "Community research",
+          "start": 97,
+          "end": 115,
+          "source": "resume"
+        },
+        {
+          "field": "projectDescription",
+          "value": "Prepared financial reporting and budgeting reports using GAAP.",
+          "quote": "Prepared financial reporting and budgeting reports using GAAP.",
+          "start": 116,
+          "end": 178,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "EDUCATION",
+          "quote": "EDUCATION",
+          "start": 30,
+          "end": 39,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "PROJECTS",
+          "quote": "PROJECTS",
+          "start": 88,
+          "end": 96,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "SKILLS",
+          "quote": "SKILLS",
+          "start": 179,
+          "end": 185,
+          "source": "resume"
+        },
+        {
+          "field": "skill",
+          "value": "Financial Reporting",
+          "quote": "Financial Reporting",
+          "start": 186,
+          "end": 205,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "skill",
+          "value": "Budgeting",
+          "quote": "Budgeting",
+          "start": 207,
+          "end": 216,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "skill",
+          "value": "GAAP",
+          "quote": "GAAP",
+          "start": 173,
+          "end": 177,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Financial Reporting",
+          "quote": "Financial Reporting",
+          "start": 10,
+          "end": 29,
+          "source": "job",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Budgeting",
+          "quote": "Budgeting",
+          "start": 31,
+          "end": 40,
+          "source": "job",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "GAAP",
+          "quote": "GAAP",
+          "start": 42,
+          "end": 46,
+          "source": "job",
+          "evidence": "demonstrated"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "id": "synthetic-5",
+      "careerLevel": "senior",
+      "sector": "marketing",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nDelivered content marketing and market research for a community campaign.\nSKILLS\nContent Marketing, Market Research",
+      "jobText": "Required: Content Marketing, Market Research",
+      "annotationScope": "all-supported-fields",
+      "labels": [
+        {
+          "field": "name",
+          "value": "Alex Example",
+          "quote": "Alex Example",
+          "start": 0,
+          "end": 12,
+          "source": "resume"
+        },
+        {
+          "field": "email",
+          "value": "alex@example.com",
+          "quote": "alex@example.com",
+          "start": 13,
+          "end": 29,
+          "source": "resume"
+        },
+        {
+          "field": "degree",
+          "value": "Bachelor of Science",
+          "quote": "Bachelor of Science",
+          "start": 40,
+          "end": 59,
+          "source": "resume"
+        },
+        {
+          "field": "institution",
+          "value": "Example University",
+          "quote": "Example University",
+          "start": 62,
+          "end": 80,
+          "source": "resume"
+        },
+        {
+          "field": "projectName",
+          "value": "Community research",
+          "quote": "Community research",
+          "start": 97,
+          "end": 115,
+          "source": "resume"
+        },
+        {
+          "field": "projectDescription",
+          "value": "Delivered content marketing and market research for a community campaign.",
+          "quote": "Delivered content marketing and market research for a community campaign.",
+          "start": 116,
+          "end": 189,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "EDUCATION",
+          "quote": "EDUCATION",
+          "start": 30,
+          "end": 39,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "PROJECTS",
+          "quote": "PROJECTS",
+          "start": 88,
+          "end": 96,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "SKILLS",
+          "quote": "SKILLS",
+          "start": 190,
+          "end": 196,
+          "source": "resume"
+        },
+        {
+          "field": "skill",
+          "value": "Content Marketing",
+          "quote": "Content Marketing",
+          "start": 197,
+          "end": 214,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "skill",
+          "value": "Market Research",
+          "quote": "Market Research",
+          "start": 216,
+          "end": 231,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Content Marketing",
+          "quote": "Content Marketing",
+          "start": 10,
+          "end": 27,
+          "source": "job",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Market Research",
+          "quote": "Market Research",
+          "start": 29,
+          "end": 44,
+          "source": "job",
+          "evidence": "demonstrated"
+        }
+      ],
+      "reviews": []
+    },
+    {
+      "id": "synthetic-6",
+      "careerLevel": "switcher",
+      "sector": "healthcare",
+      "style": "single-column",
+      "split": "regression",
+      "source": {
+        "kind": "synthetic",
+        "reference": "Author-engineered domain-resumes test fixture; no candidate data or human labels"
+      },
+      "resumeText": "Alex Example\nalex@example.com\nEDUCATION\nBachelor of Science | Example University | 2025\nPROJECTS\nCommunity research\nSupported patient care and clinical documentation under supervision.\nSKILLS\nPatient Care, Clinical Documentation",
+      "jobText": "Required: Patient Care, Clinical Documentation",
+      "annotationScope": "all-supported-fields",
+      "labels": [
+        {
+          "field": "name",
+          "value": "Alex Example",
+          "quote": "Alex Example",
+          "start": 0,
+          "end": 12,
+          "source": "resume"
+        },
+        {
+          "field": "email",
+          "value": "alex@example.com",
+          "quote": "alex@example.com",
+          "start": 13,
+          "end": 29,
+          "source": "resume"
+        },
+        {
+          "field": "degree",
+          "value": "Bachelor of Science",
+          "quote": "Bachelor of Science",
+          "start": 40,
+          "end": 59,
+          "source": "resume"
+        },
+        {
+          "field": "institution",
+          "value": "Example University",
+          "quote": "Example University",
+          "start": 62,
+          "end": 80,
+          "source": "resume"
+        },
+        {
+          "field": "projectName",
+          "value": "Community research",
+          "quote": "Community research",
+          "start": 97,
+          "end": 115,
+          "source": "resume"
+        },
+        {
+          "field": "projectDescription",
+          "value": "Supported patient care and clinical documentation under supervision.",
+          "quote": "Supported patient care and clinical documentation under supervision.",
+          "start": 116,
+          "end": 184,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "EDUCATION",
+          "quote": "EDUCATION",
+          "start": 30,
+          "end": 39,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "PROJECTS",
+          "quote": "PROJECTS",
+          "start": 88,
+          "end": 96,
+          "source": "resume"
+        },
+        {
+          "field": "section",
+          "value": "SKILLS",
+          "quote": "SKILLS",
+          "start": 185,
+          "end": 191,
+          "source": "resume"
+        },
+        {
+          "field": "skill",
+          "value": "Patient Care",
+          "quote": "Patient Care",
+          "start": 192,
+          "end": 204,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "skill",
+          "value": "Clinical Documentation",
+          "quote": "Clinical Documentation",
+          "start": 206,
+          "end": 228,
+          "source": "resume",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Patient Care",
+          "quote": "Patient Care",
+          "start": 10,
+          "end": 22,
+          "source": "job",
+          "evidence": "demonstrated"
+        },
+        {
+          "field": "requiredSkill",
+          "value": "Clinical Documentation",
+          "quote": "Clinical Documentation",
+          "start": 24,
+          "end": 46,
+          "source": "job",
+          "evidence": "demonstrated"
+        }
+      ],
+      "reviews": []
+    }
+  ]
+}

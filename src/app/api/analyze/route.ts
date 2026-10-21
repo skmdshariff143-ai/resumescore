@@ -1,19 +1,34 @@
+import { readRequestJSON, requestErrorResponse } from '@/lib/validation/request';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { parseResume } from '@/lib/parsing/resume-parser';
 import { parseJobDescription } from '@/lib/jobs/job-parser';
 import { calculateResumeScore } from '@/lib/scoring/scoring-engine';
+import { checkRateLimit, createRateLimitResponse } from '@/lib/rate-limit';
 
 const AnalyzeRequestSchema = z.object({
   resumeText: z.string().min(20, 'Resume text is too brief to analyze.'),
   jobText: z.string().optional(),
   mode: z.enum(['general', 'job_match']).default('general'),
   fileName: z.string().default('resume.txt'),
+  careerLevel: z.enum(['student', 'internship', 'entry', 'experienced', 'senior', 'switcher']).default('experienced'),
+  extraction: z.object({
+    pageCountEstimate: z.number().int().min(1).max(20),
+    extractionQuality: z.enum(['excellent', 'good', 'degraded', 'failed']),
+    hasTwoColumns: z.boolean(),
+    isScanned: z.boolean(),
+  }).strict().optional(),
 });
 
 export async function POST(req: NextRequest) {
+  // 1. Rate Limiting: 20 req/min per IP
+  const rateLimitResult = checkRateLimit(req, { limit: 20, windowMs: 60_000, keyPrefix: 'analyze' });
+  if (!rateLimitResult.success) {
+    return createRateLimitResponse(rateLimitResult);
+  }
+
   try {
-    const body = await req.json();
+    const body = await readRequestJSON(req);
     const validated = AnalyzeRequestSchema.safeParse(body);
 
     if (!validated.success) {
@@ -23,22 +38,22 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { resumeText, jobText, mode, fileName } = validated.data;
+    const { resumeText, jobText, mode, fileName, careerLevel } = validated.data;
+    if (mode === 'job_match' && (!jobText || jobText.trim().length < 20)) {
+      return NextResponse.json({ error: 'Paste a job description of at least 20 characters.' }, { status: 400 });
+    }
     const parsedResume = parseResume(resumeText, fileName);
+    if (validated.data.extraction) Object.assign(parsedResume.metadata, validated.data.extraction);
 
     let parsedJob = undefined;
     if (mode === 'job_match' && jobText && jobText.trim().length > 20) {
       parsedJob = parseJobDescription(jobText);
     }
 
-    const score = calculateResumeScore(parsedResume, parsedJob, mode);
+    const score = calculateResumeScore(parsedResume, parsedJob, mode, careerLevel);
 
     return NextResponse.json({ success: true, data: score });
   } catch (err: unknown) {
-    console.error('Analysis error:', err);
-    return NextResponse.json(
-      { error: 'Failed to process resume analysis', message: err instanceof Error ? err.message : 'Unknown error' },
-      { status: 500 }
-    );
+    return requestErrorResponse(err);
   }
 }

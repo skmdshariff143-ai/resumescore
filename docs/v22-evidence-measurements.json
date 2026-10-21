@@ -1,0 +1,27 @@
+[
+  {
+    "text": "Developed software using Python.",
+    "expected": "demonstrated",
+    "actual": "demonstrated"
+  },
+  {
+    "text": "Python",
+    "expected": "mentioned",
+    "actual": "mentioned"
+  },
+  {
+    "text": "Never developed software using Python.",
+    "expected": "mentioned",
+    "actual": "mentioned"
+  },
+  {
+    "text": "Learning Python; developed a sample.",
+    "expected": "mentioned",
+    "actual": "mentioned"
+  },
+  {
+    "text": "Managed procurement schedules.",
+    "expected": "missing",
+    "actual": "missing"
+  }
+]

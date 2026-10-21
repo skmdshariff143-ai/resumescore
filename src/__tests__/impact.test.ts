@@ -18,7 +18,7 @@ describe('Impact Evaluator & Anti-Hallucination Rewrites', () => {
     expect(analysis.strength).toMatch(/Weak|Developing/);
     expect(analysis.hasQuantifiableMetric).toBe(false);
     // Verified placeholder inclusion
-    expect(analysis.rewritten).toContain('[Add genuine metric');
+    expect(analysis.rewritten).toBe(weakBullet);
     expect(analysis.placeholdersNeeded?.length).toBeGreaterThan(0);
   });
 });

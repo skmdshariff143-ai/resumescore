@@ -22,14 +22,14 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div
-      className={`bg-slate-950/40 border border-slate-800/80 rounded-2xl p-10 text-center flex flex-col items-center justify-center space-y-4 max-w-md mx-auto ${className}`}
+      className={`bg-surface border border-line rounded-2xl p-10 text-center flex flex-col items-center justify-center space-y-4 max-w-md mx-auto ${className}`}
     >
-      <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400">
+      <div className="w-12 h-12 rounded-2xl bg-surface border border-line flex items-center justify-center text-muted">
         {icon}
       </div>
       <div className="space-y-1">
-        <h4 className="text-sm font-bold text-slate-200">{title}</h4>
-        <p className="text-xs text-slate-400 leading-relaxed">{description}</p>
+        <h4 className="text-sm font-bold text-ink">{title}</h4>
+        <p className="text-xs text-muted leading-relaxed">{description}</p>
       </div>
       {actionLabel && onAction && (
         <Button variant="primary" size="sm" onClick={onAction}>

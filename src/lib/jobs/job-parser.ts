@@ -76,20 +76,17 @@ export function parseJobDescription(rawText: string): JobParsed {
     if (!line) continue;
 
     // Check header keywords
-    if (/\b(minimum|must have|required|requirements|what you need|qualifications)\b/i.test(line)) {
-      currentImportance = 'required';
-      continue;
-    } else if (/\b(bonus|extra credit)\b/i.test(line)) {
+    if (/\b(bonus|extra credit|optional)\b/i.test(line)) {
       currentImportance = 'bonus';
-      continue;
     } else if (/\b(preferred|nice to have|plus|ideal|good to have)\b/i.test(line)) {
       currentImportance = 'preferred';
-      continue;
+    } else if (/\b(minimum|must have|required|requirements|what you need|qualifications)\b/i.test(line)) {
+      currentImportance = 'required';
     }
 
     const isBullet = /^\s*[•\-*▪►◦‣⁃]/.test(rawLine);
-    if (isBullet || line.length > 20) {
-      const { all: lineSkills } = extractCategorizedSkills(line);
+    const { all: lineSkills } = extractCategorizedSkills(line);
+    if (isBullet || line.length > 20 || lineSkills.length > 0) {
       let category: RequirementCategory = 'skill';
 
       if (/\b(degree|bachelor|master|phd)\b/i.test(line)) category = 'education';
@@ -119,7 +116,7 @@ export function parseJobDescription(rawText: string): JobParsed {
   }
 
   // If no sections were delineated, populate allSkills as required
-  if (requiredSkills.length === 0 && preferredSkills.length === 0) {
+  if (requiredSkills.length === 0 && preferredSkills.length === 0 && bonusSkills.length === 0) {
     requiredSkills.push(...allSkills);
   }
 
