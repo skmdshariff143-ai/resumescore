@@ -12,15 +12,15 @@
 | Verification | Result |
 |---|---|
 | **Root cause of outdated website** | **Production branch staleness due to unmerged draft PR #1**. Vercel production targets `main` (`79a373c8acc3d234c04e21010598ef9f93764bcf`), while all V3 improvements exist on `feat/resumescore-v2` (`c77325da37e59a5e00296c6e80695fdb411d3b66`). Git integration and builds are fully healthy; no failed production deployments occurred. |
-| **GitHub feature commit** | `c77325da37e59a5e00296c6e80695fdb411d3b66` |
-| **GitHub main commit** | `79a373c8acc3d234c04e21010598ef9f93764bcf` (18 commits behind feature branch) |
+| **GitHub feature commit** | `6827198b980d2f21da0486d870f38ce9da7a0e04` (Implementation head: `c77325da37e59a5e00296c6e80695fdb411d3b66`) |
+| **GitHub main commit** | `79a373c8acc3d234c04e21010598ef9f93764bcf` (19 commits behind feature branch) |
 | **PR #1 status** | `Draft` (Mergeable: `MERGEABLE`, State: `CLEAN`, 0 merge conflicts) |
-| **CI** | `Pass` ([Run 39442799695](https://github.com/skmdshariff143-ai/resumescore/actions/runs/39442799695), 4m49s, all jobs green) |
+| **CI** | `Pass` ([Run 39532263108](https://github.com/skmdshariff143-ai/resumescore/actions/runs/39532263108), 5m36s, all 12 steps green) |
 | **Unit & Integration tests** | `159 passed` (28 test files, Vitest 5.0.0, 0 failed, 0 skipped) |
 | **Browser tests** | `118 passed` (46 Chromium core suite passed on Preview in 3.0m; 72 Firefox/WebKit cross-browser suite passed in 3.5m) |
 | **Security findings** | Production: `0 vulnerabilities`. Development: `5 high` findings in unpatched `braces` chain ([GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)); 0 secret leaks; compiled paid-AI lock enforced. |
 | **Validation gates** | Technical automated tests `PASS`; Independent scoring/extraction holdouts `BLOCKING`; Development dependency risk `OWNER APPROVAL REQUIRED`. |
-| **Preview deployment** | `https://resumescore-50l20bnv2-shaik-mahammad-shariff-s-projects.vercel.app` (Deployment ID: `dpl_BH59tn5j548wzjRGQ65XyHmXBpUi`, SHA: `c77325da37e59a5e00296c6e80695fdb411d3b66`) |
+| **Preview deployment** | `https://resumescore-4klp1fa4x-shaik-mahammad-shariff-s-projects.vercel.app` (Deployment ID: `dpl_Hv4rAmJkDycDtmJgNbDQdGK4Aj8J`, SHA: `6827198b980d2f21da0486d870f38ce9da7a0e04`) |
 | **Production deployment** | `https://resumescore-phi.vercel.app` (Deployment ID: `dpl_5NimgXZ6W7XqK3Kypy5S1Eug1FS6`, SHA: `79a373c8acc3d234c04e21010598ef9f93764bcf`) |
 | **Domain health** | `Pass` (HTTP 200, valid SSL certificate, active DNS routing) |
 | **Updated V3 design live** | `No` (Production is serving commit `79a373c`; V3 design is live on Preview `dpl_BH59tn5j548wzjRGQ65XyHmXBpUi`) |
