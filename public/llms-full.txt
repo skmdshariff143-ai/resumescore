@@ -1,0 +1,65 @@
+# ResumeScore — Full Technical Architecture & Specification
+
+> Comprehensive reference for ResumeScore: an evidence-based resume intelligence platform utilizing deterministic heuristics, client-side document processing, and transparent evaluation rubrics.
+
+## 1. Product Mission & Philosophy
+ResumeScore provides job seekers with objective, evidence-based feedback on their resumes before applying. Unlike black-box scoring systems, ResumeScore:
+1. Grounded in Evidence: Every score is backed by visible, detectable textual evidence from the uploaded resume.
+2. Anti-Hallucination: Suggests clearer wording and stronger action verbs, but strictly forbids fabricating metrics, experiences, or credentials.
+3. Privacy-First: All file parsing, extraction, and scoring occur inside the user's browser by default. No resumes are stored in a database.
+4. Editorial Honesty: Explicitly states that scores are estimates of structural clarity and terminology alignment, not hiring guarantees or ATS certifications.
+
+## 2. 7-Pillar Deterministic Evaluation Rubric
+The scoring engine evaluates candidate resumes across seven weighted dimensions:
+
+1. **Contact Information & Header Completeness**:
+   - Assesses name, email address, phone number, location (city/state or remote indication), and professional links (LinkedIn, GitHub, or portfolio).
+   - Validates RFC-compliant email formats and recognizable link protocols.
+
+2. **Section Architecture & Standard Headings**:
+   - Checks for presence of core career sections: Experience / Work History, Education, Skills, and optional Summary / Projects.
+   - Evaluates heading standardization for standard ATS and recruiter readability.
+
+3. **Impact Quantification & Measurable Outcomes**:
+   - Identifies quantified metrics (percentages, dollar amounts, performance gains, team sizes, project scopes).
+   - Evaluates bullet structure following action-result-impact paradigms.
+
+4. **Action Verb Strength & Leadership Indicators**:
+   - Analyzes verb vigor at the start of experience bullets.
+   - Flags weak, passive phrases (e.g., "Responsible for", "Helped with", "Assisted in") and suggests proactive alternatives.
+
+5. **Repetition & Lexical Diversity**:
+   - Detects repeated sentence starters, overused buzzwords, and redundant phrasing across sections.
+
+6. **Brevity, Layout & Formatting Readiness**:
+   - Checks length relative to career level (1 page recommended for early career, 2 pages for senior/executive).
+   - Flags multi-column complexities, table nesting issues, and scanned image traps that degrade text extractability.
+
+7. **Job Terminology Alignment (in Job Match Mode)**:
+   - Compares resume text against extracted job description requirements across hard skills, tools, platforms, methodologies, and certifications.
+   - Categorizes skills into Demonstrated (with evidence), Mentioned (listed only), Transferable, and Missing.
+
+## 3. Career Profile Calibration
+ResumeScore supports six distinct career profiles with customized rubric weights:
+- **Student / Intern**: Greater emphasis on education, academic projects, and demonstrated technical coursework.
+- **Entry Level**: Balances foundational internships, relevant projects, and early career trajectory.
+- **Experienced / Mid-Level**: Emphasizes quantified career achievements, ownership, and deep technical competencies.
+- **Senior / Staff**: High weight on measurable business impact, architecture, and technical leadership.
+- **Executive / Leadership**: Prioritizes organizational scale, budget/P&L oversight, team growth, and strategic vision.
+- **Career Switcher**: Weights transferable skills, continuing education, and bridge project demonstrations.
+
+## 4. Privacy & Security Guarantees
+- Default Execution: 100% Client-Side. Document text extraction (PDF via pdfjs-dist, DOCX via zip.js XML parsing, TXT via browser reader) and scoring algorithms execute in client memory.
+- Network Boundary: In browser mode, zero resume or job text is sent across the network.
+- History Persistence: Optional and off by default. If enabled by the user, history is stored exclusively in `localStorage` on the local device.
+- Full Data Portability: Users can export all scan records as JSON at any time or completely purge local records with a single click.
+- Paid External AI Disabled: Release policy locks `AI_PAID_ENABLED` to `false`.
+
+## 5. Exports & Editing
+- Resume Editor: Built-in workspace allowing users to edit sections, correct extracted text, and preview changes in real time.
+- Supported Input: PDF, DOCX, TXT, or direct text paste.
+- Supported Output: Clean plain text (.txt), structured Word document (.docx via docx library), and browser-native selectable PDF.
+
+## 6. Project & Source Code
+- Live Website: https://resumescore-phi.vercel.app/
+- Source Repository: https://github.com/skmdshariff143-ai/resumescore

@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ArrowUpRight, Check, CheckCircle2, FileText, ShieldCheck, Target, PencilLine, LockKeyhole, Upload } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Check, CheckCircle2, FileText, ShieldCheck, Target, PencilLine, LockKeyhole, Upload, Sparkles } from 'lucide-react';
 
 const examples = [
  {label:'Student', original:'Responsible for building new frontend user interfaces in React and fixing bugs.', improved:'Built new user interfaces in React and fixed bugs.', tip:'Make your contribution clear. Add an outcome only when you can substantiate it.'},
@@ -15,17 +15,35 @@ const faqs = [
  ['Can I edit and export my resume?','Yes. Review extracted text, edit sections, compare versions and download TXT or DOCX. Use your browser’s print dialog to save a selectable PDF. Review pagination before sharing.'],
  ['Is AI required?','No. Paid AI is disabled in this release. Deterministic resume analysis works without external AI services. Optional server tools provide clearly labeled heuristic suggestions.'],
 ];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  'mainEntity': faqs.map(([q, a]) => ({
+    '@type': 'Question',
+    'name': q,
+    'acceptedAnswer': {
+      '@type': 'Answer',
+      'text': a,
+    },
+  })),
+};
+
 export default function LandingPage(){
  const [example,setExample]=useState(0);
  const current=examples[example];
  return <div className="page-shell space-y-20 sm:space-y-28">
+  <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+  />
   <section className="grid items-center gap-12 pt-4 pb-4 lg:grid-cols-[1.05fr_1fr] lg:py-12">
    <div className="space-y-7">
     <p className="eyebrow flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-brand"/>A clearer path to your next role</p>
     <h1 className="max-w-2xl text-[2.5rem] leading-[1.1] font-bold tracking-[-.045em] sm:text-5xl xl:text-[3.5rem]">Build a stronger resume.<br/><span className="text-brand">Apply with confidence.</span></h1>
     <p className="max-w-xl text-base leading-relaxed text-muted sm:text-lg">Analyze your resume, compare it with job requirements, and receive clear, evidence-based recommendations to improve your application.</p>
     <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap"><Link href="/analyze" className="action action-primary">Analyze My Resume <ArrowRight size={17}/></Link><Link href="/analyze?mode=job_match" className="action">Match a Job Description <ArrowUpRight size={17}/></Link></div>
-    <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted"><span className="flex items-center gap-2"><Check size={16} className="text-success"/>No account required</span><span className="flex items-center gap-2"><LockKeyhole size={15} className="text-success"/>Private by default</span></div>
+    <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted"><span className="flex items-center gap-2"><Check size={16} className="text-success"/>No account required</span><span className="flex items-center gap-2"><LockKeyhole size={15} className="text-success"/>Private by default</span><span className="flex items-center gap-2"><Sparkles size={15} className="text-brand"/>7-Pillar Scoring</span></div>
    </div>
    <div className="panel space-y-5">
     <div className="flex items-center justify-between gap-2 border-b border-line pb-4"><div className="flex items-center gap-3"><span className="rounded-lg bg-brand-soft p-2 text-brand"><FileText size={20}/></span><div><p className="font-semibold text-ink">Your resume, at a glance</p><p className="text-xs text-muted">Fictional sample · Illustrative scores</p></div></div></div>

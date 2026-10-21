@@ -1,0 +1,22 @@
+# ResumeScore
+
+> Transparent, evidence-based resume scoring, job match intelligence, and ATS readability analysis with private, browser-only deterministic computation.
+
+## Core Capabilities
+- **Deterministic 7-Pillar Scoring**: Objective, repeatable evaluation across Contact Completeness, Section Structure, Impact Quantification, Action Verb Strength, Repetition Avoidance, Brevity & Formatting, and Job Terminology Alignment.
+- **Job Description Match Intelligence**: Layered semantic skill extraction, identifying demonstrated, mentioned, transferable, and missing skills against job requirements.
+- **Anti-Hallucination Bullet Improvements**: Evidence-grounded suggested revisions that improve clarity and action verbs without fabricating achievements, employers, or skills.
+- **Privacy-by-Default Architecture**: Client-side document parsing (PDF, DOCX, TXT) and scoring execute completely inside the user's browser. Zero cloud resume storage and no required user accounts.
+- **Multi-Format Export**: In-browser resume editor with live comparison and direct export to DOCX, TXT, and selectable PDF.
+
+## Web Application Routes
+- Main Platform: https://resumescore-phi.vercel.app/
+- Resume Analyzer & Job Match: https://resumescore-phi.vercel.app/analyze
+- Privacy Policy & Data Architecture: https://resumescore-phi.vercel.app/privacy
+- Local History Dashboard: https://resumescore-phi.vercel.app/history (browser-local storage only)
+
+## Technical Architecture
+- Framework: Next.js 16 (App Router) with React 19 and Tailwind CSS
+- Client Parsing: pdfjs-dist and zip.js for client-side document extraction
+- External AI Status: Paid external AI is strictly locked and disabled in production; all core scoring uses deterministic algorithmic rubrics.
+- Open Source Repository: https://github.com/skmdshariff143-ai/resumescore
