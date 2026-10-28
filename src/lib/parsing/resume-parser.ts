@@ -27,6 +27,23 @@ import {
   getSkillRegex,
 } from '../keywords';
 
+function trimPunctuation(str: string): string {
+  const lower = str.toLowerCase();
+  let start = 0;
+  let end = lower.length;
+  while (start < end) {
+    const code = lower.charCodeAt(start);
+    if ((code >= 97 && code <= 122) || (code >= 48 && code <= 57)) break;
+    start++;
+  }
+  while (end > start) {
+    const code = lower.charCodeAt(end - 1);
+    if ((code >= 97 && code <= 122) || (code >= 48 && code <= 57)) break;
+    end--;
+  }
+  return lower.slice(start, end);
+}
+
 function cleanLines(text: string): string[] {
   return text
     .split(/\r?\n/)
@@ -35,10 +52,7 @@ function cleanLines(text: string): string[] {
 }
 
 function matchSectionHeader(line: string): { matched: boolean; type: SectionType; title: string } {
-  const normalized = line
-    .toLowerCase()
-    .replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '')
-    .trim();
+  const normalized = trimPunctuation(line);
 
   for (const header of SECTION_HEADERS) {
     if (
@@ -64,6 +78,16 @@ function matchSectionHeader(line: string): { matched: boolean; type: SectionType
   return { matched: false, type: 'other', title: '' };
 }
 
+function isDomainMatch(urlStr: string, domain: string): boolean {
+  try {
+    const full = urlStr.startsWith('http') ? urlStr : 'https://' + urlStr;
+    const hostname = new URL(full).hostname.toLowerCase();
+    return hostname === domain || hostname.endsWith('.' + domain);
+  } catch {
+    return false;
+  }
+}
+
 function extractStructuredLinks(text: string): {
   links: string[];
   structured: LinkItem[];
@@ -84,10 +108,12 @@ function extractStructuredLinks(text: string): {
 
   for (const raw of unique) {
     const fullUrl = raw.startsWith('http') ? raw : 'https://' + raw;
-    if (/linkedin\.com/i.test(raw) && !linkedin) {
+    const isLinkedIn = isDomainMatch(raw, 'linkedin.com');
+    const isGitHub = isDomainMatch(raw, 'github.com');
+    if (isLinkedIn && !linkedin) {
       linkedin = fullUrl;
       structured.push({ type: 'linkedin', url: fullUrl, label: 'LinkedIn' });
-    } else if (/github\.com/i.test(raw) && !github) {
+    } else if (isGitHub && !github) {
       github = fullUrl;
       structured.push({ type: 'github', url: fullUrl, label: 'GitHub' });
     } else if (/portfolio|vercel\.app|netlify\.app|github\.io/i.test(raw) && !portfolio) {
@@ -537,7 +563,7 @@ export function parseResume(rawText: string, fileName: string = 'resume.txt'): R
 
   const personalInfo: PersonalInfo = {
     name: nameInfo.name,
-    email: trimmed.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/)?.[0],
+    email: trimmed.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b/)?.[0],
     phone: trimmed.match(/(?:\+?\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}/)?.[0],
     // Do not treat a reordered comma-separated skills list as a location.
     location: extractLocation(sections.find(section => section.type === 'header')?.content || ''),

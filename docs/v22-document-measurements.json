@@ -2,7 +2,7 @@
   "pdf": [
     {
       "layout": "single",
-      "durationMs": 242.90859999999998,
+      "durationMs": 353.05420000000004,
       "characters": 440,
       "pages": 1,
       "detectedColumns": false,
@@ -12,7 +12,7 @@
     },
     {
       "layout": "columns",
-      "durationMs": 4.041100000000142,
+      "durationMs": 15.135400000000118,
       "characters": 610,
       "pages": 1,
       "detectedColumns": true,
@@ -22,7 +22,7 @@
     },
     {
       "layout": "table",
-      "durationMs": 3.998399999999947,
+      "durationMs": 13.19900000000007,
       "characters": 610,
       "pages": 1,
       "detectedColumns": true,
@@ -32,7 +32,7 @@
     },
     {
       "layout": "multipage",
-      "durationMs": 4.347099999999955,
+      "durationMs": 15.024499999999989,
       "characters": 463,
       "pages": 2,
       "detectedColumns": false,
@@ -42,7 +42,7 @@
     },
     {
       "layout": "empty",
-      "durationMs": 1.300899999999956,
+      "durationMs": 4.869699999999739,
       "characters": 0,
       "pages": 1,
       "detectedColumns": false,
@@ -52,7 +52,7 @@
     },
     {
       "layout": "image-only",
-      "durationMs": 2.3291999999999007,
+      "durationMs": 7.152900000000045,
       "characters": 0,
       "pages": 1,
       "detectedColumns": false,
@@ -64,14 +64,14 @@
   "docx": [
     {
       "repetitions": 1,
-      "bytes": 9831,
-      "durationMs": 85.41579999999999,
+      "bytes": 9832,
+      "durationMs": 190.88799999999992,
       "preservedOccurrences": 1
     },
     {
       "repetitions": 100,
-      "bytes": 13424,
-      "durationMs": 25.414399999999887,
+      "bytes": 13445,
+      "durationMs": 133.79350000000022,
       "preservedOccurrences": 100
     }
   ],

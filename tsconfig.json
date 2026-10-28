@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "resumescore-core": ["./packages/core/src/index.ts"]
     }
   },
   "include": [

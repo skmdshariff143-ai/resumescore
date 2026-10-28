@@ -1,0 +1,53 @@
+{
+  "name": "resumescore-core",
+  "version": "0.1.0",
+  "description": "Framework-agnostic deterministic resume parser, 7-pillar scoring engine, and semantic job matcher.",
+  "license": "MIT",
+  "author": "ResumeScore Contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skmdshariff143-ai/resumescore.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://resumescore-phi.vercel.app",
+  "bugs": {
+    "url": "https://github.com/skmdshariff143-ai/resumescore/issues"
+  },
+  "keywords": [
+    "resume",
+    "resume-parser",
+    "ats",
+    "ats-checker",
+    "resume-score",
+    "job-match",
+    "semantic-matcher",
+    "career"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "dependencies": {},
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "typecheck": "tsc --noEmit"
+  }
+}

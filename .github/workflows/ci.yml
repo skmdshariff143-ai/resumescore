@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, feat/*, fix/*]
   pull_request:
     branches: [main, master]
 
@@ -11,18 +11,18 @@ permissions:
 
 jobs:
   validate:
-    name: Lint, Test & Build
+    name: Lint, Test, Package & Build
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5, Node 24 action runtime
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5, Node 24 action runtime
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
@@ -33,23 +33,29 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-      - name: TypeScript
+      - name: TypeScript Typecheck
         run: npm run typecheck
 
-      - name: Run Tests
+      - name: Build Core Package
+        run: npm run build:core
+
+      - name: Verify Package Dry-Run
+        run: npm pack --dry-run ./packages/core
+
+      - name: Run Unit & Property Tests
         run: npm test
 
-      - name: Run Production Build
+      - name: Run Next.js Production Build
         run: npm run build
 
-      - name: Install browsers
+      - name: Production Dependency Security Audit
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium firefox webkit
 
-      - name: Browser workflows and accessibility
+      - name: Run E2E Workflows & Accessibility Checks
         run: npm run test:e2e
 
-      - name: Firefox and WebKit workflows, keyboard access and reflow
+      - name: Run Cross-Browser Workflows (Firefox & WebKit)
         run: npm run test:cross-browser
-
-      - name: Production dependency audit
-        run: npm audit --omit=dev --audit-level=high

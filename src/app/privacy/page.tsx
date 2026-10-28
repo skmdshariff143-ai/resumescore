@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ShieldCheck, Lock, Database, Cpu, ExternalLink, HelpCircle } from 'lucide-react';
+import { ShieldCheck, Lock, Database, Cpu, ExternalLink, HelpCircle, Cookie, UserCheck } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy & Data Architecture — ResumeScore',
@@ -83,6 +83,45 @@ export default function PrivacyPage() {
         </p>
       </section>
 
+      {/* Cookie & Tracking Transparency */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold text-ink flex items-center gap-2">
+          <Cookie size={20} className="text-brand" /> Zero Tracking Cookies & Analytics Policy
+        </h2>
+        <p className="text-body leading-relaxed">
+          ResumeScore is built with zero advertising trackers, zero profiling cookies, and zero third-party telemetry scripts. We do not sell, rent, or monetize your usage data.
+        </p>
+        <ul className="list-disc list-inside space-y-1 text-sm text-muted pl-2">
+          <li><strong>No Tracking Cookies:</strong> We do not set any tracking, targeting, or cross-site cookies.</li>
+          <li><strong>No Third-Party Analytics:</strong> No external marketing or analytics scripts run on your device.</li>
+          <li><strong>Local Storage:</strong> Optional scan history is stored strictly in your browser&apos;s <code className="rounded bg-subtle px-1.5 py-0.5 text-xs">localStorage</code> and never sent to our servers.</li>
+        </ul>
+      </section>
+
+      {/* User Rights (GDPR & CCPA) */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold text-ink flex items-center gap-2">
+          <UserCheck size={20} className="text-brand" /> User Rights (GDPR & CCPA Compliance)
+        </h2>
+        <p className="text-body leading-relaxed">
+          Because ResumeScore operates without server-side user accounts or databases, your privacy rights are enforced directly through device-level control:
+        </p>
+        <div className="grid gap-3 sm:grid-cols-3 pt-1">
+          <div className="rounded-xl border border-line bg-subtle p-3 space-y-1">
+            <p className="text-xs font-semibold text-ink">Right to Access</p>
+            <p className="text-xs text-muted">View all locally saved scans anytime in your History dashboard.</p>
+          </div>
+          <div className="rounded-xl border border-line bg-subtle p-3 space-y-1">
+            <p className="text-xs font-semibold text-ink">Right to Portability</p>
+            <p className="text-xs text-muted">Export your full scan history as structured JSON with one click.</p>
+          </div>
+          <div className="rounded-xl border border-line bg-subtle p-3 space-y-1">
+            <p className="text-xs font-semibold text-ink">Right to Erasure</p>
+            <p className="text-xs text-muted">Delete individual scans or wipe your entire history instantly.</p>
+          </div>
+        </div>
+      </section>
+
       <section className="space-y-4">
         <h2 className="text-xl font-semibold text-ink">Local History Storage & Device Ownership</h2>
         <p className="text-body leading-relaxed">
@@ -105,7 +144,11 @@ export default function PrivacyPage() {
       <section className="space-y-4">
         <h2 className="text-xl font-semibold text-ink">Heuristic Scoring & ATS Disclaimers</h2>
         <p className="text-body leading-relaxed">
-          Scores estimate text quality and terminology alignment. They do not certify ATS compatibility, verify qualifications, or predict hiring outcomes. Review extracted text, edited documents and every AI-generated statement before sharing.
+          Scores estimate text quality and terminology alignment. They do not certify ATS compatibility, verify qualifications, or predict hiring outcomes. Review extracted text, edited documents and every AI-generated statement before sharing. Please also review our{' '}
+          <Link href="/terms" className="font-medium text-brand hover:underline">
+            Terms of Service
+          </Link>
+          .
         </p>
       </section>
 

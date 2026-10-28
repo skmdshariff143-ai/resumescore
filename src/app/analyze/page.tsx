@@ -81,16 +81,14 @@ function AnalyzeContent() {
       if (targetMode === 'job_match' && targetJobText.trim().length < 20) throw new Error('Paste a job description first.');
       let data: { success: boolean; data?: ResumeScore; error?: string };
       if (localOnly) {
-        const [{ parseResume }, { parseJobDescription }, { calculateResumeScore }] = await Promise.all([
-          import('@/lib/parsing/resume-parser'), import('@/lib/jobs/job-parser'), import('@/lib/scoring/scoring-engine'),
-        ]);
-        const parsed = parseResume(text, fileName);
+        const { parseResume, scoreResume, parseJob } = await import('resumescore-core');
+        const parsed = parseResume(text, { fileName });
         if (extraction) Object.assign(parsed.metadata, {
           pageCountEstimate: extraction.pageCount, extractionQuality: extraction.extractionQuality,
           hasTwoColumns: extraction.diagnostics.twoColumnDetected, isScanned: extraction.isScanned,
         });
-        data = { success: true, data: calculateResumeScore(parsed,
-          targetMode === 'job_match' ? parseJobDescription(targetJobText) : undefined, targetMode, careerLevel) };
+        const targetJob = targetMode === 'job_match' ? parseJob(targetJobText) : undefined;
+        data = { success: true, data: scoreResume(parsed, { job: targetJob, mode: targetMode, careerLevel }) };
       } else {
       const res = await fetch('/api/analyze', {
         method: 'POST',

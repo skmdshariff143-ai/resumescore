@@ -1,0 +1,20 @@
+{
+  "id": "eval-01-student",
+  "persona": "Computer Science Undergraduate",
+  "targetCareerLevel": "student",
+  "license": "MIT (Synthetic Data, No PII)",
+  "provenance": "Hand-authored synthetic calibration test record based on standard university career service guidelines.",
+  "expectedMetrics": {
+    "expectedCareerLevel": "student",
+    "expectedSectionTypes": ["summary", "education", "projects", "skills"],
+    "expectedSkillSubstrings": ["Python", "Java", "SQL", "Git"],
+    "expectedScoreBands": {
+      "impact": [30, 65],
+      "brevity": [40, 98],
+      "style": [60, 95],
+      "softSkills": [50, 85]
+    }
+  },
+  "resumeText": "Maya Lin\nmayalin.student@example.com | (555) 234-5678 | San Jose, CA | linkedin.com/in/mayalin-synth\n\nOBJECTIVE\nEnthusiastic third-year Computer Science student seeking a Summer Software Engineering Internship to apply skills in Python, algorithms, and full-stack development.\n\nEDUCATION\nCalifornia State University, Long Beach\nBachelor of Science in Computer Science | Expected Graduation: May 2026\nGPA: 3.82 / 4.0 | Dean's Honor List (All Semesters)\nRelevant Coursework: Data Structures & Algorithms, Object-Oriented Programming, Database Systems, Computer Networks\n\nTECHNICAL SKILLS\nLanguages: Python, Java, C++, TypeScript, SQL\nFrameworks & Libraries: React, Node.js, Express, Flask\nDeveloper Tools: Git, GitHub, VS Code, Linux, Docker, Postman\n\nPROJECTS\nCampus Event Hub | Full-Stack Web Application\n- Developed a responsive full-stack event discovery portal using React, Node.js, and PostgreSQL for 1,200 active campus student users.\n- Built RESTful API endpoints for user authentication, event registration, and bookmarking, reducing query response times by 30%.\n- Integrated email notifications and calendar invites using third-party APIs and automated CI/CD checks via GitHub Actions.\n\nAlgorithmic Pathfinding Visualizer | Python & Pygame\n- Implemented Dijkstra, A*, and Breadth-First Search algorithms to visualize shortest paths on grid maps with custom obstacle density.\n- Optimized memory consumption by 25% by replacing unindexed arrays with min-heaps for priority queue operations.\n\nCAMPUS LEADERSHIP & ACTIVITIES\nTreasurer & Peer Tutor | Association for Computing Machinery (ACM)\n- Tutored 45+ lower-division students in discrete mathematics and introductory Python programming.\n- Managed student chapter budget of $4,500, allocating funds for hackathons, guest speakers, and technical workshops.",
+  "jobText": "Role: Software Engineering Intern (Summer 2026)\nLocation: Mountain View, CA (Hybrid)\n\nAbout the Role:\nWe are looking for an ambitious Computer Science student to join our platform engineering team for a 12-week summer internship. You will collaborate with senior engineers to design, build, and deploy high-performance web applications.\n\nRequired Qualifications:\n- Currently pursuing a Bachelor's degree in Computer Science, Computer Engineering, or related technical field.\n- Demonstrated proficiency in at least one modern programming language: Python, Java, or TypeScript.\n- Solid understanding of core computer science fundamentals: Data Structures, Algorithms, and Object-Oriented Design.\n- Hands-on experience with version control (Git and GitHub).\n- Strong communication and collaborative problem-solving skills.\n\nPreferred Qualifications:\n- Familiarity with web frameworks (React, Node.js, Express) and relational databases (SQL, PostgreSQL).\n- Experience building RESTful APIs or contributing to open-source software.\n- Prior leadership in campus clubs or hackathon participation."
+}

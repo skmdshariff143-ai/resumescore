@@ -144,11 +144,10 @@ export function runATSChecks(resume: ResumeParsed): ATSAnalysis {
   score -= warnings * 10;
   score = Math.max(20, Math.min(100, score));
 
-  let grade: ATSGrade = 'Excellent';
-  if (score >= 90) grade = 'Excellent';
-  else if (score >= 75) grade = 'Strong';
-  else if (score >= 55) grade = 'Needs Improvement';
-  else grade = 'High Risk';
+  const grade: ATSGrade =
+    score >= 90 ? 'Excellent' :
+    score >= 75 ? 'Strong' :
+    score >= 55 ? 'Needs Improvement' : 'High Risk';
 
   const summary =
     criticalIssues === 0 && warnings === 0

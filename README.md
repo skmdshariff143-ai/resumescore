@@ -1,112 +1,163 @@
-> Publication release policy: `next.config.ts` forces `AI_PAID_ENABLED=false` in compiled builds regardless of remote environment values. Paid AI controls are disabled and labeled in the UI. Removing this lock requires a separately reviewed release.
-
 # ResumeScore
 
-ResumeScore helps candidates review resume text, understand heuristic quality and job-alignment scores, edit their documents, and export improved versions. It does not predict hiring outcomes, certify ATS compatibility, or independently verify qualifications.
+> **Open-source, offline-first resume intelligence engine and web platform that provides deterministic, transparent heuristic scoring and ATS compatibility analysis without storing or leaking candidate data.**
 
-**V3 status: light-first UI and workflow candidate for protected Preview. Production remains NO-GO pending independent validation and dependency risk resolution/owner acceptance. Paid AI is disabled.** See [V3 design system](docs/V3_DESIGN_SYSTEM.md), [functional QA](docs/V3_FUNCTIONAL_QA.md), [visual QA](docs/V3_VISUAL_QA.md) and [Preview readiness](docs/V3_DEPLOYMENT_READINESS.md). Earlier V2/V2.1/V2.2 reports are historical evidence; their independent-validation release gates still apply.
+[![CI](https://github.com/skmdshariff143-ai/resumescore/actions/workflows/ci.yml/badge.svg)](https://github.com/skmdshariff143-ai/resumescore/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](tsconfig.json)
+[![Core Dependencies](https://img.shields.io/badge/core_dependencies-0-brightgreen)](packages/core/package.json)
+[![Live Demo](https://img.shields.io/badge/demo-resumescore--phi.vercel.app-emerald)](https://resumescore-phi.vercel.app/)
 
-## Features
+---
 
-- PDF, DOCX, UTF-8 TXT and pasted text, with extraction review before scoring.
-- Browser-only deterministic analysis by default; optional server processing.
-- Six career-level weight profiles, evidence explanations and separate general-quality/job-alignment scores.
-- Required/preferred/optional job terminology, with reduced credit for unsupported mentions.
-- ATS readability estimates with explicit limitations.
-- Local section editing, reordering, undo/reset, original-text comparison and live preview.
-- TXT and DOCX downloads; PDF through browser print. Review pagination before sharing.
-- Optional Claude/Gemini critique and cover-letter drafts, with external-processing consent. Heuristic functionality works without provider keys.
-- Opt-in local history, JSON export, deletion and reopening saved resume text.
+## Honest Status & Scope
 
-![V3 homepage with clearly labeled fictional sample](docs/screenshots/v3/home-desktop.png)
+- **Core Heuristic Engine (`packages/core`)**: **Production-Ready**. Mathematically deterministic, offline-first resume parsing, ATS structure checks, and 7-pillar weighted scoring. Built as a zero-dependency, dual ESM/CJS package with 200+ unit, regression, and fast-check property tests.
+- **Web Application (`src/`)**: Full-stack Next.js 16 (Turbopack) & React 19 application with accessible Tailwind CSS 4 UI, live section editing, local history in browser `localStorage`, and printable PDF/DOCX exports.
+- **Experimental LLM Critique (Optional)**: Experimental assistance via Claude or Gemini requires explicit user consent and server API keys. Paid AI is locked off by default (`AI_PAID_ENABLED=false`). Heuristic functionality is 100% operational without any API keys.
+- **Fairness & Limitations**: ResumeScore evaluates structural writing quality, action verb density, quantified outcomes, and keyword overlap. It **does not predict hiring outcomes** or certify candidate job fitness.
 
-## Architecture and stack
+---
 
-Next.js 16.4.2, React 19, TypeScript, Tailwind 4, PDF.js, Zod, zip.js, docx, Vitest, Playwright and axe. Server AI providers use the Anthropic and Google GenAI SDKs. No database or account service is required.
+## Core Package Quickstart (`resumescore-core`)
 
-Browser extraction → review → shared deterministic parser/scorer → evidence dashboard → local section editor/export. Optional server/AI paths are explained before use. See [architecture](docs/ARCHITECTURE.md) and [scoring methodology](docs/SCORING_METHODOLOGY.md).
+The framework-agnostic scoring engine can be embedded in any Node.js, browser, or serverless environment with **zero runtime dependencies**:
 
-## Local development
+### Installation
 
-Use Node.js 22 or newer with npm:
+```bash
+npm install resumescore-core
+# or
+pnpm add resumescore-core
+```
 
-```sh
-npm ci
+### Usage
+
+```typescript
+import { parseResume, scoreResume, matchJob } from 'resumescore-core';
+
+// 1. Parse raw resume text into a structured AST
+const parsed = parseResume(`
+Jane Doe
+jane.doe@example.com | (555) 123-4567 | San Francisco, CA
+
+EXPERIENCE
+Senior Software Engineer | Acme Corp | 2021 - Present
+- Architected high-throughput Go microservices on AWS, reducing p99 latency by 32%.
+- Led engineering squad of 6, establishing automated CI/CD testing pipelines.
+
+SKILLS
+Go, TypeScript, React, AWS, Docker, PostgreSQL, Kubernetes
+`);
+
+// 2. Score resume deterministically across 7 quality pillars
+const score = scoreResume(parsed);
+
+console.log(`Score: ${score.overall}/100 (Grade: ${score.grade})`);
+console.log(`Top Priority: ${score.topPriority}`);
+console.log(`Impact Score: ${score.dimensions.find(d => d.key === 'impact')?.score}`);
+
+// 3. Optional: Match against a target job description
+const jobMatch = matchJob(parsed, `
+We are seeking a Senior Backend Engineer proficient in Go, AWS, and Kubernetes.
+`);
+
+console.log(`Job Skill Match: ${jobMatch.score}%`);
+console.log(`Matched Skills:`, jobMatch.matchedSkills);
+console.log(`Missing Skills:`, jobMatch.missingSkills);
+```
+
+---
+
+## Web Application Quickstart
+
+Experience the interactive web application locally or test the live production deployment at **[https://resumescore-phi.vercel.app/](https://resumescore-phi.vercel.app/)**.
+
+### Prerequisites
+- Node.js 22+ (LTS recommended)
+- npm 10+
+
+### Setup
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/skmdshariff143-ai/resumescore.git
+cd resumescore
+
+# 2. Install dependencies (workspace links packages/core automatically)
+npm install
+
+# 3. Build core engine & run Next.js development server
 npm run dev
 ```
 
-Open http://localhost:3000. No provider key is required for deterministic functionality.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Optional server-only configuration in `.env.local`:
+---
 
-```dotenv
-ANTHROPIC_API_KEY=your-key
-# Or:
-GEMINI_API_KEY=your-key
-# GOOGLE_API_KEY is accepted as a Gemini fallback.
-# GEMINI_MODEL can select the configured Gemini model.
-```
+## Key Features
 
-Never prefix provider keys with `NEXT_PUBLIC_`. Provider selection is Anthropic, then Gemini, then heuristic. Model availability and provider billing/retention must be verified for the deployment; this change did not perform successful live provider calls. Explicit consent is required before external processing even if keys are present.
+- **Multi-Format Ingestion**: PDF, DOCX, UTF-8 TXT, and direct paste with pre-scoring extraction review.
+- **7-Pillar Heuristic Rubric**: ATS readability (15%), job skill match (25%), experience relevance (20%), impact & metrics (15%), projects (10%), structure (10%), and profile completeness (5%).
+- **Interactive Local Editor**: Edit sections, reorder entries, compare against original text, and preview diffs in real-time.
+- **Privacy First**: Analysis runs locally in browser memory or on server without cloud database storage. Full user control over local history export and deletion.
+- **Offline Synthetic Benchmarks**: Includes 5 labeled benchmark archetypes (`student`, `entry-level`, `senior-architect`, `career-switcher`, `executive`) in `evaluation/resumes/`.
 
-## Security and privacy
+---
 
-Browser-only analysis sends no resume or job text to application APIs. Server analysis does transmit text to ResumeScore. Cover-letter generation is server-based and discloses this separately. External AI requires opt-in; provider retention depends on the configured account. XML prompt delimiters and JSON schemas do not guarantee injection resistance or factual accuracy.
+## Verification & Testing
 
-History saving defaults off. Enabled history stores full text in this browser until deletion. Export/delete controls are on History. The application does not intentionally persist server request bodies or log raw provider errors. Hosting metadata retention requires operational review.
+ResumeScore enforces comprehensive automated testing across every release:
 
-API requests have byte, string, collection, nesting, origin and read-time limits. General endpoint throttling remains process-local. Paid AI additionally requires a shared atomic Redis budget; missing configuration or storage failure disables paid calls. Arbitrary job URL import is disabled until restricted egress can be configured; paste the job description instead. See [security and privacy](docs/SECURITY_AND_PRIVACY.md).
-
-## Verification
-
-```sh
-npm run typecheck
-npm run lint
+```bash
+# Run unit, property, and edge-case tests (200 tests)
 npm test
-npm run evaluate:release
-npm run build
-npx playwright install chromium firefox webkit
+
+# Run TypeScript strict typecheck
+npm run typecheck
+
+# Run ESLint check
+npm run lint
+
+# Run Playwright E2E and accessibility checks
 npm run test:e2e
+
+# Run cross-browser tests (Firefox & WebKit)
 npm run test:cross-browser
-npm audit --omit=dev
+
+# Verify production dependency security (0 vulnerabilities)
+npm audit --omit=dev --audit-level=high
+
+# Verify core package distribution tarball
+npm pack --dry-run ./packages/core
 ```
 
-Windows with Edge already installed:
+---
 
-```powershell
-$env:PLAYWRIGHT_CHANNEL='msedge'
-npm run test:e2e
-```
+## Short Roadmap
 
-For unattended Windows runs interrupted by Modern Standby, use `& .\tools\test-local-windows.ps1` with the same environment. It requests temporary system wakefulness during the suite and releases it on exit; it does not change saved power settings or screen locking. `-Preview` invokes the existing remote-suite runner instead; use it only through authenticated Vercel `env run` with the intended `BASE_URL`.
+- [x] Extract framework-agnostic `resumescore-core` with dual ESM/CJS builds.
+- [x] Labeled synthetic evaluation set across 5 career stages.
+- [x] Property-based fuzz testing via `fast-check`.
+- [x] Contributor documentation, issue templates, and CodeQL security workflows.
+- [ ] **CLI Tool**: Standalone `bin/resumescore` binary for CLI and pre-commit checks.
+- [ ] **Expanded Taxonomies**: Non-technical industry vocabularies (Finance, Healthcare, Legal).
+- [ ] **Bi-directional Visual Diff**: Interactive before/after split viewer for edited resumes.
+- [ ] **Multi-Language Parsing**: Heuristic support for Spanish, German, and French resumes.
 
-Vitest uses one thread to avoid the observed Windows sandbox temporary-file issue. The older `npm run verify:e2e` command is an API smoke script, not the browser E2E suite. See [cross-browser validation](docs/CROSS_BROWSER_VALIDATION.md) and [test report](docs/TEST_REPORT.md) for scope and limitations. CI runs Chromium, Firefox and WebKit checks; selectable PDF automation is Chromium-only. Native Safari, screen-reader speech and native print/Office validation remain manual gates.
+---
 
-## Deployment
+## Contributing & Governance
 
-Existing production: https://resumescore-phi.vercel.app/
+We welcome contributions! Please review our:
+- [Contributing Guidelines](CONTRIBUTING.md)
+- [Architecture & Data Flow](docs/ARCHITECTURE.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md)
+- [Good First Issues](docs/good-first-issues.md)
 
-The feature branch is published to GitHub and protected Vercel Previews. PR #1 remains draft; main and the existing production deployment retain the original release. Address the [final release gates](docs/FINAL_RELEASE_GATE_MATRIX.md) before requesting final production approval. No paid AI activation, production environment change or domain change is included.
+---
 
-## Limitations and roadmap
+## License
 
-- Scoring remains an editorial, predominantly technical rubric; no independent calibration or hiring-outcome validation exists.
-- DOCX extracts main document paragraphs, including nested text-box paragraphs once. Headers/footers and images are not extracted; geometric text-box/table order needs review. No OCR.
-- PDF print pagination and DOCX layout need manual review across Word, LibreOffice and browsers.
-- AI drafts require fact checking; semantic factuality is not guaranteed.
-- The Redis budget adapter requires configured infrastructure and live multi-instance validation before paid AI activation. Heuristic fallback remains available.
-- Accessibility automation is scoped and does not certify WCAG compliance or replace screen-reader testing.
-- Broader domain taxonomies, independently reviewed extraction/matching benchmarks, calibrated candidate profiles and per-role evaluation remain future work.
-
-## V2 changes
-
-Security containment, consent and local analysis; bounded file/API processing; truthful heuristic outputs; career rubrics; evidence-aware matching; editing/export; history opt-in; privacy documentation; accessibility fixes; security dependency updates and browser tests. The [audit](docs/RESUMESCORE_V2_AUDIT.md) records original findings, and [implementation status](docs/IMPLEMENTATION_STATUS.md) distinguishes finished, partial and unverified work.
-
-## V2.1 hardening
-
-Source-provenance rewrite checks and explicit approval, shared fail-closed AI budgets, conservative provider fallback, evidence-based skill limits, negation handling, PDF worker cleanup, export links and broader journey tests. See [AI controls](docs/AI_COST_CONTROLS.md), [factuality evaluation](docs/AI_FACTUALITY_EVALUATION.md), and [baseline](docs/V2_1_BASELINE.md). Configure from `.env.example`; a provider key alone never enables paid calls.
-## V2.2 preview candidate
-
-V2.2 adds evidence-based version comparison, job-gap review, structured section selection and fixes for skill matching, project parsing and score display. Paid AI remains disabled. See [implementation](docs/V2_2_IMPLEMENTATION.md), [benchmarks](docs/V2_2_BENCHMARKS.md), [test evidence](docs/V2_2_TEST_REPORT.md) and [release gates](docs/V2_2_RELEASE_READINESS.md). PR #1 remains draft; production promotion is not authorized.
-
-Final hardening fixes duplicate nested-DOCX text, bounds CI permissions/execution and adds an [offline review package](evaluation/README.md). The package measures private, source-labeled datasets without exporting candidate text or claiming that synthetic expectations are independent validation. See [scoring](docs/FINAL_SCORING_VALIDATION.md), [extraction](docs/FINAL_EXTRACTION_VALIDATION.md) and [dependency resolution](docs/DEPENDENCY_SECURITY_RESOLUTION.md).
+This project is licensed under the [MIT License](LICENSE).

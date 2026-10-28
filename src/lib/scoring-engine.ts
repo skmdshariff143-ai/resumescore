@@ -1,4 +1,4 @@
 /**
- * Backwards compatibility re-export for the scoring engine.
+ * Backwards compatibility re-export: delegating to the decoupled resumescore-core package.
  */
-export * from './scoring/scoring-engine';
+export * from 'resumescore-core';

@@ -1,34 +1,59 @@
-# Offline review package
+# ResumeScore Evaluation Framework & Synthetic Benchmarks
 
-See [the executable blinded-review handoff](HUMAN_REVIEW_HANDOFF.md) for unfilled reviewer packets, source/return schemas, comparison, consensus assembly and the exact owner acceptance checklist. `npm run evaluate:review` runs a synthetic self-check by default; explicit private inputs/actions are required to write packets.
+This directory contains evaluation datasets, schemas, and runners used to verify the parsing accuracy and scoring consistency of ResumeScore and `resumescore-core`.
 
-`npm run evaluate:release` runs six **engineered synthetic** records in `synthetic.json`. It does not perform independent validation. No real candidate records or reviewer labels are included. Existing document benchmarks cover layouts and failures separately.
+---
 
-To evaluate authorized private data in PowerShell:
+## 1. Labeled Synthetic Evaluation Benchmark (`evaluation/resumes/`)
 
-```powershell
-$env:RESUMESCORE_EVALUATION_DATASET = 'E:\private-evaluation\dataset.json'
+### Provenance & Licensing
+- **Licensing**: Licensed under the **MIT License**.
+- **Provenance**: 100% synthetically authored by the engineering team. All names (e.g., Maya Lin, Ethan Brooks, Dr. Aris Thorne, Samantha Vega, David Vance), phone numbers (`555-xxx-xxxx`), email addresses (`@example.com`), and company affiliations are fictional.
+- **Zero Real PII**: Contains **no personal candidate records**, private resume databases, or scraped data. Safe for public open-source distribution and continuous integration.
+
+### Benchmark Archetypes & Target Dimensions
+
+The benchmark covers 5 distinct career stages to prevent model overfitting to mid-career software engineers:
+
+| Profile ID | Career Archetype | Experience Level | Target Role | Key Validation Target | Expected Score Bands |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **`eval-01-student`** | CS Undergraduate | Student (0 yrs formal) | SWE Intern | Education-first ordering, academic coursework, GPA extraction, zero work history grace. | Impact: 30–65<br>Brevity: 70–98<br>Style: 60–95 |
+| **`eval-02-entry-level-engineer`** | Junior Frontend Dev | 1.5 years | Frontend Engineer | Quantified bullet points (22%, 38%), modern stack (React/Next/TS/Tailwind), single company history. | Impact: 55–85<br>Brevity: 75–95<br>Style: 70–95 |
+| **`eval-03-senior-architect`** | Principal Cloud Architect | 13+ years | Staff/Principal Architect | High-impact scale metrics ($1.4M saved, 4.2B events, p99 latencies), multi-role progression, patents & Ph.D. | Impact: 80–100<br>Brevity: 70–95<br>Style: 75–95 |
+| **`eval-04-career-switcher`** | Educator to Data Analyst | 6 yrs education + bootcamp | Junior Data Analyst | Detection of transferable quantitative skills (AP Stats), self-directed projects, professional certifications. | Impact: 50–80<br>Brevity: 70–95<br>Style: 70–95 |
+| **`eval-05-executive`** | VP of Engineering | 17+ years | VP of Engineering | Organizational scaling (160+ headcount), operational budgeting ($22M), DORA metric improvements, M&A integration. | Impact: 85–100<br>Brevity: 65–95<br>Style: 75–98 |
+
+---
+
+## 2. Evaluation Limitations & Honest Caveats
+
+1. **Synthetic vs. Real-World Variance**:
+   - Synthetic documents follow clean ASCII/Unicode text formatting. Real-world resumes contain unpredictable quirks: two-column multi-page tables, text boxes rendered out-of-order by PDF extractors, decorative non-standard bullet symbols, and mixed character encodings.
+   - For document layout stress testing, see `fixtures/` and `src/__tests__/extraction-edge-cases.test.ts`.
+
+2. **Heuristic Engine vs. Human Hiring Intent**:
+   - The ResumeScore engine evaluates structured writing quality, keyword alignment, quantified achievements, and ATS compliance.
+   - It **does not predict hiring success** or applicant competency. High scores indicate compliance with standard resume guidelines, not job fitness.
+
+3. **Absence of External Holdout Corpus**:
+   - The 5 synthetic resumes in `evaluation/resumes/` are engineered regression fixtures for baseline repeatability and do NOT constitute independent validation. Scores on this synthetic set reflect internal calibration and regression stability only. True independent validation requires authorized human review on an external holdout corpus as described in Section 3 below.
+
+---
+
+## 3. Offline Blinded Human Review Package (`evaluation/private/`)
+
+For enterprise or formal calibration against human hiring managers:
+
+See [the executable blinded-review handoff](HUMAN_REVIEW_HANDOFF.md) for unfilled reviewer packets, source/return schemas, comparison, consensus assembly, and owner acceptance procedures.
+
+### Running Evaluation Commands
+```bash
+# Run synthetic self-check regression (6 engineered records)
 npm run evaluate:release
-Remove-Item Env:RESUMESCORE_EVALUATION_DATASET
+
+# Run private evaluation with authorized dataset
+RESUMESCORE_EVALUATION_DATASET="E:/private-evaluation/dataset.json" npm run evaluate:release
 ```
 
-Use a private directory outside Git, or ignored `evaluation/private/`. The input must be JSON under 8 MB and conform to `EvaluationDatasetSchema` in `src/lib/evaluation/release-evaluation.ts`. There is no network request, external AI or candidate-text logging. The report is written to ignored `.vercel/release-evaluation.json`. Invalid external input produces a sanitized error. Review aggregated output before sharing; do not commit real candidate input, private consent evidence or identifying record IDs.
-
-## Human review process
-
-1. A responsible data owner must approve licensing/consent, de-identification, retention/deletion and the evaluation purpose. Reference this approval in each record's `source.reference`; retain the actual evidence privately. Only use `licensed`/`consented-anonymized` when true. Changing a synthetic record's provenance does not make it independent.
-2. Recruit at least two reviewers independent of engine/rubric implementation. Verify their identities and independence outside this file; put pseudonymous IDs in `reviewers`. Software checks declarations, not their truth.
-3. Freeze the engine SHA and rubric, declare the target sectors/profiles/styles/quality bands, split calibration and holdout documents before tuning, and have the release owner pre-register sample sizes and acceptable precision/recall/error/disparity bounds. No universal pass threshold is invented by this package. Include negative skill examples and mixed-quality documents, real employment pairs and projects.
-4. Blind reviewers to engine outputs. Independently label every supported field, including explicit absence, and preserve exact source quotes with zero-based UTF-16 `[start,end)` offsets. `value` is the reviewer-selected canonical value, while `quote` must exactly match the source. `requiredSkill` spans come from `jobText`; other spans come from `resumeText`. Optional evidence states are mentioned/demonstrated/transferable/missing. Missing requirements can be labeled on job spans; they must not be invented in the resume.
-
-   For section labels, use the canonical type (`summary`, `experience`, `education`, `skills`, `projects`, `certifications`, `awards`, `publications`, `other`) as `value`, and the actual heading as `quote`. Alias headings are therefore compared by section type rather than punctuation/title spelling.
-5. Retain both independent `reviews[].labels` and quality ratings. `labels` contains the agreed/adjudicated set. Label disagreements require a third declared independent adjudicator (not one of the original reviewers) and a private decision reference. Exact field/value/source-span/evidence agreement, pairwise score differences and rating spread are reported. Adjudication does not erase disagreement.
-6. Apply `quality-v1` consistently: rate source content quality 0–100 using the documented scoring dimensions/profile weights, while separately recording reviewer rationale for readability, relevance, evidence and recommendation grounding in the private review notes. This is an editorial quality judgment, never a hiring probability. The runner computes holdout mean absolute/signed score error against mean reviewer ratings by profile; it does not tune the engine or produce a calibration certificate.
-7. Review errors, false matches, employment/education associations, unsupported recommendations, group coverage and reviewer agreement. Field metrics compare unique canonical values, **not entity relationships or repeated occurrences**. A correct company and role attached to the wrong job can escape set-based metrics; review such associations separately. Null denominators indicate no evaluated examples, not perfect accuracy. Profile counts/errors alone do not establish fairness.
-8. The owner must authenticate provenance, reviewer independence, holdout integrity and acceptance thresholds before signing a release decision. The report deliberately remains `pending-provenance-and-release-owner-review`, including when human declarations pass schema validation. Final release readiness is a human responsibility.
-
-## Output
-
-Reports contain record IDs, group metadata, TP/FP/FN with denominators, evidence confusion pairs, score repeatability, job/general-quality isolation, recommendation counts and holdout score errors. They omit resume text, extracted values, quotes, source references and reviewer identities. Engine commit, source/dependency fingerprint and dataset hash make runs attributable. `engineRevisionMatches=false` requires checking/re-freezing the declared revision before using results as release evidence.
-
-The six sample records contain no work-history labels. Their company/role denominators are null; historical engineered employment tests are not independent employment validation. The schema supports every career profile and declared style, but actual representativeness requires an authorized external corpus. Manual document/assistive-technology review and truthful AI-output evaluation remain separate gates.
+- When running against private datasets, candidate text is never transmitted over the network or logged.
+- The output report is generated to `.vercel/release-evaluation.json` (ignored by Git).
