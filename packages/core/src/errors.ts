@@ -1,5 +1,5 @@
 /**
- * Custom error classes for @REPLACE_ME/resumescore-core.
+ * Custom error classes for resumescore-core.
  */
 
 export class ResumeScoreError extends Error {

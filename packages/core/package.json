@@ -1,5 +1,5 @@
 {
-  "name": "@REPLACE_ME/resumescore-core",
+  "name": "resumescore-core",
   "version": "0.1.0",
   "description": "Framework-agnostic deterministic resume parser, 7-pillar scoring engine, and semantic job matcher.",
   "license": "MIT",

@@ -19,22 +19,22 @@
 
 ---
 
-## Core Package Quickstart (`@REPLACE_ME/resumescore-core`)
+## Core Package Quickstart (`resumescore-core`)
 
 The framework-agnostic scoring engine can be embedded in any Node.js, browser, or serverless environment with **zero runtime dependencies**:
 
 ### Installation
 
 ```bash
-npm install @REPLACE_ME/resumescore-core
+npm install resumescore-core
 # or
-pnpm add @REPLACE_ME/resumescore-core
+pnpm add resumescore-core
 ```
 
 ### Usage
 
 ```typescript
-import { parseResume, scoreResume, matchJob } from '@REPLACE_ME/resumescore-core';
+import { parseResume, scoreResume, matchJob } from 'resumescore-core';
 
 // 1. Parse raw resume text into a structured AST
 const parsed = parseResume(`
@@ -136,7 +136,7 @@ npm pack --dry-run ./packages/core
 
 ## Short Roadmap
 
-- [x] Extract framework-agnostic `@REPLACE_ME/resumescore-core` with dual ESM/CJS builds.
+- [x] Extract framework-agnostic `resumescore-core` with dual ESM/CJS builds.
 - [x] Labeled synthetic evaluation set across 5 career stages.
 - [x] Property-based fuzz testing via `fast-check`.
 - [x] Contributor documentation, issue templates, and CodeQL security workflows.

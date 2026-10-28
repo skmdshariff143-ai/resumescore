@@ -1,4 +1,4 @@
-# @REPLACE_ME/resumescore-core
+# resumescore-core
 
 > Deterministic, framework-agnostic resume parsing, 7-pillar quality scoring, and semantic job matching engine.
 
@@ -6,7 +6,7 @@
 [![TypeScript: Strict](https://img.shields.io/badge/TypeScript-Strict-blue)](https://www.typescriptlang.org/)
 [![Zero Dependencies](https://img.shields.io/badge/dependencies-0-success)](package.json)
 
-`@REPLACE_ME/resumescore-core` provides pure TypeScript algorithms to extract structured sections from resume text, audit ATS readability, compute deterministic quality scores, and perform layered semantic job matching.
+`resumescore-core` provides pure TypeScript algorithms to extract structured sections from resume text, audit ATS readability, compute deterministic quality scores, and perform layered semantic job matching.
 
 - **Zero Runtime Dependencies**: No React, no Next.js, no DOM, no Node built-ins. Runs in Node.js, Cloudflare Workers, Deno, Bun, and modern browsers.
 - **100% Deterministic**: Mathematical scoring guarantees exact repeatability—identical inputs yield identical scores.
@@ -18,13 +18,13 @@
 
 ```bash
 # npm
-npm install @REPLACE_ME/resumescore-core
+npm install resumescore-core
 
 # pnpm
-pnpm add @REPLACE_ME/resumescore-core
+pnpm add resumescore-core
 
 # yarn
-yarn add @REPLACE_ME/resumescore-core
+yarn add resumescore-core
 ```
 
 ---
@@ -32,7 +32,7 @@ yarn add @REPLACE_ME/resumescore-core
 ## Quickstart
 
 ```typescript
-import { parseResume, scoreResume, matchJob } from '@REPLACE_ME/resumescore-core';
+import { parseResume, scoreResume, matchJob } from 'resumescore-core';
 
 // 1. Parse plain text into structured intermediate representation
 const resumeText = `

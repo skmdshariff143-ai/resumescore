@@ -1,6 +1,6 @@
 # ResumeScore Evaluation Framework & Synthetic Benchmarks
 
-This directory contains evaluation datasets, schemas, and runners used to verify the parsing accuracy and scoring consistency of ResumeScore and `@REPLACE_ME/resumescore-core`.
+This directory contains evaluation datasets, schemas, and runners used to verify the parsing accuracy and scoring consistency of ResumeScore and `resumescore-core`.
 
 ---
 

@@ -138,7 +138,7 @@ When a user uploads a resume, the application parses and scores the document in 
 
 ---
 
-## Issue 6: [CLI] Add Standalone CLI Entry Point to `@REPLACE_ME/resumescore-core`
+## Issue 6: [CLI] Add Standalone CLI Entry Point to `resumescore-core`
 
 - **Labels**: `feature`, `good first issue`
 - **Difficulty**: Intermediate

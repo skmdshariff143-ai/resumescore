@@ -8,7 +8,7 @@ ResumeScore is architected as a modular monorepo cleanly separating the **determ
 
 ```mermaid
 graph TD
-    subgraph Core ["packages/core (@REPLACE_ME/resumescore-core)"]
+    subgraph Core ["packages/core (resumescore-core)"]
         Parser["Deterministic Parser<br/>(Intermediate AST)"]
         Rubric["7-Pillar Heuristic Rubric<br/>(Mathematical Scoring)"]
         Taxonomy["Semantic Matcher & Taxonomies<br/>(Subsumption Graph)"]

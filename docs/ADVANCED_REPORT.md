@@ -15,7 +15,7 @@ Over the course of this transformation, ResumeScore was systematically evolved f
 ### What Was Accomplished:
 - **Phase 0 (Architecture & Audit)**: Authored comprehensive architecture and separation roadmap in [`docs/ADVANCED_PLAN.md`](ADVANCED_PLAN.md).
 - **Phase 1 (Release Gate Closure & Security Audit)**: Eliminated all production and development security vulnerabilities (`0 vulnerabilities` in `npm audit`). Measured and raised test coverage across resume parsing and scoring modules. Formally updated [`docs/FINAL_RELEASE_GATE_MATRIX.md`](FINAL_RELEASE_GATE_MATRIX.md) and PR #1 on GitHub with honest caveats.
-- **Phase 2 (Package Extraction)**: Extracted framework-agnostic engine into [`packages/core`](../packages/core) (`@REPLACE_ME/resumescore-core`) using npm workspaces. Configured dual ESM/CommonJS builds with full TypeScript declarations (`.d.ts` / `.d.mts`) and zero runtime dependencies. Re-wired Next.js web application to consume the package directly.
+- **Phase 2 (Package Extraction)**: Extracted framework-agnostic engine into [`packages/core`](../packages/core) (`resumescore-core`) using npm workspaces. Configured dual ESM/CommonJS builds with full TypeScript declarations (`.d.ts` / `.d.mts`) and zero runtime dependencies. Re-wired Next.js web application to consume the package directly.
 - **Phase 3 (Quality & Synthetic Benchmarks)**: Created 5 labeled, non-PII synthetic evaluation profiles in [`evaluation/resumes/`](../evaluation/resumes/) representing diverse career archetypes (`student`, `entry-level`, `senior-architect`, `career-switcher`, `executive`). Authored extraction edge-case regressions and property-based fuzz tests using `fast-check`. Total test count expanded from 165 to 200 passing tests.
 - **Phase 4 (Contributor Experience & CI Governance)**: Established full open-source governance: [`CONTRIBUTING.md`](../CONTRIBUTING.md), [`CODE_OF_CONDUCT.md`](../CODE_OF_CONDUCT.md), [`SECURITY.md`](../SECURITY.md), GitHub issue and pull request templates, comprehensive architecture guide with Mermaid diagrams ([`docs/ARCHITECTURE.md`](ARCHITECTURE.md)), 6 beginner-friendly issues ([`docs/good-first-issues.md`](good-first-issues.md)), Dependabot automation, and CodeQL security analysis.
 - **Phase 5 (Positioning & Quickstarts)**: Redesigned the top section of [`README.md`](../README.md) with clear value proposition, verified badges, npm installation quickstart, live demo links, and transparent release status.
@@ -61,7 +61,7 @@ All metrics below are derived directly from actual commands executed during the 
 - Configured `tsup` for rapid dual builds:
   - CommonJS: `dist/index.js` + `dist/index.d.ts`
   - ECMAScript Modules: `dist/index.mjs` + `dist/index.d.mts`
-- Replaced internal web app imports with `@REPLACE_ME/resumescore-core` in `src/app/api/analyze/route.ts` and `src/app/analyze/page.tsx`.
+- Replaced internal web app imports with `resumescore-core` in `src/app/api/analyze/route.ts` and `src/app/analyze/page.tsx`.
 - Added legacy re-exports in `src/lib/scoring-engine.ts` for backward compatibility.
 - Verified packaging with `npm pack --dry-run ./packages/core`.
 
@@ -93,11 +93,11 @@ All metrics below are derived directly from actual commands executed during the 
 
 In accordance with our hard rule not to publish to npm or merge PRs without explicit approval, here are the exact manual steps for you to complete when ready:
 
-### Step 1: Publish `@REPLACE_ME/resumescore-core` to npm
+### Step 1: Publish `resumescore-core` to npm
 1. Choose your desired public npm package name (for example, `@resumescore/core` or `resumescore-core`):
    ```bash
    # In packages/core/package.json, change:
-   # "name": "@REPLACE_ME/resumescore-core" -> "@your-scope/resumescore-core"
+   # "name": "resumescore-core" -> "@your-scope/resumescore-core"
    ```
 2. Log in to npm:
    ```bash

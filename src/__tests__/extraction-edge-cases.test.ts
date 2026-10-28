@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseResume, scoreResume, type SectionType } from '@REPLACE_ME/resumescore-core';
+import { parseResume, scoreResume, type SectionType } from 'resumescore-core';
 import studentRecord from '../../evaluation/resumes/01-student.json';
 import entryRecord from '../../evaluation/resumes/02-entry-level-engineer.json';
 import seniorRecord from '../../evaluation/resumes/03-senior-architect.json';

@@ -139,15 +139,15 @@ Reviewing the current gate matrix from candidate commit `e2e8ba8` against curren
 4. Update `docs/FINAL_RELEASE_GATE_MATRIX.md` with current SHA, closed technical gates, and explicit honest caveats.
 5. Review and prepare PR description for review.
 
-### Phase 2: Extract `@REPLACE_ME/resumescore-core` Workspace Package
+### Phase 2: Extract `resumescore-core` Workspace Package
 1. Configure npm workspaces in root `package.json` (`"workspaces": ["packages/*"]`).
 2. Scaffold `packages/core/`:
-   - `package.json` (`@REPLACE_ME/resumescore-core`, type: module, exports for ESM & CJS, sideEffects: false).
+   - `package.json` (`resumescore-core`, type: module, exports for ESM & CJS, sideEffects: false).
    - Pure TypeScript source structure with zero external dependencies.
    - Public API: `parseResume(text: string)`, `scoreResume(parsed, options)`, `matchJob(parsed, jobText)`.
    - Comprehensive TypeScript definitions (`.d.ts`).
 3. Wire build pipeline using `tsup` or `tsc` producing dual ESM (`dist/index.js`) and CJS (`dist/index.cjs`).
-4. Update web application to consume `@REPLACE_ME/resumescore-core` via workspace link.
+4. Update web application to consume `resumescore-core` via workspace link.
 5. Verify `npm pack --dry-run` and bundle size metrics.
 
 ### Phase 3: Evaluation Suite & Property-Based Testing

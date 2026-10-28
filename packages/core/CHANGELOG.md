@@ -1,4 +1,4 @@
-# Changelog — @REPLACE_ME/resumescore-core
+# Changelog — resumescore-core
 
 All notable changes to this package will be documented in this file.
 

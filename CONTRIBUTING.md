@@ -8,14 +8,14 @@ Thank you for your interest in contributing to ResumeScore! Whether you are fixi
 
 ResumeScore is structured as an npm workspaces monorepo:
 
-- **`packages/core` (`@REPLACE_ME/resumescore-core`)**:
+- **`packages/core` (`resumescore-core`)**:
   - Pure, framework-agnostic TypeScript library.
   - Zero runtime dependencies (`dependencies: {}`).
   - Dual builds for Node.js (CommonJS) and modern bundlers/browsers (ESM) via `tsup`.
   - Exposes `parseResume`, `scoreResume`, `matchJob`, `parseJob`, `compareResumeVersions`, rubrics, taxonomies, and domain types.
 - **Root (`/`)**:
   - Full-stack web application built on **Next.js 16**, **React 19**, **Tailwind CSS 4**, and **Turbopack**.
-  - Consumes `@REPLACE_ME/resumescore-core` via standard npm workspace linking.
+  - Consumes `resumescore-core` via standard npm workspace linking.
 
 ```
 resumescore/
@@ -125,7 +125,7 @@ npm pack --dry-run ./packages/core
 ## Development Standards & Principles
 
 1. **Zero External AI in Core**:
-   - `@REPLACE_ME/resumescore-core` must **never** depend on network APIs, OpenAI/Gemini SDKs, or remote endpoints. All parsing and scoring heuristics must remain pure, offline, and mathematically deterministic.
+   - `resumescore-core` must **never** depend on network APIs, OpenAI/Gemini SDKs, or remote endpoints. All parsing and scoring heuristics must remain pure, offline, and mathematically deterministic.
 2. **Deterministic Heuristics**:
    - `scoreResume(parseResume(text))` must produce the exact same numerical scores and advice every time.
 3. **No Secret Storage**:

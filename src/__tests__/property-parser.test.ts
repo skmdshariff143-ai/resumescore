@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import fc from 'fast-check';
-import { parseResume, scoreResume } from '@REPLACE_ME/resumescore-core';
+import { parseResume, scoreResume } from 'resumescore-core';
 
 describe('Property-Based Parser & Scorer Robustness (fast-check)', () => {
   it('never throws unhandled errors on arbitrary unicode or chaotic strings (fuzzing)', () => {

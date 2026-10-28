@@ -16,7 +16,7 @@ Is your feature request related to a problem or limitation? Please describe. (e.
 Describe the solution you'd like. Be specific about APIs or user experience.
 
 ## Package vs. Web App Scope
-- [ ] Belongs in framework-agnostic `@REPLACE_ME/resumescore-core` (deterministic heuristic, taxonomy, AST)
+- [ ] Belongs in framework-agnostic `resumescore-core` (deterministic heuristic, taxonomy, AST)
 - [ ] Belongs in Next.js web application (`src/app/`, UI, export, local storage)
 - [ ] Both
 

@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@REPLACE_ME/resumescore-core": ["./packages/core/src/index.ts"]
+      "resumescore-core": ["./packages/core/src/index.ts"]
     }
   },
   "include": [

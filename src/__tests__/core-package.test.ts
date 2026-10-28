@@ -10,9 +10,9 @@ import {
   JobMatchError,
   CAREER_LEVELS,
   RUBRIC_WEIGHTS,
-} from '@REPLACE_ME/resumescore-core';
+} from 'resumescore-core';
 
-describe('@REPLACE_ME/resumescore-core Public API', () => {
+describe('resumescore-core Public API', () => {
   const sampleResumeText = `
 Alex Developer
 alex@example.com | 555-123-4567 | Austin, TX

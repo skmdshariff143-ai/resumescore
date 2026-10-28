@@ -81,7 +81,7 @@ function AnalyzeContent() {
       if (targetMode === 'job_match' && targetJobText.trim().length < 20) throw new Error('Paste a job description first.');
       let data: { success: boolean; data?: ResumeScore; error?: string };
       if (localOnly) {
-        const { parseResume, scoreResume, parseJob } = await import('@REPLACE_ME/resumescore-core');
+        const { parseResume, scoreResume, parseJob } = await import('resumescore-core');
         const parsed = parseResume(text, { fileName });
         if (extraction) Object.assign(parsed.metadata, {
           pageCountEstimate: extraction.pageCount, extractionQuality: extraction.extractionQuality,

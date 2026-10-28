@@ -31,7 +31,7 @@ Please send a detailed report via email to:
 
 ### 1. In-Memory Processing & Privacy Guarantee
 ResumeScore operates under an offline-first, client-side privacy model:
-- The core parsing and scoring engine (`@REPLACE_ME/resumescore-core`) runs entirely in memory without making external network requests.
+- The core parsing and scoring engine (`resumescore-core`) runs entirely in memory without making external network requests.
 - Candidate resume text is **never persisted to external databases** or transmitted to third-party telemetry aggregators during heuristic analysis.
 - When optional LLM critique features are explicitly enabled by users, requests are transmitted only to user-configured API endpoints with strict sanitization.
 

@@ -1,1 +1,1 @@
-export { compareResumeVersions } from '@REPLACE_ME/resumescore-core';
+export { compareResumeVersions } from 'resumescore-core';

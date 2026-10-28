@@ -1,5 +1,5 @@
 /**
- * @REPLACE_ME/resumescore-core
+ * resumescore-core
  *
  * Framework-agnostic deterministic resume parser, 7-pillar scoring engine,
  * and semantic job matcher. Pure TypeScript with zero runtime dependencies.

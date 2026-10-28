@@ -12,7 +12,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      '@REPLACE_ME/resumescore-core': fileURLToPath(new URL('./packages/core/src/index.ts', import.meta.url)),
+      'resumescore-core': fileURLToPath(new URL('./packages/core/src/index.ts', import.meta.url)),
     },
   },
 });

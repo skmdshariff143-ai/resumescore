@@ -11,7 +11,7 @@ Closes # (issue number if applicable)
 - [ ] Code refactoring / test addition
 
 ## Packages / Areas Affected
-- [ ] `@REPLACE_ME/resumescore-core`
+- [ ] `resumescore-core`
 - [ ] Web application (`src/app/`, Next.js UI)
 - [ ] Test suites & Benchmarks (`src/__tests__/`, `evaluation/`)
 - [ ] CI / GitHub Actions

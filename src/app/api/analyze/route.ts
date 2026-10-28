@@ -1,7 +1,7 @@
 import { readRequestJSON, requestErrorResponse } from '@/lib/validation/request';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { parseResume, scoreResume, parseJob } from '@REPLACE_ME/resumescore-core';
+import { parseResume, scoreResume, parseJob } from 'resumescore-core';
 import { checkRateLimit, createRateLimitResponse } from '@/lib/rate-limit';
 
 const AnalyzeRequestSchema = z.object({
