@@ -2,9 +2,13 @@
   "name": "resumescore",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build:core": "tsup packages/core/src/index.ts --format cjs,esm --dts --clean --out-dir packages/core/dist",
+    "build": "npm run build:core && next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
@@ -26,6 +30,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.125.0",
     "@google/genai": "^2.22.0",
+    "@REPLACE_ME/resumescore-core": "*",
     "@zip.js/zip.js": "^2.24.0",
     "canvas-confetti": "^1.9.4",
     "docx": "^9.13.0",
@@ -50,6 +55,7 @@
     "eslint-config-next": "^16.4.2",
     "lint-staged": "^17.5.1",
     "tailwindcss": "^4",
+    "tsup": "^9.0.0",
     "typescript": "^5",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"

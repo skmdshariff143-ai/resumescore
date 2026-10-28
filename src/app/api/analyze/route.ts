@@ -1,9 +1,7 @@
 import { readRequestJSON, requestErrorResponse } from '@/lib/validation/request';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { parseResume } from '@/lib/parsing/resume-parser';
-import { parseJobDescription } from '@/lib/jobs/job-parser';
-import { calculateResumeScore } from '@/lib/scoring/scoring-engine';
+import { parseResume, scoreResume, parseJob } from '@REPLACE_ME/resumescore-core';
 import { checkRateLimit, createRateLimitResponse } from '@/lib/rate-limit';
 
 const AnalyzeRequestSchema = z.object({
@@ -42,15 +40,15 @@ export async function POST(req: NextRequest) {
     if (mode === 'job_match' && (!jobText || jobText.trim().length < 20)) {
       return NextResponse.json({ error: 'Paste a job description of at least 20 characters.' }, { status: 400 });
     }
-    const parsedResume = parseResume(resumeText, fileName);
+    const parsedResume = parseResume(resumeText, { fileName });
     if (validated.data.extraction) Object.assign(parsedResume.metadata, validated.data.extraction);
 
     let parsedJob = undefined;
     if (mode === 'job_match' && jobText && jobText.trim().length > 20) {
-      parsedJob = parseJobDescription(jobText);
+      parsedJob = parseJob(jobText);
     }
 
-    const score = calculateResumeScore(parsedResume, parsedJob, mode, careerLevel);
+    const score = scoreResume(parsedResume, { job: parsedJob, mode, careerLevel });
 
     return NextResponse.json({ success: true, data: score });
   } catch (err: unknown) {
