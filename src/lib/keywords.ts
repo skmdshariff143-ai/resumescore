@@ -34,7 +34,7 @@ export const SKILL_CATEGORIES_MAP: Record<SkillCategory, readonly string[]> = {
     'Cloud Run', 'App Engine', 'Azure Functions', 'IAM'
   ],
   devops: [
-    'Docker', 'Kubernetes', 'K8s', 'Terraform', 'Ansible', 'Jenkins', 'GitHub Actions',
+    'Docker', 'Kubernetes', 'K8s', 'Kafka', 'Apache Kafka', 'RabbitMQ', 'Terraform', 'Ansible', 'Jenkins', 'GitHub Actions',
     'GitLab CI', 'CircleCI', 'CI/CD', 'Helm', 'ArgoCD', 'Prometheus', 'Grafana',
     'Datadog', 'Splunk', 'ELK Stack', 'Nginx', 'Apache', 'Linux', 'Ubuntu', 'Debian',
     'CentOS', 'OpenTelemetry', 'Vault', 'Puppet', 'Chef'
@@ -57,7 +57,7 @@ export const SKILL_CATEGORIES_MAP: Record<SkillCategory, readonly string[]> = {
     'Vulnerability Assessment', 'Zero Trust', 'RBAC', 'WAF', 'DevSecOps', 'SIEM'
   ],
   tools: [
-    'Git', 'GitHub', 'GitLab', 'Bitbucket', 'Jira', 'Confluence', 'Figma',
+    'Git', 'GitHub', 'GitLab', 'Bitbucket', 'Jira', 'Confluence', 'Figma', 'Tableau', 'Power BI',
     'Postman', 'Swagger', 'OpenAPI', 'VS Code', 'Webpack', 'Vite', 'Babel',
     'TurboRepo', 'npm', 'yarn', 'pnpm', 'Notion', 'Slack', 'Linear', 'Trello'
   ],
@@ -65,10 +65,10 @@ export const SKILL_CATEGORIES_MAP: Record<SkillCategory, readonly string[]> = {
     'Leadership', 'Team Leadership', 'Mentorship', 'Code Reviews', 'Agile',
     'Scrum', 'Kanban', 'Cross-Functional Collaboration', 'Communication',
     'Problem Solving', 'Critical Thinking', 'Project Management', 'Stakeholder Management',
-    'Technical Writing', 'System Design', 'Architecture'
+    'Technical Writing', 'System Design', 'Architecture', 'Strategy'
   ],
   domain_knowledge: [
-    'Financial Modeling', 'Financial Reporting', 'Budgeting', 'GAAP', 'Bookkeeping',
+    'Data Analysis', 'Data Analytics', 'Statistics', 'Financial Modeling', 'Financial Reporting', 'Budgeting', 'GAAP', 'Bookkeeping',
     'Accounts Payable', 'Risk Assessment', 'Auditing', 'Procurement', 'Market Research',
     'Content Marketing', 'Campaign Management', 'Social Media Marketing', 'Copywriting',
     'Patient Care', 'Clinical Documentation', 'Infection Control', 'Vital Signs',

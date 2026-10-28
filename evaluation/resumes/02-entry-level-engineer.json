@@ -1,0 +1,20 @@
+{
+  "id": "eval-02-entry-level-engineer",
+  "persona": "Junior Full-Stack Engineer",
+  "targetCareerLevel": "entry",
+  "license": "MIT (Synthetic Data, No PII)",
+  "provenance": "Hand-authored synthetic calibration test record based on standard junior frontend / full-stack resumes.",
+  "expectedMetrics": {
+    "expectedCareerLevel": "entry",
+    "expectedSectionTypes": ["summary", "experience", "education", "skills", "projects"],
+    "expectedSkillSubstrings": ["React", "TypeScript", "Next.js", "Tailwind CSS", "Jest"],
+    "expectedScoreBands": {
+      "impact": [55, 85],
+      "brevity": [75, 95],
+      "style": [70, 95],
+      "softSkills": [60, 90]
+    }
+  },
+  "resumeText": "Ethan Brooks\nethan.brooks.dev@example.com | (555) 345-6789 | Austin, TX | github.com/ethanbrooks-synth\n\nPROFESSIONAL SUMMARY\nResults-driven Junior Full-Stack Developer with 1.5 years of professional experience building responsive web applications using React, Next.js, and TypeScript. Passionate about component reusability, web accessibility (WCAG AA), and modern build tooling.\n\nEXPERIENCE\nAssociate Frontend Engineer | CloudScale Systems | Austin, TX\nJune 2024 - Present\n- Built and maintained 14 customer-facing dashboard components using Next.js 14, React, and TypeScript, serving over 18,000 monthly active users.\n- Refactored legacy CSS to Tailwind CSS utility modules, decreasing stylesheet payload by 38% and improving Google Lighthouse Performance score from 68 to 92.\n- Implemented end-to-end automated testing with Playwright and unit testing with Vitest, increasing test suite coverage from 54% to 83% across the core customer portal.\n- Collaborated with product designers in Figma to ensure responsive UI parity and strict adherence to WCAG 2.1 AA accessibility guidelines.\n- Partnered with backend engineers to consume RESTful and GraphQL APIs, optimizing client-side caching with TanStack Query to reduce redundant network roundtrips by 28%.\n\nEDUCATION\nUniversity of Texas at Dallas\nBachelor of Science in Software Engineering | Graduated May 2024\nMajor GPA: 3.75 / 4.0\n\nSKILLS\nFrontend: React, Next.js, TypeScript, JavaScript (ES6+), HTML5, CSS3, Tailwind CSS, Redux Toolkit\nBackend & APIs: Node.js, Express, REST APIs, GraphQL, PostgreSQL\nTesting & Tooling: Vitest, Jest, Playwright, Git, Docker, Webpack, Vite, ESLint\n\nKEY PROJECTS\nDevPulse - Open-Source Developer Metrics Dashboard\n- Created an open-source analytics dashboard that visualizes GitHub commit velocity and pull request turnaround times using Next.js and Chart.js.\n- Acquired 150+ GitHub stars and resolved 22 community-reported bug issues across 4 release cycles.",
+  "jobText": "Role: Frontend Software Engineer\nLocation: Austin, TX / Remote\n\nOverview:\nWe are seeking a Frontend Software Engineer with 1-3 years of experience to join our core product team. You will build intuitive web interfaces that power our cloud collaboration platform.\n\nResponsibilities:\n- Develop performant, reusable UI components using React, TypeScript, and modern CSS frameworks (Tailwind CSS).\n- Collaborate with UX designers and backend engineers to translate product specs into production features.\n- Write unit, integration, and end-to-end tests to guarantee product stability.\n- Participate in code reviews, sprint planning, and architectural discussions.\n\nQualifications:\n- 1+ years of professional web development experience with React and TypeScript.\n- Solid understanding of web standards, responsive design, and browser rendering mechanics.\n- Experience with automated testing frameworks (Jest, Vitest, or Playwright).\n- Familiarity with state management libraries and RESTful API integration.\n- Excellent written and verbal communication skills."
+}

@@ -194,6 +194,9 @@ var SKILL_CATEGORIES_MAP = {
     "Docker",
     "Kubernetes",
     "K8s",
+    "Kafka",
+    "Apache Kafka",
+    "RabbitMQ",
     "Terraform",
     "Ansible",
     "Jenkins",
@@ -298,6 +301,8 @@ var SKILL_CATEGORIES_MAP = {
     "Jira",
     "Confluence",
     "Figma",
+    "Tableau",
+    "Power BI",
     "Postman",
     "Swagger",
     "OpenAPI",
@@ -330,9 +335,13 @@ var SKILL_CATEGORIES_MAP = {
     "Stakeholder Management",
     "Technical Writing",
     "System Design",
-    "Architecture"
+    "Architecture",
+    "Strategy"
   ],
   domain_knowledge: [
+    "Data Analysis",
+    "Data Analytics",
+    "Statistics",
     "Financial Modeling",
     "Financial Reporting",
     "Budgeting",
@@ -751,6 +760,30 @@ function cleanLines(text) {
 }
 function matchSectionHeader(line) {
   const normalized = line.toLowerCase().replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, "").trim();
+  if (/(?:summary|profile|objective)/i.test(normalized) && normalized.length < 40) {
+    return { matched: true, type: "summary", title: line.trim() };
+  }
+  if (/(?:experience|employment|work\s+history)/i.test(normalized) && normalized.length < 50) {
+    return { matched: true, type: "experience", title: line.trim() };
+  }
+  if (/(?:education|academic)/i.test(normalized) && normalized.length < 50) {
+    return { matched: true, type: "education", title: line.trim() };
+  }
+  if (/(?:skills?|competenc|expertise|technologies|tech\s+stack)/i.test(normalized) && normalized.length < 45) {
+    return { matched: true, type: "skills", title: line.trim() };
+  }
+  if (/projects?$/i.test(normalized) && normalized.length < 45) {
+    return { matched: true, type: "projects", title: line.trim() };
+  }
+  if (/(?:certif|license|credential)/i.test(normalized) && normalized.length < 45) {
+    return { matched: true, type: "certifications", title: line.trim() };
+  }
+  if (/(?:award|honor)/i.test(normalized) && normalized.length < 40) {
+    return { matched: true, type: "awards", title: line.trim() };
+  }
+  if (/(?:publication)/i.test(normalized) && normalized.length < 40) {
+    return { matched: true, type: "publications", title: line.trim() };
+  }
   for (const header of SECTION_HEADERS) {
     if (normalized === header || normalized.startsWith(header + ":") || normalized.startsWith(header + " -") || normalized.startsWith(header + " |")) {
       let type = "other";
@@ -814,9 +847,13 @@ function extractLocation(text) {
   const lines = cleanLines(text).slice(0, 10);
   const locationRegex = /([A-Z][a-zA-Z\s]+,\s*[A-Z]{2}|[A-Z][a-zA-Z\s]+,\s*[A-Z][a-zA-Z\s]+|\b(Remote|Hybrid|San Francisco|New York|Austin|Seattle|London|Berlin|Toronto|Bangalore|Singapore|Sydney|Dublin)\b)/i;
   for (const line of lines) {
-    const match = line.match(locationRegex);
-    if (match && !/@|github|linkedin/i.test(line)) {
-      return match[0].trim();
+    const parts = line.split(/[|•·\t;]/).map((p) => p.trim()).filter(Boolean);
+    for (const part of parts.length > 1 ? parts : [line]) {
+      if (/@|github|linkedin|\.com/i.test(part)) continue;
+      const match = part.match(locationRegex);
+      if (match) {
+        return match[0].trim();
+      }
     }
   }
   return void 0;
@@ -952,7 +989,7 @@ function parseExperienceSection(expText) {
   };
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const isBullet = /^[•\-*▪►◦‣⁃]\s*/.test(line);
+    const isBullet = /^[•\-*▪►◦‣⁃❖✔★✓→–—]\s*/.test(line);
     const dateMatch = line.match(dateRangePattern);
     if (dateMatch) {
       commitCurrent();
@@ -1035,7 +1072,7 @@ function parseExperienceSection(expText) {
       };
       pendingHeaderLines = [];
     } else if (isBullet) {
-      const cleanBullet = line.replace(/^[•\-*▪►◦‣⁃]\s*/, "").trim();
+      const cleanBullet = line.replace(/^[•\-*▪►◦‣⁃❖✔★✓→–—]\s*/, "").trim();
       if (currentJob) {
         currentJob.bullets.push(cleanBullet);
       } else {
@@ -2272,7 +2309,8 @@ function parseResume2(text, options) {
     throw new ResumeParserError("Resume text must be a string.");
   }
   try {
-    return parseResume(text, (options == null ? void 0 : options.fileName) || "resume.txt");
+    const fileName = typeof options === "string" ? options : (options == null ? void 0 : options.fileName) || "resume.txt";
+    return parseResume(text, fileName);
   } catch (error) {
     throw new ResumeParserError(
       `Failed to parse resume: ${error instanceof Error ? error.message : String(error)}`,

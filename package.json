@@ -53,6 +53,7 @@
     "@vitest/coverage-v8": "^5.0.5",
     "eslint": "^9",
     "eslint-config-next": "^16.4.2",
+    "fast-check": "^4.10.2",
     "lint-staged": "^17.5.1",
     "tailwindcss": "^4",
     "tsup": "^9.0.0",

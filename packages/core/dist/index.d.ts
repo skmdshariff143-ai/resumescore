@@ -484,7 +484,7 @@ declare class JobMatchError extends ResumeScoreError {
  * @returns Structured ResumeParsed document.
  * @throws {ResumeParserError} If input text is invalid.
  */
-declare function parseResume(text: string, options?: ParseResumeOptions): ResumeParsed;
+declare function parseResume(text: string, options?: ParseResumeOptions | string): ResumeParsed;
 /**
  * Computes a 100% deterministic 7-pillar quality and ATS score for a parsed resume.
  *

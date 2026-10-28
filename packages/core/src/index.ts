@@ -32,13 +32,14 @@ import type {
  * @returns Structured ResumeParsed document.
  * @throws {ResumeParserError} If input text is invalid.
  */
-export function parseResume(text: string, options?: ParseResumeOptions): ResumeParsed {
+export function parseResume(text: string, options?: ParseResumeOptions | string): ResumeParsed {
   if (typeof text !== 'string') {
     throw new ResumeParserError('Resume text must be a string.');
   }
 
   try {
-    return internalParseResume(text, options?.fileName || 'resume.txt');
+    const fileName = typeof options === 'string' ? options : options?.fileName || 'resume.txt';
+    return internalParseResume(text, fileName);
   } catch (error) {
     throw new ResumeParserError(
       `Failed to parse resume: ${error instanceof Error ? error.message : String(error)}`,

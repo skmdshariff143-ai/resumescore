@@ -1,0 +1,43 @@
+{
+  "version": "1.0.0",
+  "name": "resumescore-synthetic-evaluation-benchmark",
+  "description": "Five legally safe, non-PII, hand-crafted synthetic evaluation profiles representing diverse career archetypes for heuristic scoring verification.",
+  "license": "MIT",
+  "profiles": [
+    {
+      "id": "eval-01-student",
+      "name": "Maya Lin",
+      "archetype": "student",
+      "targetRole": "Software Engineering Intern",
+      "jsonPath": "evaluation/resumes/01-student.json"
+    },
+    {
+      "id": "eval-02-entry-level-engineer",
+      "name": "Ethan Brooks",
+      "archetype": "entry-level",
+      "targetRole": "Junior Frontend Software Engineer",
+      "jsonPath": "evaluation/resumes/02-entry-level-engineer.json"
+    },
+    {
+      "id": "eval-03-senior-architect",
+      "name": "Dr. Aris Thorne",
+      "archetype": "senior-architect",
+      "targetRole": "Staff / Principal Cloud Architect",
+      "jsonPath": "evaluation/resumes/03-senior-architect.json"
+    },
+    {
+      "id": "eval-04-career-switcher",
+      "name": "Samantha Vega",
+      "archetype": "career-switcher",
+      "targetRole": "Junior Data Analyst",
+      "jsonPath": "evaluation/resumes/04-career-switcher.json"
+    },
+    {
+      "id": "eval-05-executive",
+      "name": "David Vance",
+      "archetype": "executive",
+      "targetRole": "Vice President of Engineering",
+      "jsonPath": "evaluation/resumes/05-executive.json"
+    }
+  ]
+}
