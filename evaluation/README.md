@@ -36,7 +36,7 @@ The benchmark covers 5 distinct career stages to prevent model overfitting to mi
    - It **does not predict hiring success** or applicant competency. High scores indicate compliance with standard resume guidelines, not job fitness.
 
 3. **Absence of External Holdout Corpus**:
-   - Scores on this synthetic set reflect calibration and regression stability. True independent evaluation requires authorized human review on an external holdout corpus as described in Section 3 below.
+   - The 5 synthetic resumes in `evaluation/resumes/` are engineered regression fixtures for baseline repeatability and do NOT constitute independent validation. Scores on this synthetic set reflect internal calibration and regression stability only. True independent validation requires authorized human review on an external holdout corpus as described in Section 3 below.
 
 ---
 
