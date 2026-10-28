@@ -15,6 +15,7 @@ const eslintConfig = defineConfig([
     ".vercel/**",
     "test-results/**",
     "playwright-report/**",
+    "coverage/**",
   ]),
 ]);
 
