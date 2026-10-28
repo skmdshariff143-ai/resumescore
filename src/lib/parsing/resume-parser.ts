@@ -27,6 +27,23 @@ import {
   getSkillRegex,
 } from '../keywords';
 
+function trimPunctuation(str: string): string {
+  const lower = str.toLowerCase();
+  let start = 0;
+  let end = lower.length;
+  while (start < end) {
+    const code = lower.charCodeAt(start);
+    if ((code >= 97 && code <= 122) || (code >= 48 && code <= 57)) break;
+    start++;
+  }
+  while (end > start) {
+    const code = lower.charCodeAt(end - 1);
+    if ((code >= 97 && code <= 122) || (code >= 48 && code <= 57)) break;
+    end--;
+  }
+  return lower.slice(start, end);
+}
+
 function cleanLines(text: string): string[] {
   return text
     .split(/\r?\n/)
@@ -35,11 +52,7 @@ function cleanLines(text: string): string[] {
 }
 
 function matchSectionHeader(line: string): { matched: boolean; type: SectionType; title: string } {
-  const normalized = line
-    .toLowerCase()
-    .trim()
-    .replace(/^[^a-z0-9]+/, '')
-    .replace(/[^a-z0-9]+$/, '');
+  const normalized = trimPunctuation(line);
 
   for (const header of SECTION_HEADERS) {
     if (
@@ -65,6 +78,16 @@ function matchSectionHeader(line: string): { matched: boolean; type: SectionType
   return { matched: false, type: 'other', title: '' };
 }
 
+function isDomainMatch(urlStr: string, domain: string): boolean {
+  try {
+    const full = urlStr.startsWith('http') ? urlStr : 'https://' + urlStr;
+    const hostname = new URL(full).hostname.toLowerCase();
+    return hostname === domain || hostname.endsWith('.' + domain);
+  } catch {
+    return false;
+  }
+}
+
 function extractStructuredLinks(text: string): {
   links: string[];
   structured: LinkItem[];
@@ -85,9 +108,8 @@ function extractStructuredLinks(text: string): {
 
   for (const raw of unique) {
     const fullUrl = raw.startsWith('http') ? raw : 'https://' + raw;
-    const lowerRaw = raw.toLowerCase();
-    const isLinkedIn = /(?:^|https?:\/\/|(?:[a-z0-9-]+\.)*)linkedin\.com(?:\/|$)/i.test(lowerRaw);
-    const isGitHub = /(?:^|https?:\/\/|(?:[a-z0-9-]+\.)*)github\.com(?:\/|$)/i.test(lowerRaw);
+    const isLinkedIn = isDomainMatch(raw, 'linkedin.com');
+    const isGitHub = isDomainMatch(raw, 'github.com');
     if (isLinkedIn && !linkedin) {
       linkedin = fullUrl;
       structured.push({ type: 'linkedin', url: fullUrl, label: 'LinkedIn' });
