@@ -106,7 +106,7 @@ export function calculateResumeScore(
     }
   }
 
-  let skillScoreVal = 70;
+  let skillScoreVal: number;
   const hasJobSkills = Boolean(job && job.requiredSkills.length + job.preferredSkills.length + job.bonusSkills.length);
   if (isJobMatch) {
     const requirements = hasJobSkills ? Object.values(skillMatrix).flat() : [];
@@ -250,7 +250,7 @@ export function calculateResumeScore(
 
   // 6. Structure & Readability (10%)
   const wordCount = resume.wordCount;
-  let readScoreVal = 60;
+  let readScoreVal: number;
   const earlyCareer = careerLevel === 'student' || careerLevel === 'internship' || careerLevel === 'entry';
   const minimumWords = earlyCareer ? 180 : 350;
   if (wordCount >= minimumWords && wordCount <= 900) readScoreVal = 95;

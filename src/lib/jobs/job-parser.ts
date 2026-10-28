@@ -51,7 +51,7 @@ function extractSeniority(text: string): 'intern' | 'entry' | 'mid' | 'senior' |
 }
 
 function extractMinYears(text: string): number {
-  const match = text.match(/(\d+)\+?\s*(?:to\s*\d+)?\s*(?:years?|yrs?)(?:\s+of)?\s+(?:experience|exp)/i);
+  const match = text.match(/(\d{1,2})\+?(?:\s*-\s*\d{1,2})?\s*(?:years?|yrs?)(?:\s+of)?\s+(?:experience|exp)/i);
   if (match) {
     return parseInt(match[1], 10);
   }

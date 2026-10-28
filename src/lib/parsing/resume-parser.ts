@@ -37,8 +37,9 @@ function cleanLines(text: string): string[] {
 function matchSectionHeader(line: string): { matched: boolean; type: SectionType; title: string } {
   const normalized = line
     .toLowerCase()
-    .replace(/^[^a-z0-9]+|[^a-z0-9]+$/g, '')
-    .trim();
+    .trim()
+    .replace(/^[^a-z0-9]+/, '')
+    .replace(/[^a-z0-9]+$/, '');
 
   for (const header of SECTION_HEADERS) {
     if (
@@ -84,10 +85,13 @@ function extractStructuredLinks(text: string): {
 
   for (const raw of unique) {
     const fullUrl = raw.startsWith('http') ? raw : 'https://' + raw;
-    if (/linkedin\.com/i.test(raw) && !linkedin) {
+    const lowerRaw = raw.toLowerCase();
+    const isLinkedIn = /(?:^|https?:\/\/|(?:[a-z0-9-]+\.)*)linkedin\.com(?:\/|$)/i.test(lowerRaw);
+    const isGitHub = /(?:^|https?:\/\/|(?:[a-z0-9-]+\.)*)github\.com(?:\/|$)/i.test(lowerRaw);
+    if (isLinkedIn && !linkedin) {
       linkedin = fullUrl;
       structured.push({ type: 'linkedin', url: fullUrl, label: 'LinkedIn' });
-    } else if (/github\.com/i.test(raw) && !github) {
+    } else if (isGitHub && !github) {
       github = fullUrl;
       structured.push({ type: 'github', url: fullUrl, label: 'GitHub' });
     } else if (/portfolio|vercel\.app|netlify\.app|github\.io/i.test(raw) && !portfolio) {
@@ -537,7 +541,7 @@ export function parseResume(rawText: string, fileName: string = 'resume.txt'): R
 
   const personalInfo: PersonalInfo = {
     name: nameInfo.name,
-    email: trimmed.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}/)?.[0],
+    email: trimmed.match(/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}\b/)?.[0],
     phone: trimmed.match(/(?:\+?\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]?\d{3,4}/)?.[0],
     // Do not treat a reordered comma-separated skills list as a location.
     location: extractLocation(sections.find(section => section.type === 'header')?.content || ''),
