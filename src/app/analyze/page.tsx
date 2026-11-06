@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, startTransition, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
 import { FileUpload } from '@/components/FileUpload';
 import { ScoreCard } from '@/components/ScoreCard';
 import { SkillMatrixView } from '@/components/analysis/SkillMatrixView';
@@ -16,11 +17,15 @@ import { StepIndicator } from '@/components/ui/StepIndicator';
 import { getScanHistory, saveScanHistory } from '@/lib/storage/history-store';
 import type { AnalysisMode, ResumeScore, SkillMatchItem, ResumeCritique } from '@/types';
 
-type AnalyzeTab = 'overview' | 'skills' | 'ats' | 'rewrites' | 'review' | 'critique' | 'job';
+type AnalyzeTab = 'overview' | 'skills' | 'ats' | 'rewrites' | 'review' | 'critique' | 'job' | 'tailor';
 import { Target, Shield } from 'lucide-react';
 import { CAREER_LEVELS, type CareerLevel } from '@/lib/scoring/rubric';
 import { ResumeWorkspace } from '@/components/analysis/ResumeWorkspace';
 import type { PDFExtractionResult } from '@/lib/parsing/pdf-extractor';
+
+const TailorFlow = dynamic(() => import('@/components/tailor/TailorFlow').then(mod => mod.TailorFlow), {
+  loading: () => <p role="status">Loading tailoring tools…</p>,
+});
 
 function AnalyzeContent() {
   const searchParams = useSearchParams();
@@ -281,6 +286,7 @@ function AnalyzeContent() {
             {[
               { key: 'overview', label: 'Overview' },
               { key: 'job', label: 'Job Match' },
+              ...(score.mode === 'job_match' ? [{ key: 'tailor', label: 'Tailor to this job' }] : []),
               { key: 'skills', label: 'Skills' },
               { key: 'ats', label: 'ATS Readability Estimate' },
               { key: 'rewrites', label: 'Improvements' },
@@ -310,7 +316,12 @@ function AnalyzeContent() {
             />
           )}
 
-          {activeTab === 'job' && <section className="panel space-y-4"><h3 className="text-xl font-semibold">Job description match</h3>{score.mode === 'job_match' ? <><p>Evidence-weighted terminology alignment: {Object.values(score.skillMatrix ?? {}).flat().length ? score.skillMatchScore + '/100' : 'Unavailable — no recognized requirements'}.</p><p className="text-sm text-muted">Skills are inferred from text, not verified proficiency. Licensing, eligibility and other unrecognized requirements need manual review.</p><SkillMatrixView matrix={score.skillMatrix}/></> : <><p className="text-muted">Add a target job description to compare recognized requirements with your resume evidence.</p><button className="action action-primary" onClick={() => { invalidate(); setMode('job_match'); }}>Add a job description</button></>}</section>}
+          {activeTab === 'job' && <section className="panel space-y-4"><h3 className="text-xl font-semibold">Job description match</h3>{score.mode === 'job_match' ? <><p>Evidence-weighted terminology alignment: {Object.values(score.skillMatrix ?? {}).flat().length ? score.skillMatchScore + '/100' : 'Unavailable — no recognized requirements'}.</p><p className="text-sm text-muted">Skills are inferred from text, not verified proficiency. Licensing, eligibility and other unrecognized requirements need manual review.</p><SkillMatrixView matrix={score.skillMatrix}/><button className="action action-primary" onClick={() => setActiveTab('tailor')}>Start tailoring for this job</button></> : <><p className="text-muted">Add a target job description to compare recognized requirements with your resume evidence.</p><button className="action action-primary" onClick={() => { invalidate(); setMode('job_match'); }}>Add a job description</button></>}</section>}
+          {activeTab === 'tailor' && score.mode === 'job_match' && (
+            <TailorFlow key={score.id} resumeText={score.parsedResume.rawText} score={score}
+              onReanalyze={text => { setResumeText(text); runAnalysis(text, currentFileName); }} />
+          )}
+
           {activeTab === 'skills' && (
             <SkillMatrixView matrix={score.skillMatrix} />
           )}

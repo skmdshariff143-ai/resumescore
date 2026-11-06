@@ -1,0 +1,17 @@
+Sam Rivera
+sam.rivera@example.com
+SUMMARY
+Backend developer focused on reliable data services.
+EXPERIENCE
+Software Engineer | Example Logistics | 2022 - Present
+- Built REST APIs in Python serving 2 million requests per day.
+- Containerized the billing service using Docker.
+- Developed ML models to forecast shipment delays.
+- No experience with Kubernetes yet; deployments use managed VMs.
+PROJECTS
+Inventory tracker
+- Developed an inventory dashboard using Django and PostgreSQL.
+EDUCATION
+Bachelor of Science in Computer Science | Example University | 2021
+SKILLS
+Python, SQL

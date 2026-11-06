@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [Unreleased]
+
+### Tailor to this job
+
+#### Added
+- **"Tailor to this job" tab** in Job Description Match results: Identify keywords → Optimize resume → Apply with confidence. Browser-only and deterministic; no new routes or provider keys. See `docs/TAILOR_TO_JOB.md`.
+- `src/lib/tailoring/`: keyword evidence analysis (aliases in both directions, negation-aware), evidence-backed suggestions with source citations, scoped `verifyStatement` checks plus a token-diff guard, caps against keyword stuffing, user-asserted evidence lines, a review reducer with undo/reset, and before/after scoring.
+- `src/components/tailor/`: accessible step UI (focus moves to each step heading, `aria-pressed` decisions, `<ins>` additions, live progress status).
+- Tests: tailoring unit and adversarial suites, a jsdom component test, and a Playwright journey with axe checks and DOCX round-trip.
+- Dev dependencies (test only): `jsdom`, `@testing-library/react`, `@testing-library/dom`, `@testing-library/user-event`.
+
+#### Changed
+- Download and print helpers moved to `src/lib/export/download.ts`; `ResumeWorkspace` uses them with unchanged behaviour.
+- `RESUME_HEADINGS` (resume-document) and `PRACTICAL_ACTION` (semantic-matcher) are now exported for reuse; matching behaviour is unchanged.
+
+---
+
 ## [0.4.0] - 2026-09-13
 
 ### Phase 4: Google Gemini Provider & Multi-Provider Architecture

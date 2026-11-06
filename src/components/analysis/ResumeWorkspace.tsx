@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { ReviewedRewrite } from './ReviewedRewrite';
-import { printableResumeHTML, resumeBlocksToText, splitResumeBlocks, type ResumeBlock } from '@/lib/export/resume-document';
+import { resumeBlocksToText, splitResumeBlocks, type ResumeBlock } from '@/lib/export/resume-document';
+import { downloadResumeDOCX, downloadResumeText, printResume, PRINT_HINT } from '@/lib/export/download';
 import { compareResumeVersions } from '@/lib/scoring/comparison';
 import type { ResumeScore } from '@/types';
 
@@ -21,37 +22,13 @@ export function ResumeWorkspace({ original, onAnalyze, analysis }: { original: s
     setUndo(previous => [...previous.slice(-19), blocks]);
     setBlocks(next);
   }
-  function download() {
-    const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
-    const anchor = document.createElement('a');
-    anchor.href = url; anchor.download = 'resume.txt'; anchor.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
-  function print() {
-    const frame = document.createElement('iframe');
-    frame.title = 'Printable resume';
-    frame.style.position = 'fixed'; frame.style.width = '1px'; frame.style.height = '1px';
-    frame.srcdoc = printableResumeHTML(blocks);
-    frame.onload = () => {
-      if (!frame.contentWindow) return;
-      frame.contentWindow.focus(); frame.contentWindow.print();
-      setMessage('Choose Save as PDF in the print dialog. Review page breaks and disable browser headers and footers.');
-    };
-    document.body.appendChild(frame);
-    // Printing may be asynchronous; keep the frame long enough for the dialog.
-    setTimeout(() => frame.remove(), 120_000);
-  }
+  const download = () => downloadResumeText(blocks);
+  const print = () => printResume(blocks, () => setMessage(PRINT_HINT));
   async function downloadDOCX() {
     if (exporting) return;
     setExporting(true);
-    try {
-      const { createDOCXResume } = await import('@/lib/export/docx-resume');
-      const blob = await createDOCXResume(blocks);
-      const url = URL.createObjectURL(blob);
-      const anchor = document.createElement('a');
-      anchor.href = url; anchor.download = 'resume.docx'; anchor.click();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    } catch { setMessage('DOCX export failed. Download TXT or try printing your resume instead.'); } finally { setExporting(false); }
+    try { await downloadResumeDOCX(blocks); }
+    catch { setMessage('DOCX export failed. Download TXT or try printing your resume instead.'); } finally { setExporting(false); }
   }
   return (
     <section className="panel space-y-5" aria-label="Resume improvement workspace">

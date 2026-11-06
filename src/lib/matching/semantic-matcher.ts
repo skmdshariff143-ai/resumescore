@@ -23,6 +23,9 @@ import {
   getSkillRegex,
 } from '../keywords';
 
+/** Action verbs that count a line as practical evidence rather than a mention. */
+export const PRACTICAL_ACTION = /\b(architected|re-engineered|engineered|spearheaded|built|developed|implemented|designed|analyzed|managed|prepared|delivered|created|maintained|supported|treated|assisted|researched|led|reduced|improved|optimized|tested|audited)\b/i;
+
 /** Find the primary skill category for a given skill */
 export function getCategoryForSkill(skill: string): SkillCategory {
   const norm = skill.toLowerCase();
@@ -252,7 +255,7 @@ export function buildSkillMatrix(
       const terms = [item.skill, item.aliasMatched].filter((term): term is string => Boolean(term));
       const practicalLine = resumeText.split(/\r?\n/).find(line =>
         terms.some(term => getSkillRegex(term).test(line)) &&
-        /\b(architected|re-engineered|engineered|spearheaded|built|developed|implemented|designed|analyzed|managed|prepared|delivered|created|maintained|supported|treated|assisted|researched|led|reduced|improved|optimized|tested|audited)\b/i.test(line) &&
+        PRACTICAL_ACTION.test(line) &&
         !/\b(no|not|never|without|learning|plan to|want to|hope to)\b/i.test(line) &&
         !/^\s*(skills|requirements|technologies)\s*:/i.test(line));
       item.evidenceLevel = practicalLine ? (item.taxonomyRelationship ? 'transferable' : 'demonstrated') : 'mentioned';
