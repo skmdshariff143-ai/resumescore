@@ -22,6 +22,10 @@ import {
   TAXONOMY_RELATIONSHIPS,
   getSkillRegex,
 } from '../keywords';
+import { isNegated, mentions } from './evidence-terms';
+
+/** Action verbs that count a line as practical evidence rather than a mention. */
+export const PRACTICAL_ACTION = /\b(architected|re-engineered|engineered|spearheaded|built|developed|implemented|designed|analyzed|managed|prepared|delivered|created|maintained|supported|treated|assisted|researched|led|reduced|improved|optimized|tested|audited)\b/i;
 
 /** Find the primary skill category for a given skill */
 export function getCategoryForSkill(skill: string): SkillCategory {
@@ -250,10 +254,21 @@ export function buildSkillMatrix(
     for (const item of items) {
       if (item.status === 'missing') { item.evidenceLevel = 'missing'; continue; }
       const terms = [item.skill, item.aliasMatched].filter((term): term is string => Boolean(term));
-      const practicalLine = resumeText.split(/\r?\n/).find(line =>
-        terms.some(term => getSkillRegex(term).test(line)) &&
-        /\b(architected|re-engineered|engineered|spearheaded|built|developed|implemented|designed|analyzed|managed|prepared|delivered|created|maintained|supported|treated|assisted|researched|led|reduced|improved|optimized|tested|audited)\b/i.test(line) &&
-        !/\b(no|not|never|without|learning|plan to|want to|hope to)\b/i.test(line) &&
+      const mentioning = resumeText.split(/\r?\n/).filter(line => mentions(line, terms));
+      // "No experience with X" is a denial, not evidence: it earns no credit at any match level.
+      if (mentioning.length && mentioning.every(line => isNegated(line, terms))) {
+        Object.assign(item, {
+          status: 'missing', evidenceLevel: 'missing', confidence: 0.9, matchLevel: undefined,
+          evidenceQuote: undefined, aliasMatched: undefined, taxonomyRelationship: undefined,
+          evidence: 'Only negated or aspirational mentions were detected.',
+          reasoning: `The resume mentions "${item.skill}" only in negated or aspirational lines (for example "No experience with ${item.skill}"). These are not counted as evidence.`,
+          suggestion: `If you have genuine ${item.skill} experience, update that line and add a bullet showing how you used it.`,
+        });
+        continue;
+      }
+      const practicalLine = mentioning.find(line =>
+        PRACTICAL_ACTION.test(line) &&
+        !isNegated(line, terms) &&
         !/^\s*(skills|requirements|technologies)\s*:/i.test(line));
       item.evidenceLevel = practicalLine ? (item.taxonomyRelationship ? 'transferable' : 'demonstrated') : 'mentioned';
       if (practicalLine) item.evidenceQuote = practicalLine.trim();

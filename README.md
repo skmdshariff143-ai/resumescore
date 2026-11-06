@@ -12,6 +12,7 @@ ResumeScore helps candidates review resume text, understand heuristic quality an
 - Browser-only deterministic analysis by default; optional server processing.
 - Six career-level weight profiles, evidence explanations and separate general-quality/job-alignment scores.
 - Required/preferred/optional job terminology, with reduced credit for unsupported mentions.
+- "Tailor to this job" (on `/tailor` or from Job Match results): identify keywords, review evidence-backed edits one by one, compare before/after alignment and export. Never inserts keywords the resume does not support ([how it works](docs/TAILOR_TO_JOB.md)).
 - ATS readability estimates with explicit limitations.
 - Local section editing, reordering, undo/reset, original-text comparison and live preview.
 - TXT and DOCX downloads; PDF through browser print. Review pagination before sharing.

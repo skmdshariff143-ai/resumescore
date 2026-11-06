@@ -82,8 +82,9 @@ describe('V2.1 reproducible engineered benchmarks', () => {
     const cases = [
       ['Developed software using Python.', 'demonstrated'],
       ['Python', 'mentioned'],
-      ['Never developed software using Python.', 'mentioned'],
-      ['Learning Python; developed a sample.', 'mentioned'],
+      // Negated or aspirational-only mentions are not evidence and earn no credit.
+      ['Never developed software using Python.', 'missing'],
+      ['Learning Python; developed a sample.', 'missing'],
       ['Managed procurement schedules.', 'missing'],
     ] as const;
     const results = cases.map(([text, expected]) => ({

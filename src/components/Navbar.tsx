@@ -10,7 +10,7 @@ export function Navbar() {
   const toggle = useRef<HTMLButtonElement>(null);
   const links = [
     { href:'/', label:'Home' }, { href:'/analyze', label:'Analyze Resume' },
-    { href:'/analyze?mode=job_match', label:'Job Match' }, { href:'/history', label:'Dashboard' },
+    { href:'/analyze?mode=job_match', label:'Job Match' }, { href:'/tailor', label:'Tailor' }, { href:'/history', label:'Dashboard' },
   ];
   return <header className="sticky top-0 z-50 border-b border-line bg-surface">
     <nav aria-label="Main navigation" onKeyDown={event => { if(event.key === 'Escape') { setOpen(false); toggle.current?.focus(); } }} className="container-shell">

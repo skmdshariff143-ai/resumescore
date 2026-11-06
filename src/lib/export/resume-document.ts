@@ -1,13 +1,13 @@
 export interface ResumeBlock { title: string; content: string }
 
-const HEADINGS = /^(?:professional summary|summary|profile|education|skills|technical skills|work experience|experience|internships?|projects|certifications|achievements|awards|publications|portfolio|volunteering|languages|references)$/i;
+export const RESUME_HEADINGS = /^(?:professional summary|summary|profile|education|skills|technical skills|work experience|experience|internships?|projects|certifications|achievements|awards|publications|portfolio|volunteering|languages|references)$/i;
 
 /** Preserve every source line, including sections the parser did not recognize. */
 export function splitResumeBlocks(text: string): ResumeBlock[] {
   const blocks: ResumeBlock[] = [{ title: '', content: '' }];
   for (const line of text.replace(/\r\n/g, '\n').split('\n')) {
     const heading = line.trim().replace(/:$/, '');
-    if (HEADINGS.test(heading)) blocks.push({ title: heading, content: '' });
+    if (RESUME_HEADINGS.test(heading)) blocks.push({ title: heading, content: '' });
     else blocks[blocks.length - 1].content += line + '\n';
   }
   return blocks.map(block => ({ ...block, content: block.content.trim() }));
