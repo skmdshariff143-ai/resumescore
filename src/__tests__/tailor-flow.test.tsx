@@ -20,9 +20,9 @@ SKILLS
 Python, SQL`;
 const JOB = 'Backend Engineer\nRequired: Python, Machine Learning\nPreferred: PostgreSQL, GraphQL';
 
-function renderFlow(onReanalyze = vi.fn()) {
-  const score = calculateResumeScore(parseResume(RESUME), parseJobDescription(JOB), 'job_match', 'experienced');
-  render(<TailorFlow resumeText={RESUME} score={score} onReanalyze={onReanalyze} />);
+function renderFlow(onReanalyze = vi.fn(), resume = RESUME, job = JOB) {
+  const score = calculateResumeScore(parseResume(resume), parseJobDescription(job), 'job_match', 'experienced');
+  render(<TailorFlow resumeText={resume} score={score} onReanalyze={onReanalyze} />);
   return { user: userEvent.setup(), onReanalyze };
 }
 const card = (name: RegExp) => screen.getByRole('listitem', { name });
@@ -96,6 +96,22 @@ describe('TailorFlow', () => {
     expect(screen.getByRole('button', { name: 'Download DOCX' })).toBeTruthy();
     await user.click(screen.getByRole('button', { name: 'Re-analyze tailored version' }));
     expect(onReanalyze).toHaveBeenCalledWith(expect.stringContaining('- Designed a GraphQL schema for the parts catalog.'));
+  });
+
+  it('prefills an editable draft from the related line for a transferable skill', async () => {
+    const resume = RESUME.replace(' in Python', '').replace('Python, SQL', 'SQL');
+    const { user } = renderFlow(vi.fn(), resume, 'Data Engineer\nRequired: Python');
+    await user.click(screen.getByRole('button', { name: 'Continue to edits' }));
+    const item = card(/Python.*Transferable, review wording/);
+    const box = within(item).getByRole('textbox', { name: /Your evidence line for Python/ }) as HTMLTextAreaElement;
+    expect(box.value).toBe('Developed an inventory dashboard using Django and PostgreSQL.');
+    await user.click(within(item).getByRole('checkbox', { name: /This is true for me/ }));
+    await user.click(within(item).getByRole('button', { name: /Add my line/ }));
+    expect(within(item).getByRole('alert').textContent).toMatch(/Mention Python/);
+    await user.clear(box);
+    await user.type(box, 'Developed an inventory dashboard in Python using Django and PostgreSQL.');
+    await user.click(within(item).getByRole('button', { name: /Add my line/ }));
+    expect(within(card(/Python.*user-asserted/)).getByText(/dashboard in Python using Django/)).toBeTruthy();
   });
 
   it('blocks a user line that does not mention the keyword', async () => {

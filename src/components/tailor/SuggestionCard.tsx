@@ -1,7 +1,7 @@
 'use client';
 
 import { useId, useState } from 'react';
-import { diffWords, MAX_USER_LINE, withUserEvidence, type TailoringSuggestion } from '@/lib/tailoring';
+import { cleanUserLine, diffWords, MAX_USER_LINE, withUserEvidence, type SourceEvidence, type TailoringSuggestion } from '@/lib/tailoring';
 import type { Decision } from '@/lib/tailoring/review-state';
 import { ACTION_LABEL, GAP_COPY, IMPORTANCE_LABEL, statusLabel } from './labels';
 
@@ -15,6 +15,9 @@ interface CardProps {
   onRemoveLine: () => void;
 }
 
+const describeSource = (source: SourceEvidence) =>
+  `“${source.line}” (${source.section || 'opening'}, line ${source.lineIndex + 1})`;
+
 function Proposed({ item }: { item: TailoringSuggestion }) {
   if (item.provenance === 'user-asserted') return <span>{item.proposed}</span>;
   return <>{diffWords(item.original, item.proposed ?? '').map((segment, index) =>
@@ -25,7 +28,9 @@ function UserEvidenceForm({ item, resumeText, sections, onAdd }: {
   item: TailoringSuggestion; resumeText: string; sections: string[]; onAdd: (suggestion: TailoringSuggestion) => void;
 }) {
   const id = useId();
-  const [line, setLine] = useState('');
+  // Transferable skills start from the related line; the keyword check forces a deliberate edit.
+  const draft = item.action === 'review-transferable' && item.sourceEvidence ? cleanUserLine(item.sourceEvidence.line) : '';
+  const [line, setLine] = useState(draft);
   const [section, setSection] = useState(sections[0] ?? 'Experience');
   const [confirmed, setConfirmed] = useState(false);
   const [figuresConfirmed, setFiguresConfirmed] = useState(false);
@@ -43,7 +48,10 @@ function UserEvidenceForm({ item, resumeText, sections, onAdd }: {
       <textarea id={`${id}-line`} rows={2} maxLength={MAX_USER_LINE} value={line} aria-describedby={`${id}-help`}
         aria-invalid={errors.length > 0} className="w-full rounded border border-line bg-surface p-2"
         onChange={event => { setLine(event.target.value); setErrors([]); }} />
-      <p id={`${id}-help`} className="text-xs text-muted">Up to {MAX_USER_LINE} characters. Describe what you did with {item.keyword}. It is marked as your own claim.</p>
+      <p id={`${id}-help`} className="text-xs text-muted">
+        {draft ? `Draft copied from your related line. Edit it to say how you used ${item.keyword}, keeping only what is true. ` : `Describe what you did with ${item.keyword}. `}
+        Up to {MAX_USER_LINE} characters. It is marked as your own claim.
+      </p>
       <label className="block" htmlFor={`${id}-section`}>Add under section</label>
       <select id={`${id}-section`} value={section} onChange={event => setSection(event.target.value)} className="rounded border border-line bg-surface p-2">
         {(sections.length ? sections : ['Experience']).map(title => <option key={title} value={title}>{title}</option>)}
@@ -60,6 +68,7 @@ function UserEvidenceForm({ item, resumeText, sections, onAdd }: {
 export function SuggestionCard({ item, decision, resumeText, sections, onDecide, onAddLine, onRemoveLine }: CardProps) {
   const titleId = useId();
   const needsWording = item.proposed === null;
+  const sources = item.sources ?? (item.sourceEvidence ? [item.sourceEvidence] : []);
   const toggle = (next: Decision) => onDecide(decision === next ? 'clear' : next);
   return (
     <li aria-labelledby={titleId} className="rounded-xl border border-line p-4 space-y-3">
@@ -80,8 +89,11 @@ export function SuggestionCard({ item, decision, resumeText, sections, onDecide,
           <dt className="font-semibold">{item.provenance === 'user-asserted' ? 'Your line' : 'Suggested'}</dt>
           <dd className="break-words"><Proposed item={item} /></dd>
           {item.provenance === 'user-asserted' && <><dt className="font-semibold">Added under</dt><dd>{item.targetHeading}</dd></>}
-          {item.sourceEvidence && <><dt className="font-semibold">Source</dt>
-            <dd className="break-words">“{item.sourceEvidence.line}” ({item.sourceEvidence.section || 'opening'}, line {item.sourceEvidence.lineIndex + 1})</dd></>}
+          {sources.length > 0 && <><dt className="font-semibold">{sources.length > 1 ? 'Sources' : 'Source'}</dt>
+            <dd className="break-words">{sources.length > 1
+              ? <ul className="list-disc pl-5">{sources.map(source => <li key={source.lineIndex}>{describeSource(source)}</li>)}</ul>
+              : describeSource(sources[0])}</dd></>}
+          {item.note && <><dt className="font-semibold">Note</dt><dd>{item.note}</dd></>}
           <dt className="font-semibold">Effect</dt>
           <dd>{item.effect === 'visibility-only' ? 'Visibility only: the score already counts this evidence.' : 'Adds evidence the score can count for this keyword.'}</dd>
           <dt className="font-semibold">Check</dt>

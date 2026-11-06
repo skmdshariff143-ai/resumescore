@@ -30,6 +30,7 @@ const TailorFlow = dynamic(() => import('@/components/tailor/TailorFlow').then(m
 function AnalyzeContent() {
   const searchParams = useSearchParams();
   const initialMode = searchParams?.get('mode') === 'job_match' ? 'job_match' : 'general';
+  const tailorIntent = searchParams?.get('tailor') === '1';
 
   const [mode, setMode] = useState<AnalysisMode>(initialMode);
   const [resumeText, setResumeText] = useState<string | null>(null);
@@ -86,16 +87,8 @@ function AnalyzeContent() {
       if (targetMode === 'job_match' && targetJobText.trim().length < 20) throw new Error('Paste a job description first.');
       let data: { success: boolean; data?: ResumeScore; error?: string };
       if (localOnly) {
-        const [{ parseResume }, { parseJobDescription }, { calculateResumeScore }] = await Promise.all([
-          import('@/lib/parsing/resume-parser'), import('@/lib/jobs/job-parser'), import('@/lib/scoring/scoring-engine'),
-        ]);
-        const parsed = parseResume(text, fileName);
-        if (extraction) Object.assign(parsed.metadata, {
-          pageCountEstimate: extraction.pageCount, extractionQuality: extraction.extractionQuality,
-          hasTwoColumns: extraction.diagnostics.twoColumnDetected, isScanned: extraction.isScanned,
-        });
-        data = { success: true, data: calculateResumeScore(parsed,
-          targetMode === 'job_match' ? parseJobDescription(targetJobText) : undefined, targetMode, careerLevel) };
+        const { analyzeLocally } = await import('@/lib/scoring/local-analysis');
+        data = { success: true, data: await analyzeLocally({ text, fileName, jobText: targetJobText, mode: targetMode, careerLevel, extraction }) };
       } else {
       const res = await fetch('/api/analyze', {
         method: 'POST',
@@ -120,7 +113,8 @@ function AnalyzeContent() {
       if (revision.current !== requestRevision) return;
       if (data.success && data.data) {
         setScore(data.data);
-        setActiveTab('overview');
+        // ?tailor=1 (from the home page) opens the tailoring flow once a job match is ready.
+        setActiveTab(tailorIntent && data.data.mode === 'job_match' ? 'tailor' : 'overview');
         setReviewOpen(false);
 
         // Fetch qualitative critique asynchronously

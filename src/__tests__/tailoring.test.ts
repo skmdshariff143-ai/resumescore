@@ -146,6 +146,35 @@ describe('tailoring suggestions', () => {
   });
 });
 
+describe('Summary core-skills line', () => {
+  it('lists only demonstrated keywords, cites every source and is never auto-accepted', () => {
+    const { suggestions } = setup();
+    const item = find(suggestions, 'Core skills', 'summary-core-skills')!;
+    expect(item.proposed).toBe('Core skills: Machine Learning, Python, PostgreSQL');
+    expect(item.original).toBeNull();
+    expect(item.targetHeading).toBe('SUMMARY');
+    expect(item.targetSection).toBe('summary');
+    expect(item.sources!.map(source => source.line)).toEqual([
+      '- Developed ML models to forecast shipment delays.',
+      '- Built REST APIs in Python serving 2 million requests per day.',
+      '- Developed an inventory dashboard using Django and PostgreSQL.',
+    ]);
+    expect(item.supported).toBe(false);
+    expect(item.proposed).not.toMatch(/Docker|Kubernetes|GraphQL/);
+    let state = reviewReducer(initialReviewState(), { type: 'accept-all-supported', suggestions });
+    expect(state.decisions[item.id]).toBeUndefined();
+    state = reviewReducer(state, { type: 'accept', id: item.id });
+    expect(tailored([item])).toContain('SUMMARY\nBackend developer focused on reliable data services.\nCore skills: Machine Learning, Python, PostgreSQL');
+  });
+
+  it('is not offered without a Summary section, with fewer than two evidenced keywords, or when one exists', () => {
+    expect(find(setup(RESUME.replace(/SUMMARY\nBackend developer[^\n]*\n/, '')).suggestions, 'Core skills')).toBeUndefined();
+    expect(find(setup(RESUME, 'Engineer\nRequired: Python, GraphQL').suggestions, 'Core skills')).toBeUndefined();
+    const existing = RESUME.replace('data services.', 'data services.\nCore skills: Python');
+    expect(find(setup(existing).suggestions, 'Core skills')).toBeUndefined();
+  });
+});
+
 describe('user-asserted evidence', () => {
   const gap = () => find(setup().suggestions, 'GraphQL')!;
 

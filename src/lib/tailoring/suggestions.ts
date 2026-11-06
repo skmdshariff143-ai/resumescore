@@ -8,10 +8,12 @@ import type { KeywordRow, SourceEvidence, TailoringSuggestion, TargetSection } f
 export const MAX_SKILLS_ADDED = 8;
 /** Upper bound on suggestions rendered, so a long job description cannot flood the review. */
 export const MAX_SUGGESTIONS = 30;
+/** Upper bound on keywords in a suggested Summary "Core skills" line. */
+export const MAX_SUMMARY_SKILLS = 6;
 
 const IMPORTANCE_RANK: Record<RequirementImportance, number> = { required: 0, preferred: 1, bonus: 2 };
 const ACTION_RANK: Record<TailoringSuggestion['action'], number> = {
-  'reword-to-job-term': 0, 'surface-in-skills': 1, 'review-transferable': 2, 'user-evidence-needed': 3,
+  'reword-to-job-term': 0, 'surface-in-skills': 1, 'summary-core-skills': 2, 'review-transferable': 3, 'user-evidence-needed': 4,
 };
 
 const toSource = (line: ResumeLine): SourceEvidence => ({ line: line.text.trim(), lineIndex: line.index, section: line.section });
@@ -19,6 +21,7 @@ const slug = (text: string) => text.toLowerCase().replace(/[^a-z0-9+#]+/g, '-').
 
 export function sectionKind(heading: string): TargetSection {
   if (/skill/i.test(heading)) return 'skills';
+  if (/summary|profile/i.test(heading)) return 'summary';
   if (/experience|employment|internship/i.test(heading)) return 'experience';
   if (/project|portfolio/i.test(heading)) return 'projects';
   return 'other';
@@ -77,6 +80,33 @@ function base(row: KeywordRow, action: TailoringSuggestion['action'], targetHead
   };
 }
 
+const SUMMARY_HEADING = /^(?:professional summary|summary|profile)$/i;
+
+/** One "Core skills" line for the Summary, from keywords with practical evidence outside the Skills list. */
+function summaryCoreSkills(rows: KeywordRow[], lines: ResumeLine[]): TailoringSuggestion | null {
+  const heading = lines.find(line => line.isHeading && SUMMARY_HEADING.test(line.section))?.section;
+  if (!heading) return null;
+  const summaryLines = lines.filter(line => !line.isHeading && line.section === heading);
+  if (summaryLines.some(line => /^\s*core skills\s*:/i.test(line.text))) return null;
+  const evidenced = rows.filter(row => row.effectiveLevel === 'demonstrated' && row.sourceEvidence &&
+    !lines[row.sourceEvidence.lineIndex].inSkills).slice(0, MAX_SUMMARY_SKILLS);
+  if (evidenced.length < 2) return null;
+  const list = evidenced.map(row => row.keyword).join(', ');
+  const sources = evidenced.map(row => row.sourceEvidence!);
+  const check = verifyResumeEdit({
+    original: null, proposed: list, source: sources.map(source => source.line).join('\n'), keyword: list,
+    aliasInSource: evidenced.some(row => !findTerm(row.sourceEvidence!.line, row.keyword)),
+  });
+  return {
+    id: 'summary-core-skills:core-skills', keyword: 'Core skills', action: 'summary-core-skills',
+    importance: evidenced.some(row => row.importance === 'required') ? 'required' : evidenced[0].importance,
+    evidenceLevel: 'demonstrated', targetHeading: heading, targetSection: 'summary', provenance: 'resume',
+    original: null, proposed: `Core skills: ${list}`, sourceEvidence: sources[0], sources,
+    verified: check.verified, supported: false, effect: 'visibility-only',
+    note: 'Built only from keywords your resume already demonstrates. Never accepted automatically: check that it reads well in your summary.',
+  };
+}
+
 const UNVERIFIED = { status: 'unverified' as const, newClaims: [], reason: 'No resume evidence. Add only if this is true for you.' };
 
 /** Step 2: truthful, evidence-backed edits. Gaps are listed but never filled automatically. */
@@ -87,7 +117,8 @@ export function buildTailoringSuggestions(resumeText: string, job: JobParsed, ma
   const suggestions: TailoringSuggestion[] = [];
   let surfaced = 0;
 
-  for (const row of analyzeKeywords(resumeText, job, matrix)) {
+  const rows = analyzeKeywords(resumeText, job, matrix);
+  for (const row of rows) {
     if (row.aliasEvidence) {
       const { line, alias } = row.aliasEvidence;
       const at = line.indexOf(alias);
@@ -130,6 +161,8 @@ export function buildTailoringSuggestions(resumeText: string, job: JobParsed, ma
       });
     }
   }
+  const summary = summaryCoreSkills(rows, lines);
+  if (summary) suggestions.push(summary);
   return suggestions
     .sort((a, b) => IMPORTANCE_RANK[a.importance] - IMPORTANCE_RANK[b.importance] ||
       ACTION_RANK[a.action] - ACTION_RANK[b.action] || a.keyword.localeCompare(b.keyword, 'en'))

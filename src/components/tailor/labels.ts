@@ -12,6 +12,7 @@ export const ACTION_LABEL: Record<TailoringSuggestion['action'], string> = {
   'reword-to-job-term': 'Use the job’s term',
   'review-transferable': 'Write your own wording',
   'user-evidence-needed': 'Your evidence needed',
+  'summary-core-skills': 'Add a Core skills line to Summary',
 };
 
 export const GAP_COPY = 'Add only if this is true for you.';

@@ -11,9 +11,11 @@ export type TailoringAction =
   /** Related, not identical, evidence. The user must write their own wording. */
   | 'review-transferable'
   /** No evidence. Never inserted unless the user types and confirms a line. */
-  | 'user-evidence-needed';
+  | 'user-evidence-needed'
+  /** A "Core skills" line in the Summary, built only from demonstrated keywords. Never auto-accepted. */
+  | 'summary-core-skills';
 
-export type TargetSection = 'skills' | 'experience' | 'projects' | 'other';
+export type TargetSection = 'skills' | 'summary' | 'experience' | 'projects' | 'other';
 
 export interface SourceEvidence {
   line: string;
@@ -58,6 +60,8 @@ export interface TailoringSuggestion {
   /** Null until the user supplies wording (transferable or missing keywords). */
   proposed: string | null;
   sourceEvidence: SourceEvidence | null;
+  /** Every cited line, when an edit draws on more than one. */
+  sources?: SourceEvidence[];
   provenance: 'resume' | 'user-asserted';
   verified: TailoringVerification;
   /** Eligible for "Accept all supported". */

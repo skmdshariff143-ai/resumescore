@@ -11,13 +11,13 @@
   },
   {
     "text": "Never developed software using Python.",
-    "expected": "mentioned",
-    "actual": "mentioned"
+    "expected": "missing",
+    "actual": "missing"
   },
   {
     "text": "Learning Python; developed a sample.",
-    "expected": "mentioned",
-    "actual": "mentioned"
+    "expected": "missing",
+    "actual": "missing"
   },
   {
     "text": "Managed procurement schedules.",
